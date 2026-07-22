@@ -1,0 +1,13 @@
+# Obsidian local config and cache (do not share personal settings)
+.obsidian/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# PDFs are large; excluded from version control by default
+# To track: remove lines below or use `git add -f`
+sources/papers/*.pdf
+sources/books/*.pdf
+sources/web/*.pdf
