@@ -157,9 +157,7 @@ git clone https://github.com/elonwoo-02/ReadR.git
 
 想用 AI 辅助的话，配 Claude Code 或其他工具也行。CLAUDE.md 里写好了全部规则，AI 会自动遵循。
 
-项目地址在wen：**https://github.com/elonwoo-02/ReadR**
-
-如果这篇文章对你有用，欢迎去 GitHub 点个 Star ⭐。
+项目地址在文章末的阅读原文位置，如果这篇文章对你有用，欢迎去 GitHub 点个 Star ⭐。
 
 ---
 
@@ -167,6 +165,8 @@ git clone https://github.com/elonwoo-02/ReadR.git
 
 ReadR 目前是一个框架和模板，核心工作流已经跑通。下一步可能的方向：
 
+- **Agent 工作流编排**：用 Skill/MCP 把四步管线封装成可复用的自动化任务
+- **独立应用**：做成带 UI 的 Web 或桌面端，降低使用门槛
 - 自动化脚本：PDF 入库时自动提取元信息、生成条目初稿
 - 精读模板的更多语种/风格变体
 - 与 Zotero 等文献管理工具的桥接
