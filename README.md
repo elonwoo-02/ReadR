@@ -1,98 +1,112 @@
 # ReadR
 
-面向学术研究的 Obsidian 知识库模板。覆盖论文从发现到综述的完整生命周期：**sources → library → annotations → reviews**。
+<p align="center">
+  <strong>An AI-assisted academic knowledge base for human researchers.</strong><br>
+  Four-layer architecture — sources → library → annotations → reviews
+</p>
 
-借鉴 [Karpathy 的 LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 模式，但针对**人类研究者**而非 AI Agent 设计。核心设计理念：
+<p align="center">
+  <a href="#architecture">Architecture</a> •
+  <a href="#workflow">Workflow</a> •
+  <a href="#wiki-link-topology">Wiki Links</a> •
+  <a href="#comparison-with-llm-wiki">Comparison</a> •
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#acknowledgments">Credits</a>
+</p>
 
-- **层分离** — 原始素材与知识产物严格分开，各层有清晰的读写规则
-- **论文生命周期管理** — 从 to-read 到 close-read 到 cite 的全流程追踪
-- **增量编译** — 每篇论文浏览一次，理解不断深化，知识持续积累
-- **约定大于配置** — 元数据模板、标签体系、命名规范提供标准框架
+<p align="center">
+  English | <a href="README_CN.md">中文</a>
+</p>
 
 ---
 
-## 架构
+> ReadR is an **Obsidian vault template** for academic paper management, inspired by [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern and [llm-wiki](https://github.com/nashsu/llm_wiki) — but built for **human researchers**, not AI agents. The vault organizes the full paper lifecycle into a clean four-layer structure, with AI as an optional assistant rather than the primary author.
+
+---
+
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                     SCHEMA LAYER                         │
-│          CLAUDE.md — 操作规则、命名约定、工作流              │
+│                     SCHEMA LAYER                          │
+│       CLAUDE.md — Rules, conventions, workflow            │
 ├─────────────┬─────────────┬───────────────┬──────────────┤
 │             │             │               │              │
 │  sources/   │  library/   │ annotations/  │   reviews/   │
-│  原始素材    │  论文目录    │  精读笔记       │   综述论文    │
-│  (只读)      │ + 知识提炼   │               │   (产出)     │
+│  raw        │  catalog    │  close-read   │   survey     │
+│  material   │  + concepts │  notes        │   papers     │
+│  (readonly) │             │               │   (output)   │
 │             │             │               │              │
-│  不可变      │  你整理      │  你撰写        │  你写作      │
+│  immutable  │  you curate │  you write    │   you author │
 │             │             │               │              │
 └─────────────┴─────────────┴───────────────┴──────────────┘
        ↑             ↑              ↑
        └─────────────┴──────────────┘
-              wiki-link 互联
+            wiki-link interop
 ```
 
-### 设计原则
+### Design Principles
 
-- **sources 不可变** — PDF 和剪藏一旦放入，永不修改
-- **一份源，一条目** — 每篇论文在 library/entries/ 中只有一个条目
-- **精读后才写 annotation** — annotations/ 是精读产物，不是浏览笔记
-- **知识沉淀伴随浏览** — concepts/ authors/ datasets/ 等是浏览时同步完成的提炼
-- **synthesis 桥接 review** — syntheses/ 是从"读论文"到"写综述"的中间态
+- **sources are immutable** — PDFs and clippings are never modified once placed
+- **one source, one entry** — each paper has exactly one entry in `library/entries/`
+- **annotations only after close-reading** — `annotations/` is for deep reading, not browsing
+- **knowledge deposition during browsing** — extract concepts, authors, datasets, etc. as you browse
+- **synthesis bridges to review** — `syntheses/` bridges from "reading papers" to "writing a survey"
 
-### 目录结构
+### Directory Structure
 
 ```
-├── sources/                        原始素材（只读）
-│   ├── papers/                     学术论文 PDF
-│   ├── web/                        网页文章、博客
-│   ├── books/                      书籍/专著章节
-│   ├── talks/                      讲座、课程
-│   └── misc/                       其他
+├── sources/                        Raw materials (readonly)
+│   ├── papers/                     Academic paper PDFs
+│   ├── web/                        Web articles, blog posts
+│   ├── books/                      Books / monograph chapters
+│   ├── talks/                      Lectures, courses
+│   └── misc/                       Other
 │
-├── library/                        论文目录 + 知识提炼
-│   ├── _index.md                   总索引
-│   ├── _template/                  条目模板
-│   ├── entries/                    论文条目（按研究方向）
-│   │   └── example/                示例（替换为你的方向）
+├── library/                        Paper catalog + knowledge distillation
+│   ├── _index.md                   Master index
+│   ├── _template/                  Entry template
+│   ├── entries/                    Paper entries (by research direction)
+│   │   └── example/                Replace with your own directions
 │   │       ├── foundations/
 │   │       ├── method-a/
 │   │       ├── method-b/
 │   │       ├── applications/
 │   │       └── sub-direction/
-│   ├── concepts/                   核心概念
-│   ├── authors/                    研究者
-│   ├── datasets/                   数据集
-│   ├── benchmarks/                 评测基准
-│   ├── comparisons/                方法对比
-│   ├── syntheses/                  综合概述
-│   └── projects/                   在研项目
+│   ├── concepts/                   Core concepts
+│   ├── authors/                    Researchers
+│   ├── datasets/                   Datasets
+│   ├── benchmarks/                 Benchmarks
+│   ├── comparisons/                Method comparisons
+│   ├── syntheses/                  Synthesis overviews
+│   └── projects/                   Active projects
 │
-├── annotations/                    精读笔记
+├── annotations/                    Close-read notes
 │   ├── _template/
-│   └── entries/                    同 library/entries/ 结构
+│   └── entries/                    Same structure as library/entries/
 │       └── example/
 │
-└── reviews/                        综述论文
+└── reviews/                        Survey papers
 ```
 
-### 四层详解
+### Four Layers in Detail
 
-#### sources/ — 原始素材层
+#### sources/ — Raw Material
 
-**规则：** 只读。AI 不可修改。存放所有原始材料。
+**Rule:** Readonly. AI must not modify.
 
 ```
 sources/
-├── papers/      学术论文、预印本 PDF
-├── web/         技术博客、新闻报道
-├── books/       书籍章节、专著摘录
-├── talks/       会议演讲、课程录像/笔记
-└── misc/        其他（技术报告、代码说明等）
+├── papers/      Academic papers, preprints (PDF)
+├── web/         Technical blogs, news
+├── books/       Book chapters, monograph excerpts
+├── talks/       Conference talks, lecture notes
+└── misc/        Other (tech reports, code docs, etc.)
 ```
 
-#### library/entries/ — 论文条目
+#### library/entries/ — Paper Entries
 
-每篇论文一个 markdown 文件，YAML frontmatter 承载结构化元数据。
+One markdown file per paper with YAML frontmatter.
 
 ```yaml
 ---
@@ -109,32 +123,32 @@ tags:
 pdf: ../../sources/papers/paper.pdf
 doi: 10.xxxx/xxxxx
 rating: ⭐⭐⭐⭐
-annotation:                 # 精读后填写路径
-concepts: []                # 关联的概念
-authors_related: []         # 关联的研究者
-datasets: []                # 使用的数据集
-benchmarks: []              # 使用的基准
+annotation:                 # fill after close-reading
+concepts: []                # linked concepts
+authors_related: []         # linked researchers
+datasets: []                # linked datasets
+benchmarks: []              # linked benchmarks
 ---
 ```
 
-**命名规范：** `Short Title (Venue Year).md`，例如 `Attention Is All You Need (NeurIPS 2017).md`。
+**Naming:** `Short Title (Venue Year).md`, e.g. `Attention Is All You Need (NeurIPS 2017).md`.
 
-#### annotations/ — 精读笔记
+#### annotations/ — Close-Read Notes
 
-只有 `status: close-read` 的论文才创建精读笔记。每篇论文一个文件夹。（可 AI 辅助生成，图/表/公式穿插于正文解释。）
+Only for papers with `status: close-read`. One folder per paper. *(AI-assisted generation available; figures, tables, and formulas interleaved inline.)*
 
 ```
 annotations/entries/your-direction/
 └── Paper Name (Venue Year)/
-    ├── index.md              ← 完整精读笔记
-    ├── wechat.md             ← 公众号版本（可选）
-    ├── code/                 ← 代码笔记（可选）
-    └── attachments/          ← 图片（fig-01.png 风格命名）
+    ├── index.md              ← Full close-read note
+    ├── wechat.md             ← WeChat version (optional)
+    ├── code/                 ← Code notes (optional)
+    └── attachments/          ← Images (fig-01.png style)
 ```
 
-#### reviews/ — 综述论文
+#### reviews/ — Survey Papers
 
-最终产出。可包含多格式文件。
+Final output. Multiple formats supported.
 
 ```
 reviews/your-survey/
@@ -147,7 +161,7 @@ reviews/your-survey/
 
 ---
 
-## 工作流
+## Workflow
 
 ```
 sources/     library/      annotations/    reviews/
@@ -155,50 +169,50 @@ sources/     library/      annotations/    reviews/
   ▼             ▼              ▼              ▼
 ┌──────┐   ┌──────────┐   ┌─────────┐   ┌──────────┐
 │INgest│──▶│  Browse  │──▶│CloseRead│──▶│  Review   │
-│ 入库  │   │ 浏览/粗读 │   │  精读   │   │ 文献综述  │
+│      │   │          │   │         │   │          │
 └──────┘   └─────┬────┘   └─────────┘   └──────────┘
                  │
                  ▼
-             concepts/         ← 浏览时同步沉淀
+             concepts/         ← deposited during browsing
              authors/
              datasets/
              benchmarks/
              comparisons/
-             syntheses/        ← 子方向积累 3+ 篇后写
+             syntheses/        ← write after 3+ papers
              projects/
 ```
 
-### 1. INGEST — 入库
+### 1. INGEST
 
-下载 PDF → 放入 `sources/papers/` → 在 `library/entries/` 下创建论文条目，填写 YAML，设置 `status: to-read`。
+Download PDF → place in `sources/papers/` → create entry in `library/entries/` with YAML frontmatter and `status: to-read`.
 
-### 2. BROWSE — 浏览/粗读（含沉淀）
+### 2. BROWSE (with deposition)
 
-阅读摘要和引言 → 补充概要 → 打标签 → 设置 `status: browsed`。
+Read abstract & intro → write summary → tag → set `status: browsed`.
 
-浏览的同时沉淀知识：
-- 新概念 → `library/concepts/` 新建或追加
-- 新研究者 → `library/authors/` 新建或追加
-- 数据集/基准 → `library/datasets/` 或 `library/benchmarks/`
-- 同类方法 → `library/comparisons/` 写对比表格
-- 子方向积 3+ 篇 → `library/syntheses/` 写综合概述
-- 项目关联 → `library/projects/` 更新进度
+While browsing, deposit knowledge:
+- New concept → `library/concepts/`
+- New researcher → `library/authors/`
+- Dataset / benchmark → `library/datasets/` or `library/benchmarks/`
+- Related methods → `library/comparisons/` (comparison table)
+- 3+ papers in a sub-direction → `library/syntheses/` (synthesis)
+- Project relevance → `library/projects/`
 
-> **AI 可辅助：** 提取概念、研究者、数据集、基准；生成方法对比表格；撰写综合概述初稿。
+> **AI can assist with:** extracting concepts, researchers, datasets, benchmarks; generating comparison tables; drafting synthesis overviews.
 
-### 3. CLOSE-READ — 精读
+### 3. CLOSE-READ
 
-逐行精读 → 在 `annotations/entries/` 对应子方向创建精读文件夹 → 更新 library 条目 `annotation:` 路径和 `status: close-read`。
+Line-by-line reading → create annotation folder in `annotations/entries/` → update the library entry's `annotation:` path and set `status: close-read`.
 
-> **AI 可辅助：** 按模板生成精读笔记，论文中的图、表、公式在正文对应位置穿插解释。（参见 `annotations/_template/reading-note.md`）
+> **AI can assist with:** generating close-read notes from the template, with figures, tables, and formulas explained inline. (See `annotations/_template/reading-note.md`)
 
-### 4. REVIEW — 文献综述
+### 4. REVIEW
 
-汇总子方向所有论文 → 查阅 concepts/ syntheses/ comparisons/ → 在 `reviews/` 下撰写正式综述。
+Synthesize all papers in a sub-direction → consult `concepts/`, `syntheses/`, `comparisons/` → write a formal survey in `reviews/`.
 
 ---
 
-## Wiki 链接拓扑
+## Wiki Link Topology
 
 ```
 library/entries/paper.md ──→ annotations/entries/paper/index.md
@@ -214,112 +228,98 @@ library/entries/paper.md ──→ annotations/entries/paper/index.md
          reviews/review.md ──→ library/syntheses/
 ```
 
-- **论文条目 → 概念/作者/数据/基准/对比**：一篇论文关联多个知识节点
-- **概念 ↔ 作者**：谁提出了这个概念？双向链接
-- **精读笔记 → 论文条目**：精读是条目的深化，通过 `annotation:` 字段关联
-- **综述 → 综合**：综述引用 syntheses/，syntheses/ 引用 entries/
+- **Paper entry → concepts/authors/data/benchmarks/comparisons**: each paper links to multiple knowledge nodes
+- **Concepts ↔ Authors**: bidirectional links between concepts and their proposers
+- **Close-read notes → paper entry**: annotations deepen the entry, linked via the `annotation:` field
+- **Survey → Synthesis**: reviews reference syntheses, syntheses reference entries
 
 ---
 
-## 与 llm-wiki 对比
+## Comparison with llm-wiki
 
-| 维度       | llm-wiki (Karpathy)       | ReadR                                      |
-| -------- | ------------------------- | ------------------------------------------ |
-| **目标用户** | AI Agent（人审核）             | 人类研究者（AI 辅助）                             |
-| **知识单元** | 文章、视频、笔记、文档               | 学术论文                                     |
-| **层架构**  | raw/ → wiki/ → schema     | sources/ → library/ + annotations/ → reviews/ |
-| **不可变层** | raw/（全文/视频/笔记）            | sources/（PDF/剪藏）                         |
-| **知识层**  | wiki/（AI 维护的概念/实体/综合）     | library/（人整理的条目/概念/实体）                   |
-| **精读层**  | 无（wiki/sources 包含摘要）      | annotations/（独立精读笔记）                     |
-| **产出层**  | 无（wiki 本身就是产出）            | reviews/（可发表的综述）                         |
-| **主要作者** | AI Agent                  | 人类                                       |
-| **状态管理** | active / stale / archived | to-read / browsed / close-read                |
-| **元数据**  | 通用 frontmatter            | 学术专用（作者/venue/DOI/rating）                     |
-| **合成机制** | AI 自动更新 overviews         | 人手写 syntheses/ → reviews/                     |
-| **最终目标** | 知识积累（wiki 即终点）            | 知识积累 → 综述产出                                   |
+| Dimension         | llm-wiki (Karpathy)          | ReadR                                     |
+| ----------------- | ---------------------------- | ----------------------------------------- |
+| **Target user**   | AI Agent (human reviews)     | Human researcher (AI assists)             |
+| **Knowledge unit**| Articles, videos, notes, docs| Academic papers                           |
+| **Layer architecture**| raw/ → wiki/ → schema   | sources/ → library/ + annotations/ → reviews/ |
+| **Immutable layer**| raw/                      | sources/ (PDFs/clippings)                 |
+| **Knowledge layer**| wiki/ (AI-maintained)    | library/ (human-curated)                  |
+| **Close-read layer**| None                     | annotations/ (independent notes)          |
+| **Output layer**  | None (wiki is the output)    | reviews/ (publishable surveys)            |
+| **Primary author**| AI Agent                    | Human                                     |
+| **Status model**  | active / stale / archived    | to-read / browsed / close-read            |
+| **Metadata**      | Generic frontmatter          | Academic (authors/venue/DOI/rating)       |
+| **Synthesis**     | AI auto-updates overviews    | Human writes syntheses/ → reviews/        |
+| **End goal**      | Knowledge accumulation       | Knowledge accumulation → survey output    |
 
-### 核心设计差异
+### Core Differences
 
-llm-wiki 把 LLM 定位为"知识编译器"——你投喂原料，AI 自动维护 wiki。它的创新在于将 LLM 从"每次重新检索"变成了"增量编译"，知识随时间复利增长。
+llm-wiki treats the LLM as a "knowledge compiler" — you feed raw materials, the AI maintains the wiki. ReadR puts **humans** at the center; AI is an assistant, not the author.
 
-ReadR 把**人**放在中心。AI 是助手，不是主人。差异体现在：
+1. **Close-read layer** — llm-wiki has no equivalent. Machine summaries can't replace line-by-line human reading of derivations, experiments, and ablations.
+2. **Survey layer** — llm-wiki's wiki is the endpoint. In research, the endpoint is a publishable survey.
+3. **Entity splitting** — llm-wiki uses a single `entities/`. Research needs distinct entity types for researchers, datasets, and benchmarks.
 
-1. **精读层** — llm-wiki 没有对应物。机器可以总结，但论文的公式推导、实验分析、消融研究需要人逐行读、逐行写
-2. **综述层** — llm-wiki 的 wiki 本身就是终点。科研的终点是可发表的 survey，需要人整合几十篇论文形成观点
-3. **实体拆分** — llm-wiki 用 entities/ 统一装人物/组织/产品。科研场景下 researchers / datasets / benchmarks 是三类独立实体，各自有不同的查询维度
+### What We Borrowed
 
-### 借鉴的设计
-
-- **层分离** — sources/（不可变）与 library/（你的理解）严格分开
-- **增量编译** — 每篇论文仅浏览一次，概念/实体/对比持续累积
-- **wiki-link 拓扑** — concepts/ ↔ authors/ ↔ comparisons/ 双向链接
-- **CLAUDE.md 契约** — 编码所有规则让 AI 行为一致
-- **约定大于配置** — YAML schema、标签体系、命名规范
+- **Layer separation** — `sources/` (immutable) vs `library/` (your understanding)
+- **Incremental compilation** — browse once, accumulate forever
+- **Wiki-link topology** — bidirectional links across concepts/authors/comparisons
+- **CLAUDE.md contract** — encode rules so AI behaves consistently
+- **Convention over configuration** — YAML schema, tag system, naming conventions
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 前置要求
+### Prerequisites
 
-- [Obsidian](https://obsidian.md/) 或任何 Markdown 编辑器
-- （可选）[Claude Code](https://claude.ai/code) 用于 AI 辅助
-
-### 步骤
+- [Obsidian](https://obsidian.md/) or any Markdown editor
+- (Optional) [Claude Code](https://claude.ai/code) for AI assistance
 
 ```bash
-# 1. 克隆或复制模板
-git clone https://github.com/your-username/ReadR.git
+# 1. Clone the repo
+git clone https://github.com/elonwoo-02/ReadR.git
 cd ReadR
 
-# 2. 用 Obsidian 打开
-# 打开 Obsidian → "Open folder as vault" → 选择 ReadR/
-```
+# 2. Open in Obsidian
+# Open Obsidian → "Open folder as vault" → select ReadR/
 
-### 首次设置
-
-```bash
-# 替换示例方向为你自己的研究方向
+# 3. (First time) Replace example with your own direction
 rm -rf library/entries/example
-mkdir -p library/entries/your-direction/sub-direction
-
-# 同步 annotations
+mkdir -p library/entries/your-direction/your-sub-direction
 mkdir -p annotations/entries/your-direction
-
-# 更新 library/_index.md 中的方向名
+# Then update the direction name in library/_index.md
 ```
 
-### 开始使用
+### Getting Started
 
 ```bash
-# 1. 下载一篇论文 PDF，放入 sources/papers/
-# 2. 在 library/entries/your-direction/ 创建论文条目
-#    cp library/_template/library-entry.md library/entries/your-direction/paper.md
-# 3. 编辑 YAML frontmatter + 写概要
-# 4. 浏览时同步提炼概念/作者/数据集到对应目录
-# 5. 精读后在 annotations/entries/your-direction/ 创建精读笔记
+# 1. Download a paper PDF → sources/papers/
+# 2. Create an entry: cp library/_template/library-entry.md library/entries/your-direction/paper.md
+# 3. Fill in YAML frontmatter + write a summary
+# 4. As you browse, extract concepts/authors/datasets to the corresponding directories
+# 5. After close-reading, create annotations in annotations/entries/your-direction/
 ```
 
-### AI 辅助（可选）
+### AI Assistance (Optional)
 
-配合 Claude Code（或其它 AI 工具）使用，可在以下环节加速：
+| Stage | AI can help with |
+|-------|-----------------|
+| **BROWSE** — knowledge deposition | Extract concepts, researchers, datasets, benchmarks; generate comparison tables; draft synthesis overviews |
+| **CLOSE-READ** — annotation notes | Generate notes from the template, with figures/tables/formulas explained inline (see `annotations/_template/reading-note.md`) |
 
-| 环节 | AI 可协助的内容 |
-|------|---------------|
-| **BROWSE** — 知识沉淀 | 提取概念、研究者、数据集、基准；生成方法对比表格；撰写综合概述初稿 |
-| **CLOSE-READ** — 精读笔记 | 按模板生成精读笔记，图/表/公式在正文对应位置穿插解释（参见 `annotations/_template/reading-note.md`） |
-
-CLAUDE.md 中已配置完整的项目结构和规则，AI 会自动遵循。
+The `CLAUDE.md` file contains the full project structure and rules — AI tools will follow them automatically.
 
 ---
 
-## 致谢
+## Acknowledgments
 
-- [**Karpathy's LLM Wiki**](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — 层分离与增量编译的设计灵感来源
-- [**llm-wiki**](https://github.com/nashsu/llm_wiki.git) — AI 辅助知识库管理的实践参考
+- [**Karpathy's LLM Wiki**](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — source of inspiration for layer separation and incremental compilation
+- [**llm-wiki**](https://github.com/nashsu/llm_wiki) — practical reference for AI-assisted knowledge base management
 
 ---
 
-## 许可协议
+## License
 
-MIT © 2026 Elon Woo — 详见 [LICENSE](LICENSE)
+MIT © 2026 Elon Woo — see [LICENSE](LICENSE)
