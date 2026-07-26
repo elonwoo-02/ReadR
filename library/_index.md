@@ -2,12 +2,19 @@
 
 > Grouped by research direction. `[x]` = close-read done, `[~]` = browsed, `[ ]` = to-read.
 
-## example
+## your_direction
 
-### sub-direction
+### sub_direction_1
 
 | Paper | Authors | Year | Status |
 |-------|---------|------|--------|
+| Attention Is All You Need | Vaswani, Ashish et al. | 2017 | to-read |
+
+### sub_direction_n
+
+| Paper | Authors | Year | Status |
+|-------|---------|------|--------|
+| An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale | Dosovitskiy, Alexey et al. | 2021 | to-read |
 
 ## Other
 
@@ -23,7 +30,7 @@
 
 | Status | Papers |
 | --- | ---: |
-| status/to-read | 0 |
+| status/to-read | 2 |
 | status/browsed | 0 |
 | status/close-read | 0 |
 
