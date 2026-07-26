@@ -1,5 +1,33 @@
 {
-  "feeds": [],
+  "feeds": [
+    {
+      "title": " IEEE Transactions on Knowledge and Data Engineering - new TOC ",
+      "url": "https://ieeexplore.ieee.org/rss/TOC69.XML",
+      "folder": "RSS",
+      "lastUpdated": 1785075289910,
+      "autoDeleteDuration": 180,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "article",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "siteUrl": "http://ieeexplore.ieee.org",
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 49,
+        "mergedItemCountBeforeRetention": 49,
+        "retainedItemCount": 49,
+        "retentionRemovedCount": 0,
+        "skippedByRefreshCutoffCount": 0,
+        "autoDeleteDurationDays": 180
+      },
+      "iconUrl": "",
+      "feedId": "4cfcb74d-0f4f-4725-833d-733df6c17ba7"
+    }
+  ],
   "folders": [
     {
       "name": "Uncategorized",
@@ -27,7 +55,7 @@
     }
   ],
   "refreshInterval": 60,
-  "lastRefreshTimestamp": 0,
+  "lastRefreshTimestamp": 1785075289912,
   "startupRefreshDelaySeconds": 5,
   "maxItems": 50,
   "defaultAutoDeleteDuration": 30,
@@ -239,6 +267,6 @@
   "metadataStorageMode": "plugin-default",
   "metadataStorageFolder": ".rss-dashboard-data",
   "metadataStorageSchemaVersion": 1,
-  "_syncNonce": "1785068661001-51",
-  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
+  "_syncNonce": "1785075289918-63",
+  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
 }
