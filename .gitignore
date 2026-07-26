@@ -1,10 +1,22 @@
 # Obsidian local config and cache (do not share personal settings)
 .obsidian/*
 # Exception: our custom plugin source
-!.obsidian/plugins
-.obsidian/plugins/*
-!.obsidian/plugins/readr-dashboard
-!.obsidian/community-plugins.json
+.agent
+.agents
+AGENTS.md
+.idea
+.mcp.json
+.claudian
+.claude/
+
+# Generated / project-level docs (do not track generated files)
+docs/*
+docs/plan.md
+docs/specs.md
+docs/literature-review/
+
+# Source materials (files under subdirectories are ignored individually)
+sources/*/*
 
 # OS files
 .DS_Store
@@ -13,6 +25,3 @@ Desktop.ini
 
 # PDFs are large; excluded from version control by default
 # To track: remove lines below or use `git add -f`
-sources/papers/*.pdf
-sources/books/*.pdf
-sources/web/*.pdf

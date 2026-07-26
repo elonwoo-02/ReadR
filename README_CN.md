@@ -59,15 +59,12 @@
 │   └── misc/                       其他
 │
 ├── library/                        论文目录 + 知识提炼
-│   ├── _index.md                   总索引
+│   ├── _index.md                   总索引（自动生成）
 │   ├── _template/                  条目模板
 │   ├── entries/                    论文条目（按研究方向）
-│   │   └── example/                示例（替换为你的方向）
-│   │       ├── foundations/
-│   │       ├── method-a/
-│   │       ├── method-b/
-│   │       ├── applications/
-│   │       └── sub-direction/
+│   │   └── your_direction/         替换为你的方向
+│   │       ├── sub_direction_1/
+│   │       └── sub_direction_n/
 │   ├── concepts/                   核心概念
 │   ├── authors/                    研究者
 │   ├── datasets/                   数据集
@@ -78,10 +75,25 @@
 │
 ├── annotations/                    精读笔记
 │   ├── _template/
+│   │   └── reading-note.md         精读笔记模板
 │   └── entries/                    同 library/entries/ 结构
-│       └── example/
+│       └── your_direction/
+│           ├── sub_direction_1/
+│           └── sub_direction_n/
 │
-└── reviews/                        综述论文
+├── reviews/                        综述论文
+│   └── templates/
+│       └── writing_constraints_template.md
+│
+├── docs/                           项目文档
+│   ├── column/                     "四层架构"专栏系列
+│   └── subscription/               订阅信息
+│
+├── scripts/                        自动化工具
+│   └── ReadR.ps1                   校验与索引生成
+│
+├── CLAUDE.md                       AI 辅助契约
+└── .gitignore
 ```
 
 ### 四层详解
@@ -136,9 +148,8 @@ benchmarks: []              # 使用的基准
 annotations/entries/your-direction/
 └── Paper Name (Venue Year)/
     ├── index.md              ← 完整精读笔记
-    ├── wechat.md             ← 公众号版本（可选）
-    ├── code/                 ← 代码笔记（可选）
-    └── attachments/          ← 图片（fig-01.png 风格命名）
+    ├── attachments/          ← 图片（fig-01.png 风格命名）
+    └── code/                 ← 代码笔记（可选）
 ```
 
 #### reviews/ — 综述论文
@@ -147,12 +158,35 @@ annotations/entries/your-direction/
 
 ```
 reviews/your-survey/
+├── outline.md
+├── references.bib
 ├── survey.md
 ├── survey.pdf
-├── survey.tex
-├── outline.md
-└── references.bib
+└── survey.tex
 ```
+
+#### docs/ — 项目文档
+
+辅助项目文档，支撑 vault 方法论。
+
+```
+docs/
+├── column/                    "四层架构"专栏系列
+│   ├── 00-开篇词-为什么你的文献库读完就是坟场.md
+│   ├── 01-四层架构-给论文管理设计一套读写权限.md
+│   ├── 02-元数据设计-YAML与wiki-link拓扑.md
+│   ├── 03-人机分工-AI能做什么不能做什么.md
+│   ├── 04-知识沉淀的最小动作-从浏览到精读.md
+│   └── 05-工具化-封装成可复用的AgentSkill.md
+├── literature-review/         学术文献综述与背景
+└── subscription/              订阅信息
+```
+
+#### scripts/ — 自动化工具
+
+PowerShell 脚本 `ReadR.ps1`，用于 vault 维护：
+- **校验**（`-Validate`）— 检查 YAML frontmatter、必填字段和 wiki-link 完整性
+- **更新索引**（`-UpdateIndex`）— 自动生成 `library/_index.md`，包含论文统计和阅读状态
 
 ---
 
@@ -274,28 +308,17 @@ ReadR 把**人**放在中心。AI 是助手，不是主人。差异体现在：
 - [Obsidian](https://obsidian.md/) 或任何 Markdown 编辑器
 - （可选）[Claude Code](https://claude.ai/code) 用于 AI 辅助
 
-### 步骤
-
 ```bash
 # 1. 克隆或复制模板
-git clone https://github.com/your-username/ReadR.git
+git clone https://github.com/elonwoo-02/ReadR.git
 cd ReadR
 
 # 2. 用 Obsidian 打开
 # 打开 Obsidian → "Open folder as vault" → 选择 ReadR/
-```
 
-### 首次设置
-
-```bash
-# 替换示例方向为你自己的研究方向
-rm -rf library/entries/example
-mkdir -p library/entries/your-direction/sub-direction
-
-# 同步 annotations
+# 3. 设置你的第一个研究方向
+mkdir -p library/entries/your-direction/your-sub-topic
 mkdir -p annotations/entries/your-direction
-
-# 更新 library/_index.md 中的方向名
 ```
 
 ### 开始使用
@@ -309,6 +332,16 @@ mkdir -p annotations/entries/your-direction
 # 5. 精读后在 annotations/entries/your-direction/ 创建精读笔记
 ```
 
+### 维护
+
+```bash
+# 校验 vault 完整性
+pwsh scripts/ReadR.ps1 -Validate
+
+# 自动生成 library 索引
+pwsh scripts/ReadR.ps1 -UpdateIndex
+```
+
 ### AI 辅助（可选）
 
 配合 Claude Code（或其它 AI 工具）使用，可在以下环节加速：
@@ -319,6 +352,19 @@ mkdir -p annotations/entries/your-direction
 | **CLOSE-READ** — 精读笔记 | 按模板生成精读笔记，图/表/公式在正文对应位置穿插解释（参见 `annotations/_template/reading-note.md`） |
 
 CLAUDE.md 中已配置完整的项目结构和规则，AI 会自动遵循。
+
+### 专栏系列
+
+`docs/column/` 目录包含完整的中文专栏系列，深入讲解四层架构方法论：
+
+| 篇目 | 标题 | 主题 |
+|------|------|------|
+| 00 | 为什么你的文献库读完就是坟场 | 文献管理的痛点分析 |
+| 01 | 四层架构：给论文管理设计一套读写权限 | 四层权限设计 |
+| 02 | 元数据设计：YAML与wiki-link拓扑 | 元数据与链接拓扑 |
+| 03 | 人机分工：AI能做什么不能做什么 | 人机分工边界 |
+| 04 | 知识沉淀的最小动作：从浏览到精读 | 最小知识沉淀动作 |
+| 05 | 工具化：封装成可复用的AgentSkill | 工具化与 Agent Skill 封装 |
 
 ---
 

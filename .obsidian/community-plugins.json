@@ -1,6 +1,6 @@
 [
-  "dataview",
   "realclaudian",
   "oterm",
-  "readr-dashboard"
+  "readr-dashboard",
+  "dataview"
 ]

@@ -64,15 +64,12 @@
 │   └── misc/                       Other
 │
 ├── library/                        Paper catalog + knowledge distillation
-│   ├── _index.md                   Master index
-│   ├── _template/                  Entry template
+│   ├── _index.md                   Master index (auto-generated)
+│   ├── _template/                  Entry templates
 │   ├── entries/                    Paper entries (by research direction)
-│   │   └── example/                Replace with your own directions
-│   │       ├── foundations/
-│   │       ├── method-a/
-│   │       ├── method-b/
-│   │       ├── applications/
-│   │       └── sub-direction/
+│   │   └── your_direction/         Replace with your own directions
+│   │       ├── sub_direction_1/
+│   │       └── sub_direction_n/
 │   ├── concepts/                   Core concepts
 │   ├── authors/                    Researchers
 │   ├── datasets/                   Datasets
@@ -83,10 +80,25 @@
 │
 ├── annotations/                    Close-read notes
 │   ├── _template/
+│   │   └── reading-note.md         Template for close-reading notes
 │   └── entries/                    Same structure as library/entries/
-│       └── example/
+│       └── your_direction/
+│           ├── sub_direction_1/
+│           └── sub_direction_n/
 │
-└── reviews/                        Survey papers
+├── reviews/                        Survey papers
+│   └── templates/
+│       └── writing_constraints_template.md
+│
+├── docs/                           Project documentation
+│   ├── column/                     "四层架构" column series (Chinese)
+│   └── subscription/               Newsletter subscription
+│
+├── scripts/                        Automation tools
+│   └── ReadR.ps1                   Validation & index generation
+│
+├── CLAUDE.md                       AI assistance contract
+└── .gitignore
 ```
 
 ### Four Layers in Detail
@@ -141,9 +153,8 @@ Only for papers with `status: close-read`. One folder per paper. *(AI-assisted g
 annotations/entries/your-direction/
 └── Paper Name (Venue Year)/
     ├── index.md              ← Full close-read note
-    ├── wechat.md             ← WeChat version (optional)
-    ├── code/                 ← Code notes (optional)
-    └── attachments/          ← Images (fig-01.png style)
+    ├── attachments/          ← Figures (fig-01.png style)
+    └── code/                 ← Code notes (optional)
 ```
 
 #### reviews/ — Survey Papers
@@ -152,12 +163,35 @@ Final output. Multiple formats supported.
 
 ```
 reviews/your-survey/
+├── outline.md
+├── references.bib
 ├── survey.md
 ├── survey.pdf
-├── survey.tex
-├── outline.md
-└── references.bib
+└── survey.tex
 ```
+
+#### docs/ — Project Documentation
+
+Supplementary documentation that supports the vault's methodology.
+
+```
+docs/
+├── column/                    "四层架构" column series (Chinese)
+│   ├── 00-开篇词-为什么你的文献库读完就是坟场.md
+│   ├── 01-四层架构-给论文管理设计一套读写权限.md
+│   ├── 02-元数据设计-YAML与wiki-link拓扑.md
+│   ├── 03-人机分工-AI能做什么不能做什么.md
+│   ├── 04-知识沉淀的最小动作-从浏览到精读.md
+│   └── 05-工具化-封装成可复用的AgentSkill.md
+├── literature-review/         Academic literature review & background
+└── subscription/              Newsletter subscription
+```
+
+#### scripts/ — Automation Tools
+
+A PowerShell script (`ReadR.ps1`) for vault maintenance:
+- **Validation** (`-Validate`) — checks YAML frontmatter, required fields, and wiki-link integrity
+- **Index update** (`-UpdateIndex`) — auto-generates `library/_index.md` with paper counts and reading status
 
 ---
 
@@ -285,11 +319,9 @@ cd ReadR
 # 2. Open in Obsidian
 # Open Obsidian → "Open folder as vault" → select ReadR/
 
-# 3. (First time) Replace example with your own direction
-rm -rf library/entries/example
-mkdir -p library/entries/your-direction/your-sub-direction
+# 3. Set up your first research direction
+mkdir -p library/entries/your-direction/your-sub-topic
 mkdir -p annotations/entries/your-direction
-# Then update the direction name in library/_index.md
 ```
 
 ### Getting Started
@@ -302,6 +334,16 @@ mkdir -p annotations/entries/your-direction
 # 5. After close-reading, create annotations in annotations/entries/your-direction/
 ```
 
+### Maintenance
+
+```bash
+# Validate vault integrity
+pwsh scripts/ReadR.ps1 -Validate
+
+# Auto-generate library index
+pwsh scripts/ReadR.ps1 -UpdateIndex
+```
+
 ### AI Assistance (Optional)
 
 | Stage                             | AI can help with                                                                                                              |
@@ -310,6 +352,21 @@ mkdir -p annotations/entries/your-direction
 | **CLOSE-READ** — annotation notes | Generate notes from the template, with figures/tables/formulas explained inline (see `annotations/_template/reading-note.md`) |
 
 The `CLAUDE.md` file contains the full project structure and rules — AI tools will follow them automatically.
+
+---
+
+## Documentation
+
+The `docs/` directory contains a complete Chinese column series explaining the four-layer architecture methodology:
+
+| Article | Title | Topic |
+| ------- | ----- | ----- |
+| 00 | 为什么你的文献库读完就是坟场 | Why libraries become graveyards |
+| 01 | 四层架构：给论文管理设计一套读写权限 | Four-layer access control design |
+| 02 | 元数据设计：YAML与wiki-link拓扑 | Metadata & wiki-link topology |
+| 03 | 人机分工：AI能做什么不能做什么 | Human-AI division of labor |
+| 04 | 知识沉淀的最小动作：从浏览到精读 | Minimal knowledge deposition |
+| 05 | 工具化：封装成可复用的AgentSkill | Tooling — reusable Agent Skills |
 
 ---
 
