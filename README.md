@@ -304,9 +304,9 @@ mkdir -p annotations/entries/your-direction
 
 ### AI Assistance (Optional)
 
-| Stage | AI can help with |
-|-------|-----------------|
-| **BROWSE** — knowledge deposition | Extract concepts, researchers, datasets, benchmarks; generate comparison tables; draft synthesis overviews |
+| Stage                             | AI can help with                                                                                                              |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **BROWSE** — knowledge deposition | Extract concepts, researchers, datasets, benchmarks; generate comparison tables; draft synthesis overviews                    |
 | **CLOSE-READ** — annotation notes | Generate notes from the template, with figures/tables/formulas explained inline (see `annotations/_template/reading-note.md`) |
 
 The `CLAUDE.md` file contains the full project structure and rules — AI tools will follow them automatically.
