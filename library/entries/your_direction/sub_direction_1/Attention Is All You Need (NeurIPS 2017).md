@@ -14,7 +14,7 @@ tags:
   - direction/nlp
   - method/transformer
   - task/translation
-  - status/to-read
+  - status/browsed
   - venue/NeurIPS
 pdf: ../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
 doi: ""

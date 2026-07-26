@@ -8,7 +8,7 @@
 
 | Paper | Authors | Year | Status |
 |-------|---------|------|--------|
-| Attention Is All You Need | Vaswani, Ashish et al. | 2017 | to-read |
+| Attention Is All You Need | Vaswani, Ashish et al. | 2017 | browsed |
 
 ### sub_direction_n
 
