@@ -359,7 +359,7 @@ The `CLAUDE.md` file contains the full project structure and rules — AI tools 
 
 ## Obsidian Plugins
 
-All four plugins are bundled in this repo under `.obsidian/plugins/`. After cloning, just open the vault in Obsidian and enable them in **Settings → Community Plugins**.
+All five plugins are bundled in this repo under `.obsidian/plugins/`. After cloning, just open the vault in Obsidian and enable them in **Settings → Community Plugins**.
 
 | Plugin | Type | Ready to use? |
 |--------|------|---------------|
@@ -367,6 +367,7 @@ All four plugins are bundled in this repo under `.obsidian/plugins/`. After clon
 | 📋 **Dataview** | Community (compiled) | ✅ Yes — `main.js` included |
 | 🤖 **RealClaudian** | Community (compiled) | ✅ Yes — `main.js` included |
 | 💻 **OTerm** | Community (compiled) | ✅ Yes — `main.js` + native binaries included |
+| 📰 **RSS Dashboard** | Community (compiled) | ✅ Yes — `main.js` included |
 
 ### ReadR Dashboard
 
@@ -397,6 +398,55 @@ Claude AI integration inside Obsidian — useful for AI-assisted note-taking and
 ### OTerm
 
 In-editor terminal for running scripts, git commands, and builds without leaving Obsidian. ([GitHub](https://github.com/oterm/oterm))
+
+### RSS Dashboard
+
+In-editor RSS reader for tracking academic papers and staying up-to-date with research. ([GitHub](https://github.com/amatya-aditya/obsidian-rss-dashboard))
+
+---
+
+## Recommended RSS Feeds
+
+ReadR comes with the **RSS Dashboard** plugin. Here are recommended feeds for your research directions:
+
+### IEEE Transactions (Top Journals)
+
+| Direction | Journal | RSS |
+|---|---|---|
+| Vision + Pattern Recognition | **IEEE TPAMI** | `https://ieeexplore.ieee.org/rss/TPAMI.xml` |
+| Computer Vision | **IEEE TIP** | `https://ieeexplore.ieee.org/rss/TIP.xml` |
+| Recommender Systems + Data Mining | **IEEE TKDE** | `https://ieeexplore.ieee.org/rss/TKDE.xml` |
+| Neural Networks | **IEEE TNNLS** | `https://ieeexplore.ieee.org/rss/TNNLS.xml` |
+| Multimedia | **IEEE TMM** | `https://ieeexplore.ieee.org/rss/TMM.xml` |
+| Video Processing | **IEEE TCSVT** | `https://ieeexplore.ieee.org/rss/TCSVT.xml` |
+
+### ArXiv (Preprints)
+
+| Direction | Category | RSS |
+|---|---|---|
+| Computer Vision | cs.CV | `http://export.arxiv.org/rss/cs.CV` |
+| Recommender Systems | cs.IR | `http://export.arxiv.org/rss/cs.IR` |
+| Machine Learning | cs.LG | `http://export.arxiv.org/rss/cs.LG` |
+| Artificial Intelligence | cs.AI | `http://export.arxiv.org/rss/cs.AI` |
+| Multimedia | cs.MM | `http://export.arxiv.org/rss/cs.MM` |
+
+### Curated
+
+| Source | RSS | What it's good for |
+|---|---|---|
+| **Papers With Code** | `https://paperswithcode.com/.rss` | Papers with code implementations and benchmark results |
+| **Google AI Blog** | `https://feeds.feedburner.com/blogspot/gJZg` | Google DeepMind research highlights |
+| **Meta AI Blog** | `https://ai.meta.com/blog/rss/` | Meta FAIR publications and announcements |
+
+### Recommended Setup
+
+| Goal | Feeds to subscribe |
+|---|---|
+| **Daily scan (core directions)** | TPAMI + TIP + TKDE (IEEE) + cs.CV + cs.IR (ArXiv) |
+| **Code-focused filtering** | Papers With Code |
+| **Conference season** | Add cs.LG + cs.AI for broader coverage |
+
+> 💡 **Tip:** With IEEE RSS you get top-tier journal papers by default. For code availability, cross-reference with Papers With Code.
 
 ---
 

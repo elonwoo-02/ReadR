@@ -5,6 +5,7 @@
 !.obsidian/plugins/dataview/
 !.obsidian/plugins/oterm/
 !.obsidian/plugins/realclaudian/
+# Note: rss-dashboard is force-added (line 2 prevents negation)
 # Exception: our custom plugin source
 .agent
 .agents
@@ -13,6 +14,9 @@ AGENTS.md
 .mcp.json
 .claudian
 .claude/
+
+# RSS Dashboard cache
+.rss-dashboard-data/
 
 # Generated / project-level docs (do not track generated files)
 docs/*

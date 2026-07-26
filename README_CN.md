@@ -358,7 +358,7 @@ CLAUDE.md 中已配置完整的项目结构和规则，AI 会自动遵循。
 
 ### Obsidian 插件
 
-四个插件均已打包在仓库中，位于 `.obsidian/plugins/`。克隆后直接在 Obsidian 中打开 vault，到 **设置 → 第三方插件** 启用即可。
+五个插件均已打包在仓库中，位于 `.obsidian/plugins/`。克隆后直接在 Obsidian 中打开 vault，到 **设置 → 第三方插件** 启用即可。
 
 | 插件 | 类型 | 开箱即用？ |
 |------|------|-----------|
@@ -366,6 +366,7 @@ CLAUDE.md 中已配置完整的项目结构和规则，AI 会自动遵循。
 | 📋 **Dataview** | 社区（已编译） | ✅ 是 — `main.js` 已包含 |
 | 🤖 **RealClaudian** | 社区（已编译） | ✅ 是 — `main.js` 已包含 |
 | 💻 **OTerm** | 社区（已编译） | ✅ 是 — `main.js` + 原生二进制已包含 |
+| 📰 **RSS Dashboard** | 社区（已编译） | ✅ 是 — `main.js` 已包含 |
 
 #### ReadR Dashboard
 
@@ -396,6 +397,57 @@ Obsidian 内集成 Claude AI，辅助浏览笔记和知识提炼。([GitHub](htt
 #### OTerm
 
 编辑器内嵌终端，运行脚本、git 命令和构建，无需离开 Obsidian。([GitHub](https://github.com/oterm/oterm))
+
+#### RSS Dashboard
+
+编辑器内嵌 RSS 阅读器，用于追踪学术论文，掌握研究前沿动态。([GitHub](https://github.com/amatya-aditya/obsidian-rss-dashboard))
+
+---
+
+## 推荐 RSS 订阅源
+
+ReadR 已打包 **RSS Dashboard** 插件。以下是为你的研究方向推荐的订阅源：
+
+### IEEE Transactions（顶刊）
+
+| 方向 | 期刊 | RSS |
+|---|---|---|
+| 视觉 + 模式识别 | **IEEE TPAMI** | `https://ieeexplore.ieee.org/rss/TPAMI.xml` |
+| 计算机视觉 | **IEEE TIP** | `https://ieeexplore.ieee.org/rss/TIP.xml` |
+| 推荐系统 + 数据挖掘 | **IEEE TKDE** | `https://ieeexplore.ieee.org/rss/TKDE.xml` |
+| 神经网络 | **IEEE TNNLS** | `https://ieeexplore.ieee.org/rss/TNNLS.xml` |
+| 多媒体 | **IEEE TMM** | `https://ieeexplore.ieee.org/rss/TMM.xml` |
+| 视频处理 | **IEEE TCSVT** | `https://ieeexplore.ieee.org/rss/TCSVT.xml` |
+
+### ArXiv（预印本）
+
+| 方向 | 分类 | RSS |
+|---|---|---|
+| 计算机视觉 | cs.CV | `http://export.arxiv.org/rss/cs.CV` |
+| 推荐系统 | cs.IR | `http://export.arxiv.org/rss/cs.IR` |
+| 机器学习 | cs.LG | `http://export.arxiv.org/rss/cs.LG` |
+| 人工智能 | cs.AI | `http://export.arxiv.org/rss/cs.AI` |
+| 多媒体 | cs.MM | `http://export.arxiv.org/rss/cs.MM` |
+
+### 精选源
+
+| 来源 | RSS | 特色 |
+|---|---|---|
+| **Papers With Code** | `https://paperswithcode.com/.rss` | 附带代码实现和 benchmark 结果的论文 |
+| **Google AI Blog** | `https://feeds.feedburner.com/blogspot/gJZg` | Google DeepMind 研究动态 |
+| **Meta AI Blog** | `https://ai.meta.com/blog/rss/` | Meta FAIR 论文与公告 |
+
+### 推荐订阅方案
+
+| 目标 | 订阅哪些 |
+|---|---|
+| **日常扫读（核心方向）** | TPAMI + TIP + TKDE（IEEE）+ cs.CV + cs.IR（ArXiv） |
+| **只看带代码的** | Papers With Code |
+| **顶会季加订** | cs.LG + cs.AI 扩大覆盖 |
+
+> 💡 **提示：** IEEE RSS 默认全是顶刊论文。想确认是否有代码，可配合 Papers With Code 交叉查。
+
+---
 
 ### 专栏系列
 
