@@ -1,0 +1,8 @@
+# Plugin build artifacts
+node_modules/
+main.js
+package-lock.json
+
+# IDE
+.idea/
+*.iml

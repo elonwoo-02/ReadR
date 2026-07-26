@@ -1,0 +1,11 @@
+{
+  "id": "readr-dashboard",
+  "name": "ReadR Dashboard",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Interactive dashboard for ReadR research workflow — stats, charts, filtering, quick actions, and activity tracking.",
+  "author": "ReadR",
+  "authorUrl": "",
+  "fundingUrl": "",
+  "isDesktopOnly": false
+}

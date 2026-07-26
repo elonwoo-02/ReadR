@@ -124,3 +124,25 @@ dv.table(["Direction", "Papers"], rows);
 ```
 
 The final view only suggests candidates. Create a synthesis after confirming the papers belong to the same meaningful sub-direction.
+
+---
+
+## Kanban Boards
+
+Open the boards below with the **Kanban** plugin (install from Community Plugins if not already enabled).
+
+### Global Pipeline
+
+- [[library/_kanban/Research Pipeline|📊 Research Pipeline]] — All papers across the entire INGEST → BROWSE → CLOSE-READ → REVIEW workflow.
+
+### Per-Direction Boards
+
+- [[library/_kanban/your_direction Pipeline|📊 your_direction Pipeline]]
+
+### Per Sub-Direction Boards
+
+- [[library/_kanban/your_direction/sub_direction_1|📊 sub_direction_1]]
+- [[library/_kanban/your_direction/sub_direction_n|📊 sub_direction_n]]
+
+> **Usage**: Drag cards between columns as papers progress through the pipeline. Each card links back to its library entry and related notes.
+

@@ -1,5 +1,10 @@
 # Obsidian local config and cache (do not share personal settings)
-.obsidian/
+.obsidian/*
+# Exception: our custom plugin source
+!.obsidian/plugins
+.obsidian/plugins/*
+!.obsidian/plugins/readr-dashboard
+!.obsidian/community-plugins.json
 
 # OS files
 .DS_Store
