@@ -22,6 +22,8 @@
 
 > ReadR is an **Obsidian vault template** for academic paper management, inspired by [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern and [llm-wiki](https://github.com/nashsu/llm_wiki) — but built for **human researchers**, not AI agents. The vault organizes the full paper lifecycle into a clean four-layer structure, with AI as an optional assistant rather than the primary author.
 
+![[demo.png]]
+
 ---
 
 ## Architecture

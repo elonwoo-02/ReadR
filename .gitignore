@@ -19,6 +19,7 @@ docs/*
 docs/plan.md
 docs/specs.md
 docs/literature-review/
+!docs/demo.png
 
 # Source materials (files under subdirectories are ignored individually)
 sources/*/*
