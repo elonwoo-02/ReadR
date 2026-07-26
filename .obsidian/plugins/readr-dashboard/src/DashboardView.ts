@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, setIcon } from "obsidian";
+import { ItemView, WorkspaceLeaf, setIcon, TFile } from "obsidian";
 import type ReadRDashboardPlugin from "../main";
 import { DataService } from "./data/DataService";
 import type { DashboardStats, PaperEntry, FilterOptions, KnowledgeGap, ActivityItem, PaperStatus } from "./utils/types";
@@ -16,6 +16,10 @@ export class DashboardView extends ItemView {
   private directions: string[] = [];
   private activeTab: "stats" | "papers" | "activity" = "stats";
   private refreshInterval: number | null = null;
+  /** Vault event listeners for file changes */
+  private vaultEventRefs: { event: string; ref: any }[] = [];
+  /** Debounce timer for batched re-renders */
+  private debounceTimer: number | null = null;
 
   constructor(leaf: WorkspaceLeaf, plugin: ReadRDashboardPlugin) {
     super(leaf);
@@ -39,10 +43,12 @@ export class DashboardView extends ItemView {
     this.refreshData();
     this.render();
     this.startAutoRefresh();
+    this.registerVaultEvents();
   }
 
   async onClose(): Promise<void> {
     this.stopAutoRefresh();
+    this.unregisterVaultEvents();
   }
 
   /** Refresh all data from the data service */
@@ -481,6 +487,64 @@ export class DashboardView extends ItemView {
     if (this.refreshInterval !== null) {
       clearInterval(this.refreshInterval);
       this.refreshInterval = null;
+    }
+  }
+
+  /** Register vault event listeners for real-time updates */
+  private registerVaultEvents(): void {
+    const vault = this.app.vault;
+
+    // Helper: check if a file is in library/entries/
+    const isEntryFile = (file: TFile): boolean =>
+      file.path.startsWith("library/entries/") && file.extension === "md";
+
+    // Debounced refresh to batch multiple changes
+    const scheduleRefresh = (): void => {
+      if (this.debounceTimer !== null) {
+        clearTimeout(this.debounceTimer);
+      }
+      this.debounceTimer = window.setTimeout(() => {
+        this.debounceTimer = null;
+        this.refreshData();
+        this.render();
+      }, 300); // 300ms debounce
+    };
+
+    // File created
+    const createRef = vault.on("create", (file: TFile) => {
+      if (isEntryFile(file)) scheduleRefresh();
+    });
+    this.vaultEventRefs.push({ event: "create", ref: createRef });
+
+    // File modified
+    const modifyRef = vault.on("modify", (file: TFile) => {
+      if (isEntryFile(file)) scheduleRefresh();
+    });
+    this.vaultEventRefs.push({ event: "modify", ref: modifyRef });
+
+    // File deleted
+    const deleteRef = vault.on("delete", (file: TFile) => {
+      if (isEntryFile(file)) scheduleRefresh();
+    });
+    this.vaultEventRefs.push({ event: "delete", ref: deleteRef });
+
+    // Metadata cache change (catches frontmatter edits, tag changes, etc.)
+    const metadataRef = this.app.metadataCache.on("changed", (file: TFile) => {
+      if (isEntryFile(file)) scheduleRefresh();
+    });
+    this.vaultEventRefs.push({ event: "metadata-changed", ref: metadataRef });
+  }
+
+  /** Unregister vault event listeners */
+  private unregisterVaultEvents(): void {
+    const vault = this.app.vault;
+    for (const { event, ref } of this.vaultEventRefs) {
+      vault.off(event, ref);
+    }
+    this.vaultEventRefs = [];
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
     }
   }
 }
