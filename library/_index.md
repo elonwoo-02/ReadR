@@ -40,10 +40,10 @@
 
 | Asset type | Notes |
 | --- | ---: |
-| concepts | 0 |
-| authors | 0 |
-| datasets | 0 |
-| benchmarks | 0 |
+| concepts | 3 |
+| authors | 3 |
+| datasets | 1 |
+| benchmarks | 1 |
 | comparisons | 0 |
 | syntheses | 0 |
 | projects | 0 |
