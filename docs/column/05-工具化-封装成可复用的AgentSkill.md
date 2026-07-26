@@ -1,5 +1,5 @@
 # 05｜工具化：把工作流封装成可复用的 Agent/Skill
-![[05.png]]
+![Column 05](images/05.png)
 ## 你将获得
 
 - INGEST 阶段自动化的具体实现思路——从 PDF 到带元数据的条目初稿

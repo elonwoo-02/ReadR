@@ -18,7 +18,11 @@
   <a href="README.md">English</a> | 中文
 </p>
 ---
-![[demo.png]]
+
+> ReadR 是一个面向**学术论文管理**的 **Obsidian 模板库**，灵感来自 [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 的范式与 [llm-wiki](https://github.com/nashsu/llm_wiki) 项目——但它的设计服务于**人类研究者**，而非 AI 智能体。该库将论文的全生命周期组织为清晰的四层结构，AI 是可选助手，而不是主要作者。
+
+![ReadR Vault Demo](docs/demo.png)
+
 ## 架构
 
 ```

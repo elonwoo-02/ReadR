@@ -1,5 +1,5 @@
 # 02｜元数据设计：YAML frontmatter 与 wiki-link 拓扑
-![[02.png]]
+![Column 02](images/02.png)
 ## 你将获得
 
 - 一份可复用的 YAML 字段清单，以及每个字段背后的设计动机，不是照抄模板
