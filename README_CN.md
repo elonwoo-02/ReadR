@@ -410,14 +410,16 @@ ReadR 已打包 **RSS Dashboard** 插件。以下是为你的研究方向推荐�
 
 ### IEEE Transactions（顶刊）
 
-| 方向 | 期刊 | RSS |
-|---|---|---|
-| 视觉 + 模式识别 | **IEEE TPAMI** | `https://ieeexplore.ieee.org/rss/TPAMI.xml` |
-| 计算机视觉 | **IEEE TIP** | `https://ieeexplore.ieee.org/rss/TIP.xml` |
-| 推荐系统 + 数据挖掘 | **IEEE TKDE** | `https://ieeexplore.ieee.org/rss/TKDE.xml` |
-| 神经网络 | **IEEE TNNLS** | `https://ieeexplore.ieee.org/rss/TNNLS.xml` |
-| 多媒体 | **IEEE TMM** | `https://ieeexplore.ieee.org/rss/TMM.xml` |
-| 视频处理 | **IEEE TCSVT** | `https://ieeexplore.ieee.org/rss/TCSVT.xml` |
+IEEE RSS 地址格式为 `https://ieeexplore.ieee.org/rss/TOC{punumber}.XML`。在 RSS 阅读器（Feedly、RSS Dashboard 等）中可用，但浏览器直接访问可能被 IEEE 的反爬机制拦截。
+
+| 方向 | 期刊 | punumber | RSS |
+|---|---|---|---|
+| 视觉 + 模式识别 | **IEEE TPAMI** | 34 | `https://ieeexplore.ieee.org/rss/TOC34.XML` |
+| 计算机视觉 | **IEEE TIP** | 83 | `https://ieeexplore.ieee.org/rss/TOC83.XML` |
+| 推荐系统 + 数据挖掘 | **IEEE TKDE** | 69 | `https://ieeexplore.ieee.org/rss/TOC69.XML` |
+| 神经网络 | **IEEE TNNLS** | 5962385 | `https://ieeexplore.ieee.org/rss/TOC5962385.XML` |
+| 多媒体 | **IEEE TMM** | 6046 | `https://ieeexplore.ieee.org/rss/TOC6046.XML` |
+| 视频处理 | **IEEE TCSVT** | 76 | `https://ieeexplore.ieee.org/rss/TOC76.XML` |
 
 ### ArXiv（预印本）
 
@@ -434,8 +436,7 @@ ReadR 已打包 **RSS Dashboard** 插件。以下是为你的研究方向推荐�
 | 来源 | RSS | 特色 |
 |---|---|---|
 | **Papers With Code** | `https://paperswithcode.com/.rss` | 附带代码实现和 benchmark 结果的论文 |
-| **Google AI Blog** | `https://feeds.feedburner.com/blogspot/gJZg` | Google DeepMind 研究动态 |
-| **Meta AI Blog** | `https://ai.meta.com/blog/rss/` | Meta FAIR 论文与公告 |
+| **Google AI Blog** | `https://blog.google/technology/ai/rss/` | Google DeepMind 研究动态 |
 
 ### 推荐订阅方案
 

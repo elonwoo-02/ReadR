@@ -411,14 +411,16 @@ ReadR comes with the **RSS Dashboard** plugin. Here are recommended feeds for yo
 
 ### IEEE Transactions (Top Journals)
 
-| Direction | Journal | RSS |
-|---|---|---|
-| Vision + Pattern Recognition | **IEEE TPAMI** | `https://ieeexplore.ieee.org/rss/TPAMI.xml` |
-| Computer Vision | **IEEE TIP** | `https://ieeexplore.ieee.org/rss/TIP.xml` |
-| Recommender Systems + Data Mining | **IEEE TKDE** | `https://ieeexplore.ieee.org/rss/TKDE.xml` |
-| Neural Networks | **IEEE TNNLS** | `https://ieeexplore.ieee.org/rss/TNNLS.xml` |
-| Multimedia | **IEEE TMM** | `https://ieeexplore.ieee.org/rss/TMM.xml` |
-| Video Processing | **IEEE TCSVT** | `https://ieeexplore.ieee.org/rss/TCSVT.xml` |
+IEEE RSS URLs follow the pattern `https://ieeexplore.ieee.org/rss/TOC{punumber}.XML`. These work in RSS readers (Feedly, RSS Dashboard, etc.) but may not load in browsers due to IEEE's bot protection.
+
+| Direction | Journal | punumber | RSS |
+|---|---|---|---|
+| Vision + Pattern Recognition | **IEEE TPAMI** | 34 | `https://ieeexplore.ieee.org/rss/TOC34.XML` |
+| Computer Vision | **IEEE TIP** | 83 | `https://ieeexplore.ieee.org/rss/TOC83.XML` |
+| Recommender Systems + Data Mining | **IEEE TKDE** | 69 | `https://ieeexplore.ieee.org/rss/TOC69.XML` |
+| Neural Networks | **IEEE TNNLS** | 5962385 | `https://ieeexplore.ieee.org/rss/TOC5962385.XML` |
+| Multimedia | **IEEE TMM** | 6046 | `https://ieeexplore.ieee.org/rss/TOC6046.XML` |
+| Video Processing | **IEEE TCSVT** | 76 | `https://ieeexplore.ieee.org/rss/TOC76.XML` |
 
 ### ArXiv (Preprints)
 
@@ -435,8 +437,7 @@ ReadR comes with the **RSS Dashboard** plugin. Here are recommended feeds for yo
 | Source | RSS | What it's good for |
 |---|---|---|
 | **Papers With Code** | `https://paperswithcode.com/.rss` | Papers with code implementations and benchmark results |
-| **Google AI Blog** | `https://feeds.feedburner.com/blogspot/gJZg` | Google DeepMind research highlights |
-| **Meta AI Blog** | `https://ai.meta.com/blog/rss/` | Meta FAIR publications and announcements |
+| **Google AI Blog** | `https://blog.google/technology/ai/rss/` | Google DeepMind research highlights |
 
 ### Recommended Setup
 
