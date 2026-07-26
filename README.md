@@ -355,18 +355,61 @@ The `CLAUDE.md` file contains the full project structure and rules — AI tools 
 
 ---
 
+## Obsidian Plugins
+
+All four plugins are bundled in this repo under `.obsidian/plugins/`. After cloning, just open the vault in Obsidian and enable them in **Settings → Community Plugins**.
+
+| Plugin | Type | Ready to use? |
+|--------|------|---------------|
+| 📊 **ReadR Dashboard** | Built-in (source) | Build required: `npm install && npm run build` |
+| 📋 **Dataview** | Community (compiled) | ✅ Yes — `main.js` included |
+| 🤖 **RealClaudian** | Community (compiled) | ✅ Yes — `main.js` included |
+| 💻 **OTerm** | Community (compiled) | ✅ Yes — `main.js` + native binaries included |
+
+### ReadR Dashboard
+
+An interactive dashboard for real-time statistics, paper filtering, and activity tracking.
+
+| Feature | Description |
+|---------|-------------|
+| 📊 **Stats & Charts** | Summary cards, status distribution bar chart, direction progress bars, auto-detected knowledge gaps |
+| 🔍 **Paper Filtering** | Filter by status (To Read / Browsed / Close Read), direction, or fuzzy search by title/author |
+| ⚡ **Quick Actions** | Ribbon icon toggle, command palette (`Open ReadR Dashboard`, `New Paper Entry`), configurable auto-refresh |
+| 📝 **Activity** | Recent changes (last 7 days), todo reminders from knowledge gaps |
+
+```bash
+# Build and enable
+cd .obsidian/plugins/readr-dashboard/
+npm install && npm run build
+# Then enable in Settings → Community Plugins
+```
+
+### Dataview
+
+Query and display vault metadata — used by the dashboard for data aggregation. ([GitHub](https://github.com/blacksmithgu/obsidian-dataview))
+
+### RealClaudian
+
+Claude AI integration inside Obsidian — useful for AI-assisted note-taking and browsing. ([GitHub](https://github.com/oterm/realclaudian))
+
+### OTerm
+
+In-editor terminal for running scripts, git commands, and builds without leaving Obsidian. ([GitHub](https://github.com/oterm/oterm))
+
+---
+
 ## Documentation
 
 The `docs/` directory contains a complete Chinese column series explaining the four-layer architecture methodology:
 
 | Article | Title | Topic |
 | ------- | ----- | ----- |
-| 00 | 为什么你的文献库读完就是坟场 | Why libraries become graveyards |
-| 01 | 四层架构：给论文管理设计一套读写权限 | Four-layer access control design |
-| 02 | 元数据设计：YAML与wiki-link拓扑 | Metadata & wiki-link topology |
-| 03 | 人机分工：AI能做什么不能做什么 | Human-AI division of labor |
-| 04 | 知识沉淀的最小动作：从浏览到精读 | Minimal knowledge deposition |
-| 05 | 工具化：封装成可复用的AgentSkill | Tooling — reusable Agent Skills |
+| 00 | [为什么你的文献库读完就是坟场](docs/column/00-开篇词-为什么你的文献库读完就是坟场.md) | Why libraries become graveyards |
+| 01 | [四层架构：给论文管理设计一套读写权限](docs/column/01-四层架构-给论文管理设计一套读写权限.md) | Four-layer access control design |
+| 02 | [元数据设计：YAML与wiki-link拓扑](docs/column/02-元数据设计-YAML与wiki-link拓扑.md) | Metadata & wiki-link topology |
+| 03 | [人机分工：AI能做什么不能做什么](docs/column/03-人机分工-AI能做什么不能做什么.md) | Human-AI division of labor |
+| 04 | [知识沉淀的最小动作：从浏览到精读](docs/column/04-知识沉淀的最小动作-从浏览到精读.md) | Minimal knowledge deposition |
+| 05 | [工具化：封装成可复用的AgentSkill](docs/column/05-工具化-封装成可复用的AgentSkill.md) | Tooling — reusable Agent Skills |
 
 ---
 

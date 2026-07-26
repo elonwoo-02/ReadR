@@ -1,0 +1,10 @@
+{
+	"id": "oterm",
+	"name": "oterm",
+	"version": "0.1.4",
+	"minAppVersion": "1.7.2",
+	"description": "Full terminal emulator powered by xterm.js and node-pty. Supports PowerShell, WSL, zsh, tmux, and CLI tools.",
+	"author": "mgriffen",
+	"authorUrl": "https://github.com/mgriffen",
+	"isDesktopOnly": true
+}

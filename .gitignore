@@ -1,6 +1,11 @@
 # Obsidian local config and cache (do not share personal settings)
 .obsidian/*
 # Exception: our custom plugin source
+!.obsidian/plugins/readr-dashboard/
+!.obsidian/plugins/dataview/
+!.obsidian/plugins/oterm/
+!.obsidian/plugins/realclaudian/
+# Exception: our custom plugin source
 .agent
 .agents
 AGENTS.md

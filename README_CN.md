@@ -353,18 +353,59 @@ pwsh scripts/ReadR.ps1 -UpdateIndex
 
 CLAUDE.md 中已配置完整的项目结构和规则，AI 会自动遵循。
 
+### Obsidian 插件
+
+四个插件均已打包在仓库中，位于 `.obsidian/plugins/`。克隆后直接在 Obsidian 中打开 vault，到 **设置 → 第三方插件** 启用即可。
+
+| 插件 | 类型 | 开箱即用？ |
+|------|------|-----------|
+| 📊 **ReadR Dashboard** | 内置（源码） | 需构建：`npm install && npm run build` |
+| 📋 **Dataview** | 社区（已编译） | ✅ 是 — `main.js` 已包含 |
+| 🤖 **RealClaudian** | 社区（已编译） | ✅ 是 — `main.js` 已包含 |
+| 💻 **OTerm** | 社区（已编译） | ✅ 是 — `main.js` + 原生二进制已包含 |
+
+#### ReadR Dashboard
+
+交互式仪表盘，支持实时统计、论文筛选和活动追踪。
+
+| 功能 | 说明 |
+|------|------|
+| 📊 **统计图表** | 概览卡片、阅读状态分布柱状图、研究方向进度条、自动检测知识缺口 |
+| 🔍 **论文筛选** | 按状态（待读/已浏览/精读）、研究方向筛选，或按标题/作者模糊搜索 |
+| ⚡ **快捷操作** | 侧边栏图标一键开关、命令面板（打开仪表盘/新建条目）、可配置自动刷新 |
+| 📝 **活动追踪** | 最近 7 天变更记录、基于知识缺口的待办提醒 |
+
+```bash
+# 构建并启用
+cd .obsidian/plugins/readr-dashboard/
+npm install && npm run build
+# 然后在设置 → 第三方插件中启用
+```
+
+#### Dataview
+
+查询和展示 vault 元数据，仪表盘依赖它做数据聚合。([GitHub](https://github.com/blacksmithgu/obsidian-dataview))
+
+#### RealClaudian
+
+Obsidian 内集成 Claude AI，辅助浏览笔记和知识提炼。([GitHub](https://github.com/oterm/realclaudian))
+
+#### OTerm
+
+编辑器内嵌终端，运行脚本、git 命令和构建，无需离开 Obsidian。([GitHub](https://github.com/oterm/oterm))
+
 ### 专栏系列
 
 `docs/column/` 目录包含完整的中文专栏系列，深入讲解四层架构方法论：
 
 | 篇目 | 标题 | 主题 |
 |------|------|------|
-| 00 | 为什么你的文献库读完就是坟场 | 文献管理的痛点分析 |
-| 01 | 四层架构：给论文管理设计一套读写权限 | 四层权限设计 |
-| 02 | 元数据设计：YAML与wiki-link拓扑 | 元数据与链接拓扑 |
-| 03 | 人机分工：AI能做什么不能做什么 | 人机分工边界 |
-| 04 | 知识沉淀的最小动作：从浏览到精读 | 最小知识沉淀动作 |
-| 05 | 工具化：封装成可复用的AgentSkill | 工具化与 Agent Skill 封装 |
+| 00 | [为什么你的文献库读完就是坟场](docs/column/00-开篇词-为什么你的文献库读完就是坟场.md) | 文献管理的痛点分析 |
+| 01 | [四层架构：给论文管理设计一套读写权限](docs/column/01-四层架构-给论文管理设计一套读写权限.md) | 四层权限设计 |
+| 02 | [元数据设计：YAML与wiki-link拓扑](docs/column/02-元数据设计-YAML与wiki-link拓扑.md) | 元数据与链接拓扑 |
+| 03 | [人机分工：AI能做什么不能做什么](docs/column/03-人机分工-AI能做什么不能做什么.md) | 人机分工边界 |
+| 04 | [知识沉淀的最小动作：从浏览到精读](docs/column/04-知识沉淀的最小动作-从浏览到精读.md) | 最小知识沉淀动作 |
+| 05 | [工具化：封装成可复用的AgentSkill](docs/column/05-工具化-封装成可复用的AgentSkill.md) | 工具化与 Agent Skill 封装 |
 
 ---
 

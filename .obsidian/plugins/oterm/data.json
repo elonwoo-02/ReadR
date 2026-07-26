@@ -1,0 +1,13 @@
+{
+  "defaultShell": "powershell",
+  "shellArgs": [],
+  "defaultCwd": "vault",
+  "fontFamily": "MesloLGS NF, Consolas, Courier New, monospace",
+  "fontSize": 14,
+  "scrollback": 5000,
+  "cursorStyle": "block",
+  "cursorBlink": true,
+  "useWebGL": true,
+  "copyOnSelect": false,
+  "openLocation": "right"
+}
