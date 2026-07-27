@@ -20,6 +20,8 @@ AGENTS.md
 
 # Generated / project-level docs (do not track generated files)
 docs/*
+!docs/column/
+!docs/demo.png
 docs/plan.md
 docs/specs.md
 docs/literature-review/
@@ -32,6 +34,9 @@ sources/*/*
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# WorkBuddy
+.workbuddy/
 
 # PDFs are large; excluded from version control by default
 # To track: remove lines below or use `git add -f`

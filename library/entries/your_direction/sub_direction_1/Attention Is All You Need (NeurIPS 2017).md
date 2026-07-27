@@ -16,7 +16,7 @@ tags:
   - task/translation
   - status/browsed
   - venue/NeurIPS
-pdf: ../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
+pdf: ../../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
 doi: ""
 rating: ⭐⭐⭐⭐⭐
 annotation:
@@ -31,6 +31,8 @@ datasets:
   - WMT 2014
 benchmarks:
   - BLEU
+created: 2026-07-26
+updated: 2026-07-27
 ---
 # Attention Is All You Need — Transformer architecture
 

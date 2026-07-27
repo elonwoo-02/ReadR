@@ -5,7 +5,9 @@ authors:
   - Author 2
 venue: "Conference/Journal (Year)"
 date: YYYY-MM-DD
-paper-entry: "../../library/entries/knowledge-graph/SUB_DIRECTION/paper-entry.md"
+# 替换为实际论文条目的相对路径，例如：
+# ../../library/entries/nlp/attention/Attention Is All You Need (NeurIPS 2017).md
+paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
 ---
 
 > **AI 生成说明：** 正文中需在对应小节穿插论文中的图、表、公式并解释，而非仅在文末汇总。
@@ -55,7 +57,7 @@ paper-entry: "../../library/entries/knowledge-graph/SUB_DIRECTION/paper-entry.md
     *   **关键图表解读**：插入并解释核心结果图表（必须）。
         > **表：** 
         > **图：** 
-1.  **消融研究/参数分析**：
+3.  **消融研究/参数分析**：
     *   作者是否对方法的不同组件或参数进行了分析？
     *   这些分析揭示了什么？
     *   **消融实验图表**：插入消融实验的图表并解读。

@@ -6,11 +6,23 @@
 
 | Status | Papers |
 | --- | ---: |
-| status/to-read | 2 |
-| status/browsed | 0 |
+| status/to-read | 1 |
+| status/browsed | 1 |
 | status/close-read | 0 |
 
 ## Papers by Direction
+
+### cv
+
+| Paper | Venue | Status | Rating |
+| --- | --- | --- | --- |
+| [[library/entries/your_direction/sub_direction_n/An Image is Worth 16x16 Words (ICLR 2021)|An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale]] | ICLR 2021 | status/to-read | ⭐⭐⭐⭐⭐ |
+
+### nlp
+
+| Paper | Venue | Status | Rating |
+| --- | --- | --- | --- |
+| [[library/entries/your_direction/sub_direction_1/Attention Is All You Need (NeurIPS 2017)|Attention Is All You Need]] | NeurIPS 2017 | status/browsed | ⭐⭐⭐⭐⭐ |
 
 ## Research Asset Counts
 

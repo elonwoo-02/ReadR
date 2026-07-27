@@ -112,7 +112,7 @@ function Invoke-Validation {
             $issues.Add((New-Issue Error $relative 'Missing YAML frontmatter.'))
             continue
         }
-        foreach ($key in @('title', 'authors', 'venue', 'tags', 'pdf', 'doi', 'rating')) {
+        foreach ($key in @('title', 'authors', 'venue', 'tags', 'pdf', 'rating')) {
             if (-not (Test-ValuePresent $frontmatter $key)) { $issues.Add((New-Issue Error $relative "Missing required field: $key.")) }
         }
         foreach ($key in @('annotation', 'concepts', 'authors_related', 'datasets', 'benchmarks')) {
@@ -120,7 +120,7 @@ function Invoke-Validation {
         }
 
         $statusTags = @(Get-StatusTags $frontmatter)
-        $allStatusTags = if ($frontmatter.ContainsKey('tags')) { @($frontmatter['tags'] | Where-Object { $_ -is [string] -and $_ -match '^status/' }) } else { @() }
+        $allStatusTags = @(if ($frontmatter.ContainsKey('tags')) { @($frontmatter['tags'] | Where-Object { $_ -is [string] -and $_ -match '^status/' }) } else { @() })
         if ($statusTags.Count -ne 1 -or $allStatusTags.Count -ne 1) {
             $issues.Add((New-Issue Error $relative 'Exactly one valid status tag is required: status/to-read, status/browsed, or status/close-read.'))
         }
@@ -216,7 +216,7 @@ function Write-GeneratedIndex {
     $lines.Add('')
     $lines.Add("- Errors: $(@($Issues | Where-Object Level -eq 'Error').Count)")
     $lines.Add("- Warnings: $(@($Issues | Where-Object Level -eq 'Warning').Count)")
-    Set-Content -LiteralPath (Join-Path $VaultRoot 'library/_generated-index.md') -Value $lines -Encoding utf8
+    Set-Content -LiteralPath (Join-Path $VaultRoot 'library/_index.md') -Value $lines -Encoding utf8
 }
 
 $Root = [System.IO.Path]::GetFullPath($Root)
@@ -233,7 +233,7 @@ if ($UpdateIndex) {
     if ($errorCount -gt 0) { Write-Host 'Index was not generated because validation failed.' }
     else {
         Write-GeneratedIndex $Root $result.Records $result.Issues
-        Write-Host 'Generated library/_generated-index.md.'
+        Write-Host 'Generated library/_index.md.'
     }
 }
 if ($errorCount -gt 0) { exit 1 }

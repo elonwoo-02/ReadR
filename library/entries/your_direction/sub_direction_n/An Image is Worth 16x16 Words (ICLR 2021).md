@@ -20,13 +20,12 @@ tags:
   - task/image-classification
   - status/to-read
   - venue/ICLR
-pdf: ../../sources/papers/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
+pdf: ../../../../sources/papers/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
 doi: ""
 rating: ⭐⭐⭐⭐⭐
 annotation:
 concepts:
   - Vision Transformer
-  - ViT
   - Patch Embedding
 authors_related:
   - Dosovitskiy, Alexey
@@ -40,6 +39,8 @@ benchmarks:
   - ImageNet
   - CIFAR-100
   - VTAB
+created: 2026-07-26
+updated: 2026-07-27
 ---
 # An Image is Worth 16x16 Words — Vision Transformer (ViT)
 
