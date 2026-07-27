@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(notebooklm *)",
+      "Bash(pip install *)",
+      "Bash(playwright install *)",
+      "Bash(mkdir -p \"docs/demo\")",
+      "Bash(mv \"docs/demo.png\" \"docs/demo/dashboard.png\")",
+      "Bash(mv \"docs/demo-2.png\" \"docs/demo/backlinks.png\")",
+      "Bash(mv \"docs/demo-3.png\" \"docs/demo/graph-view.png\")",
+      "Bash(mv \"docs/demo-4.png\" \"docs/demo/realclaudian.png\")"
+    ]
+  }
+}

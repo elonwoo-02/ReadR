@@ -1,17 +1,25 @@
 # ReadR
 
 <p align="center">
-  <strong>An AI-assisted academic knowledge base for human researchers.</strong><br>
-  Four-layer architecture — sources → library → annotations → reviews
+  <img src="docs/readr-logo.svg" alt="ReadR Logo" width="100"><br>
+  <strong>AI-Assisted Academic Knowledge Base Designed for Human Researchers</strong><br>
+  sources → library → annotations → reviews<br>
+  to-read →browse →close-read →review
 </p>
 
 <p align="center">
   <a href="#architecture">Architecture</a> •
   <a href="#workflow">Workflow</a> •
-  <a href="#wiki-link-topology">Wiki Links</a> •
   <a href="#comparison-with-llm-wiki">Comparison</a> •
   <a href="#quick-start">Quick Start</a> •
-  <a href="#acknowledgments">Credits</a>
+  <a href="#acknowledgments">Acknowledgments</a>
+</p>
+<p align="center">
+  <a href="#obsidian-guide">Obsidian</a> •
+  <a href="#claude-code-guide">Claude</a> •
+  <a href="#notebooklm-integration-optional">NotebookLM</a> •
+  <a href="#rss-feeds-for-cs-researchers">RSS</a> •
+  <a href="#column-series">Column</a>
 </p>
 
 <p align="center">
@@ -20,180 +28,176 @@
 
 ---
 
-> ReadR is an **Obsidian vault template** for academic paper management, inspired by [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern and [llm-wiki](https://github.com/nashsu/llm_wiki) — but built for **human researchers**, not AI agents. The vault organizes the full paper lifecycle into a clean four-layer structure, with AI as an optional assistant rather than the primary author.
-
-![ReadR Vault Demo](docs/demo.png)
-
----
+> ReadR is an **Obsidian template vault** built for **academic paper management**, inspired by the paradigm of [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and the [llm-wiki](https://github.com/nashsu/llm_wiki) project — but designed to serve **human researchers** rather than AI agents. The vault organizes a paper's full lifecycle into a clear four-layer structure, where AI is an optional assistant, not the primary author.
 
 ## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                     SCHEMA LAYER                          │
-│       CLAUDE.md — Rules, conventions, workflow            │
+│                     SCHEMA LAYER                         │
+│          CLAUDE.md — operating rules, naming, workflow      │
 ├─────────────┬─────────────┬───────────────┬──────────────┤
 │             │             │               │              │
 │  sources/   │  library/   │ annotations/  │   reviews/   │
-│  raw        │  catalog    │  close-read   │   survey     │
-│  material   │  + concepts │  notes        │   papers     │
-│  (readonly) │             │               │   (output)   │
-│             │             │               │              │
-│  immutable  │  you curate │  you write    │   you author │
+│  raw source │  catalog    │  close reading│   surveys    │
+│  (read-only)│ + distilled │  notes        │   (output)   │
+│             │  knowledge  │               │              │
+│  immutable  │  you curate │  you write    │  you author  │
 │             │             │               │              │
 └─────────────┴─────────────┴───────────────┴──────────────┘
        ↑             ↑              ↑
        └─────────────┴──────────────┘
-            wiki-link interop
+              linked via wiki-links
 ```
 
 ### Design Principles
 
-- **sources are immutable** — PDFs and clippings are never modified once placed
-- **one source, one entry** — each paper has exactly one entry in `library/entries/`
-- **annotations only after close-reading** — `annotations/` is for deep reading, not browsing
-- **knowledge deposition during browsing** — extract concepts, authors, datasets, etc. as you browse
-- **synthesis bridges to review** — `syntheses/` bridges from "reading papers" to "writing a survey"
+- **sources/ is immutable** — once a PDF or clipping is placed here, it is never modified
+- **One source, one entry** — each paper has exactly one entry in library/entries/
+- **Annotations only after close reading** — annotations/ is the output of close reading, not casual browsing notes
+- **Knowledge distillation happens alongside browsing** — concepts/, authors/, datasets/, etc. are distilled while you browse
+- **Synthesis bridges to review** — syntheses/ is the intermediate state between "reading papers" and "writing a review"
 
 ### Directory Structure
 
 ```
-├── sources/                        Raw materials (readonly)
+├── sources/                        Raw material (read-only)
 │   ├── papers/                     Academic paper PDFs
 │   ├── web/                        Web articles, blog posts
-│   ├── books/                      Books / monograph chapters
-│   ├── talks/                      Lectures, courses
+│   ├── books/                      Book/monograph chapters
+│   ├── talks/                      Talks, lectures
 │   └── misc/                       Other
 │
-├── library/                        Paper catalog + knowledge distillation
-│   ├── _index.md                   Master index (auto-generated)
+├── library/                        Paper catalog + distilled knowledge
 │   ├── _template/                  Entry templates
-│   ├── entries/                    Paper entries (by research direction)
-│   │   └── your_direction/         Replace with your own directions
+│   ├── entries/                    Paper entries (organized by research direction)
+│   │   └── your_direction/         Replace with your own direction
 │   │       ├── sub_direction_1/
 │   │       └── sub_direction_n/
 │   ├── concepts/                   Core concepts
 │   ├── authors/                    Researchers
 │   ├── datasets/                   Datasets
-│   ├── benchmarks/                 Benchmarks
+│   ├── benchmarks/                 Evaluation benchmarks
 │   ├── comparisons/                Method comparisons
-│   ├── syntheses/                  Synthesis overviews
-│   └── projects/                   Active projects
+│   ├── syntheses/                  Synthesized overviews
+│   └── projects/                   Ongoing projects
 │
-├── annotations/                    Close-read notes
-│   ├── _template/
-│   │   └── reading-note.md         Template for close-reading notes
+├── annotations/                    Close-reading notes
+│   ├── _template/                  Close-reading note template
 │   └── entries/                    Same structure as library/entries/
-│       └── your_direction/
+│       └── your_direction/         Replace with your own direction
 │           ├── sub_direction_1/
 │           └── sub_direction_n/
 │
-├── reviews/                        Survey papers
-│   └── templates/
-│       └── writing_constraints_template.md
+├── reviews/                        Literature reviews
+│   └── templates/                  Review templates
 │
 ├── docs/                           Project documentation
-│   ├── column/                     "四层架构" column series (Chinese)
-│   └── subscription/               Newsletter subscription
+│   ├── column/                     ReadR column series
+│   └── *                           Other docs
 │
 ├── scripts/                        Automation tools
-│   └── ReadR.ps1                   Validation & index generation
 │
 ├── CLAUDE.md                       AI assistance contract
 └── .gitignore
 ```
 
-### Four Layers in Detail
+### The Four Layers in Detail
 
-#### sources/ — Raw Material
+#### sources/ — Raw Material Layer (read-only)
 
-**Rule:** Readonly. AI must not modify.
+**Rule:** Read-only. AI must not modify it. Holds all original material.
+
+This is the paper's "archive" — all PDFs, web clippings, book chapters, and other raw material are never modified once placed here. Pair it with the RSS Dashboard plugin to auto-fetch the latest papers, and after import you can also push them to NotebookLM for further analysis (see below).
 
 ```
 sources/
-├── papers/      Academic papers, preprints (PDF)
-├── web/         Technical blogs, news
-├── books/       Book chapters, monograph excerpts
-├── talks/       Conference talks, lecture notes
-└── misc/        Other (tech reports, code docs, etc.)
+├── papers/         ← Academic paper PDFs
+├── web/             ← Web articles, blog posts
+├── books/           ← Book chapters
+├── talks/           ← Talks, lectures
+└── misc/            ← Other
 ```
 
-#### library/entries/ — Paper Entries
+#### library/ — Browse Layer (knowledge distillation)
 
-One markdown file per paper with YAML frontmatter.
-
-```yaml
----
-title: "Full Paper Title"
-authors:
-  - Last, First
-venue: "Conference/Journal (Year)"
-tags:
-  - direction/your-direction
-  - method/your-method
-  - task/your-task
-  - status/to-read          # to-read | browsed | close-read
-  - venue/abbreviation
-pdf: ../../sources/papers/paper.pdf
-doi: 10.xxxx/xxxxx
-rating: ⭐⭐⭐⭐
-annotation:                 # fill after close-reading
-concepts: []                # linked concepts
-authors_related: []         # linked researchers
-datasets: []                # linked datasets
-benchmarks: []              # linked benchmarks
----
-```
-
-**Naming:** `Short Title (Venue Year).md`, e.g. `Attention Is All You Need (NeurIPS 2017).md`.
-
-#### annotations/ — Close-Read Notes
-
-Only for papers with `status: close-read`. One folder per paper. *(AI-assisted generation available; figures, tables, and formulas interleaved inline.)*
+This is the paper's "library" — every paper has a corresponding markdown entry in `entries/`, while knowledge distilled during browsing is written to separate subdirectories and cross-linked via wiki-links.
 
 ```
-annotations/entries/your-direction/
-└── Paper Name (Venue Year)/
-    ├── index.md              ← Full close-read note
-    ├── attachments/          ← Figures (fig-01.png style)
-    └── code/                 ← Code notes (optional)
+library/
+├── _index.md                          ← Master index (auto-generated)
+├── _template/                          ← Entry templates
+│   ├── library-entry.md              Paper entry
+│   ├── concept.md                    Concept note
+│   ├── author.md                     Researcher profile
+│   ├── dataset.md                    Dataset
+│   ├── benchmark.md                  Benchmark
+│   ├── comparison.md                 Method comparison
+│   ├── synthesis.md                  Synthesized overview
+│   └── project.md                    Project progress
+├── entries/your_direction/            ← Paper entries (organized by research direction)
+│   ├── sub_direction_1/
+│   └── sub_direction_n/
+├── concepts/                           ← Core concepts
+├── authors/                            ← Researcher profiles
+├── datasets/                           ← Dataset descriptions
+├── benchmarks/                         ← Evaluation benchmarks
+├── comparisons/                        ← Method comparisons
+├── syntheses/                          ← Synthesized overviews (written after 3+ papers)
+└── projects/                           ← Ongoing projects
 ```
 
-#### reviews/ — Survey Papers
+#### annotations/ — Close-Reading Layer
 
-Final output. Multiple formats supported.
+**Rule:** Only create a close-reading note for papers with `status: close-read`. One folder per paper.
+
+This is the paper's "reading notes" — after a line-by-line close read, the paper's argument logic, experimental design, formula derivations, and figure/table interpretations are recorded as structured notes.
 
 ```
-reviews/your-survey/
-├── outline.md
-├── references.bib
-├── survey.md
-├── survey.pdf
-└── survey.tex
+annotations/
+├── _template/                          ← Close-reading note template
+│   └── reading-note.md                ← Figure/table/formula embedding conventions
+└── entries/your_direction/            ← Same sub-direction structure as library
+    ├── sub_direction_1/
+    └── sub_direction_n/
+```
+
+#### reviews/ — Review Layer
+
+**This is the final output of the entire workflow.** It aggregates all papers within a sub-direction, combines knowledge from `concepts/`, `syntheses/`, and `comparisons/`, and produces a formal literature review.
+
+```
+reviews/
+├──  templates/                        ← Review templates
+│   └── writing_constraints_template.md  ← Writing constraints
+└── your_survey/                       ← Your review article
 ```
 
 #### docs/ — Project Documentation
 
-Supplementary documentation that supports the vault's methodology.
+Holds supporting documents for the vault's methodology, including the column series and literature review write-ups.
 
 ```
 docs/
-├── column/                    "四层架构" column series (Chinese)
-│   ├── 00-开篇词-为什么你的文献库读完就是坟场.md
-│   ├── 01-四层架构-给论文管理设计一套读写权限.md
-│   ├── 02-元数据设计-YAML与wiki-link拓扑.md
-│   ├── 03-人机分工-AI能做什么不能做什么.md
-│   ├── 04-知识沉淀的最小动作-从浏览到精读.md
-│   └── 05-工具化-封装成可复用的AgentSkill.md
-├── literature-review/         Academic literature review & background
-└── subscription/              Newsletter subscription
+├── column/                             ← "Four-Layer Architecture" column series (Chinese)
+│   ├── 00-开篇词-为什么你的文献库读完就是坟场.md    ← Pain-point analysis
+│   ├── 01-四层架构-给论文管理设计一套读写权限.md    ← Four-layer permission design
+│   ├── 02-元数据设计-YAML与wiki-link拓扑.md       ← Metadata and link topology
+│   ├── 03-人机分工-AI能做什么不能做什么.md         ← Human-AI division of labor
+│   ├── 04-知识沉淀的最小动作-从浏览到精读.md        ← Minimal knowledge-distillation actions
+│   ├── 05-工具化-封装成可复用的AgentSkill.md       ← Packaging as a reusable Agent Skill
+│   ├── 加餐-.md
+│   ├── 加餐-ReadR三次迭代都做了什么.md
+│   └── 专栏细纲-AI时代的科研文献管理实战.md         ← Column outline
+└── images/                             ← Column illustrations
 ```
 
 #### scripts/ — Automation Tools
 
-A PowerShell script (`ReadR.ps1`) for vault maintenance:
-- **Validation** (`-Validate`) — checks YAML frontmatter, required fields, and wiki-link integrity
-- **Index update** (`-UpdateIndex`) — auto-generates `library/_index.md` with paper counts and reading status
+```
+scripts/
+└── ReadR.ps1                           ← Validation (-Validate) and index update (-UpdateIndex)
+```
 
 ---
 
@@ -204,51 +208,97 @@ sources/     library/      annotations/    reviews/
   │             │              │              │
   ▼             ▼              ▼              ▼
 ┌──────┐   ┌──────────┐   ┌─────────┐   ┌──────────┐
-│INgest│──▶│  Browse  │──▶│CloseRead│──▶│  Review   │
-│      │   │          │   │         │   │          │
+│Ingest│──▶│  Browse  │──▶│CloseRead│──▶│  Review   │
 └──────┘   └─────┬────┘   └─────────┘   └──────────┘
                  │
                  ▼
-             concepts/         ← deposited during browsing
+             concepts/         ← distilled alongside browsing
              authors/
              datasets/
              benchmarks/
              comparisons/
-             syntheses/        ← write after 3+ papers
+             syntheses/        ← written after 3+ papers accumulate in a sub-direction
              projects/
 ```
 
-### 1. INGEST
-
-Download PDF → place in `sources/papers/` → create entry in `library/entries/` with YAML frontmatter and `status: to-read`.
-
-### 2. BROWSE (with deposition)
-
-Read abstract & intro → write summary → tag → set `status: browsed`.
-
-While browsing, deposit knowledge:
-- New concept → `library/concepts/`
-- New researcher → `library/authors/`
-- Dataset / benchmark → `library/datasets/` or `library/benchmarks/`
-- Related methods → `library/comparisons/` (comparison table)
-- 3+ papers in a sub-direction → `library/syntheses/` (synthesis)
-- Project relevance → `library/projects/`
-
-> **AI can assist with:** extracting concepts, researchers, datasets, benchmarks; generating comparison tables; drafting synthesis overviews.
-
-### 3. CLOSE-READ
-
-Line-by-line reading → create annotation folder in `annotations/entries/` → update the library entry's `annotation:` path and set `status: close-read`.
-
-> **AI can assist with:** generating close-read notes from the template, with figures, tables, and formulas explained inline. (See `annotations/_template/reading-note.md`)
-
-### 4. REVIEW
-
-Synthesize all papers in a sub-direction → consult `concepts/`, `syntheses/`, `comparisons/` → write a formal survey in `reviews/`.
+**Core principle:** A paper's full lifecycle proceeds strictly through these stages, with no skipping. Each stage has a clear input, action, and output.
 
 ---
 
-## Wiki Link Topology
+### 1️⃣ INGEST
+
+**Input:** A paper you want to read (can be imported via the Obsidian RSS plugin)
+
+**Actions:**
+1. Download the paper PDF into `sources/papers/`
+2. Create a paper entry in the corresponding sub-direction under `library/entries/`, using the `library/_template/` template as a reference
+3. Fill in the YAML frontmatter (title, authors, venue, DOI, tags) and set `status: to-read`
+4. (Optional) Sync-import into NotebookLM for AI-assisted analysis later
+
+**Output:** A PDF in `sources/papers/`; an entry in `library/entries/` with status `to-read`
+
+---
+
+### 2️⃣ BROWSE (with knowledge distillation)
+
+While browsing a paper, distill the knowledge you gain into the relevant library subdirectories.
+
+**Actions:**
+1. Read the title, abstract, introduction, and conclusion
+2. Add a summary to the paper entry, tag it, and set `status: browsed`
+3. **Distill knowledge** into the following subdirectories, linked to the entry via wiki-links:
+
+   | Knowledge type | Location | Notes |
+   |---------|---------|------|
+   | Core concepts | `library/concepts/` | Definitions, explanations, relations to existing concepts |
+   | Researchers | `library/authors/` | Name, affiliation, research direction, representative works |
+   | Datasets | `library/datasets/` | Name, scale, source, use case |
+   | Benchmarks | `library/benchmarks/` | Metrics, comparison methods, results |
+   | Comparable methods | `library/comparisons/` | Comparison tables, filled in as more papers accumulate |
+   | Synthesized overview | `library/syntheses/` | Written after 3+ papers accumulate in the same sub-direction |
+   | Project relevance | `library/projects/` | Note the paper's relevance to your current research project |
+
+> **AI can help with:** extracting concepts, researchers, datasets, and benchmarks; generating method-comparison tables; drafting synthesized overviews.
+
+**Output:** Paper entry status set to `browsed`; related knowledge written into `concepts/`, `authors/`, `datasets/`, `benchmarks/`, etc.
+
+---
+
+### 3️⃣ CLOSE-READ
+
+**Input:** A paper that has been browsed (`status: browsed`) and is worth a close read
+
+**Actions:**
+1. Create a close-reading folder for the paper under the appropriate sub-direction in `annotations/entries/`
+2. Write the close-reading note following the `annotations/_template/reading-note.md` template, covering:
+   - Research motivation and problem definition
+   - Method details (including formula derivations)
+   - Experimental setup and results analysis (including figure/table interpretation)
+   - Core conclusions and limitations
+   - Personal assessment and reflection
+3. Update the `annotation:` field in the library entry to point to the close-reading note
+4. Set `status: close-read`
+
+> **AI can help with:** generating a first draft of the close-reading note from the template, though embedding and explaining figures/tables/formulas still requires manual work.
+
+**Output:** A close-reading note under `annotations/entries/`; paper entry status set to `close-read`
+
+---
+
+### 4️⃣ REVIEW
+
+**Input:** Multiple papers (both browsed and closely read) accumulated in the same sub-direction
+
+**Actions:**
+1. Review the distilled knowledge in `concepts/`, `syntheses/`, and `comparisons/`
+2. Create a review folder under `reviews/` and plan an outline
+3. Synthesize all the papers into a formal review
+
+> **AI can help with:** generating a report draft via NotebookLM (`notebooklm generate report`), which you download as Markdown and polish by hand.
+
+**Output:** A review article under `reviews/` (survey.md / survey.pdf / survey.tex)
+
+---
 
 ```
 library/entries/paper.md ──→ annotations/entries/paper/index.md
@@ -259,50 +309,52 @@ library/entries/paper.md ──→ annotations/entries/paper/index.md
          ├──→ library/benchmarks/   │
          └──→ library/comparisons/  │
                                     │
-                └───────────────────┘
+                ┌───────────────────┘
                 ▼
          reviews/review.md ──→ library/syntheses/
 ```
 
-- **Paper entry → concepts/authors/data/benchmarks/comparisons**: each paper links to multiple knowledge nodes
-- **Concepts ↔ Authors**: bidirectional links between concepts and their proposers
-- **Close-read notes → paper entry**: annotations deepen the entry, linked via the `annotation:` field
-- **Survey → Synthesis**: reviews reference syntheses, syntheses reference entries
+- **Paper entry → concepts/authors/datasets/benchmarks/comparisons**: one paper links to multiple knowledge nodes
+- **Concepts ↔ Authors**: who proposed this concept? bidirectional link
+- **Close-reading note → Paper entry**: close reading deepens the entry, linked via the `annotation:` field
+- **Review → Synthesis**: reviews cite syntheses/, and syntheses/ cite entries/
 
 ---
 
 ## Comparison with llm-wiki
 
-| Dimension         | llm-wiki (Karpathy)          | ReadR                                     |
-| ----------------- | ---------------------------- | ----------------------------------------- |
-| **Target user**   | AI Agent (human reviews)     | Human researcher (AI assists)             |
-| **Knowledge unit**| Articles, videos, notes, docs| Academic papers                           |
-| **Layer architecture**| raw/ → wiki/ → schema   | sources/ → library/ + annotations/ → reviews/ |
-| **Immutable layer**| raw/                      | sources/ (PDFs/clippings)                 |
-| **Knowledge layer**| wiki/ (AI-maintained)    | library/ (human-curated)                  |
-| **Close-read layer**| None                     | annotations/ (independent notes)          |
-| **Output layer**  | None (wiki is the output)    | reviews/ (publishable surveys)            |
-| **Primary author**| AI Agent                    | Human                                     |
-| **Status model**  | active / stale / archived    | to-read / browsed / close-read            |
-| **Metadata**      | Generic frontmatter          | Academic (authors/venue/DOI/rating)       |
-| **Synthesis**     | AI auto-updates overviews    | Human writes syntheses/ → reviews/        |
-| **End goal**      | Knowledge accumulation       | Knowledge accumulation → survey output    |
+| Dimension | llm-wiki (Karpathy) | ReadR |
+| -------- | ------------------------- | --------------------------------------------- |
+| **Target user** | AI agent (human-reviewed) | Human researcher (AI-assisted) |
+| **Knowledge unit** | Articles, videos, notes, documents | Academic papers (primarily) |
+| **Layer architecture** | raw/ → wiki/ → schema | sources/ → library/ + annotations/ → reviews/ |
+| **Immutable layer** | raw/ (full text/video/notes) | sources/ (PDFs/clippings) |
+| **Knowledge layer** | wiki/ (concepts/entities/synthesis maintained by AI) | library/ (entries/concepts/entities curated by humans) |
+| **Close-reading layer** | None (wiki/sources include summaries) | annotations/ (dedicated close-reading notes) |
+| **Output layer** | None (wiki itself is the output) | reviews/ (publishable literature reviews) |
+| **Primary author** | AI agent | Human |
+| **Status management** | active / stale / archived | to-read / browsed / close-read |
+| **Metadata** | Generic frontmatter | Academic-specific (authors/venue/DOI/rating) |
+| **Synthesis mechanism** | AI auto-updates overviews | Humans write syntheses/ → reviews/ |
+| **Ultimate goal** | Knowledge accumulation (the wiki is the endpoint) | Knowledge accumulation → review output |
 
-### Core Differences
+### Key Design Differences
 
-llm-wiki treats the LLM as a "knowledge compiler" — you feed raw materials, the AI maintains the wiki. ReadR puts **humans** at the center; AI is an assistant, not the author.
+llm-wiki treats the LLM as a "knowledge compiler" — you feed it raw material and the AI automatically maintains the wiki. Its innovation is turning the LLM from "re-retrieving every time" into "incremental compilation," letting knowledge compound over time.
 
-1. **Close-read layer** — llm-wiki has no equivalent. Machine summaries can't replace line-by-line human reading of derivations, experiments, and ablations.
-2. **Survey layer** — llm-wiki's wiki is the endpoint. In research, the endpoint is a publishable survey.
-3. **Entity splitting** — llm-wiki uses a single `entities/`. Research needs distinct entity types for researchers, datasets, and benchmarks.
+ReadR puts the **human** at the center. AI is an assistant, not the owner. The differences show up in:
 
-### What We Borrowed
+1. **The close-reading layer** — llm-wiki has no equivalent. Machines can summarize, but a paper's formula derivations, experimental analysis, and ablation studies require a human to read and write line by line
+2. **The review layer** — llm-wiki's wiki is itself the endpoint. In research, the endpoint is a publishable survey, which requires a human to synthesize dozens of papers into a point of view
+3. **Entity separation** — llm-wiki uses a unified entities/ folder for people/organizations/products. In a research context, researchers / datasets / benchmarks are three distinct entity types, each with different query dimensions
 
-- **Layer separation** — `sources/` (immutable) vs `library/` (your understanding)
-- **Incremental compilation** — browse once, accumulate forever
-- **Wiki-link topology** — bidirectional links across concepts/authors/comparisons
-- **CLAUDE.md contract** — encode rules so AI behaves consistently
-- **Convention over configuration** — YAML schema, tag system, naming conventions
+### Borrowed Ideas
+
+- **Layer separation** — sources/ (immutable) is strictly separated from library/ (your understanding)
+- **Incremental compilation** — each paper is browsed only once; concepts/entities/comparisons accumulate continuously
+- **Wiki-link topology** — bidirectional links between concepts/ ↔ authors/ ↔ comparisons/
+- **The CLAUDE.md contract** — encoding all rules so AI behavior stays consistent
+- **Convention over configuration** — YAML schema, tagging system, naming conventions
 
 ---
 
@@ -312,167 +364,395 @@ llm-wiki treats the LLM as a "knowledge compiler" — you feed raw materials, th
 
 - [Obsidian](https://obsidian.md/) or any Markdown editor
 - (Optional) [Claude Code](https://claude.ai/code) for AI assistance
+- (Optional) [NotebookLM](https://notebooklm.google.com/) for AI analysis (see [NotebookLM Integration](#notebooklm-integration-optional))
+
+### Three Steps to Get Started
+
+**Step 1: Clone and open the vault**
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/elonwoo-02/ReadR.git
 cd ReadR
-
-# 2. Open in Obsidian
 # Open Obsidian → "Open folder as vault" → select ReadR/
-
-# 3. Set up your first research direction
-mkdir -p library/entries/your-direction/your-sub-topic
-mkdir -p annotations/entries/your-direction
 ```
 
-### Getting Started
+**Step 2: Complete the full lifecycle of one paper**
 
 ```bash
-# 1. Download a paper PDF → sources/papers/
-# 2. Create an entry: cp library/_template/library-entry.md library/entries/your-direction/paper.md
-# 3. Fill in YAML frontmatter + write a summary
-# 4. As you browse, extract concepts/authors/datasets to the corresponding directories
-# 5. After close-reading, create annotations in annotations/entries/your-direction/
+# 1. INGEST — add the PDF, create the entry
+cp sources/papers/example.pdf library/entries/your-direction/
+cp library/_template/library-entry.md library/entries/your-direction/my-paper.md
+# Edit title/authors/venue/tags in the YAML, set status: to-read
+
+# 2. BROWSE — read the abstract, distill knowledge
+# Write a summary in the entry, create notes in concepts/authors/datasets/
+# Set status: browsed
+
+# 3. CLOSE-READ — close reading (optional)
+# Create a close-reading note folder under annotations/entries/your-direction/
+# Set status: close-read
+
+# 4. REVIEW — write a review (after 3+ papers accumulate)
+# Create a review folder under reviews/ and start writing
 ```
 
-### Maintenance
+**Step 3: Enable the plugins**
+
+Open Obsidian → **Settings → Community plugins**, and enable the five bundled plugins (see [Obsidian Guide → Built-in Plugins](#built-in-plugins-)).
 
 ```bash
-# Validate vault integrity
+# ReadR Dashboard requires an extra build step
+cd .obsidian/plugins/readr-dashboard/
+npm install && npm run build
+```
+
+### Routine Maintenance
+
+```bash
+# Validate vault integrity (checks YAML, required fields, wiki-links)
 pwsh scripts/ReadR.ps1 -Validate
 
-# Auto-generate library index
+# Auto-generate the library master index
 pwsh scripts/ReadR.ps1 -UpdateIndex
 ```
 
-### AI Assistance (Optional)
+### AI Assistance (optional)
 
-| Stage                             | AI can help with                                                                                                              |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **BROWSE** — knowledge deposition | Extract concepts, researchers, datasets, benchmarks; generate comparison tables; draft synthesis overviews                    |
-| **CLOSE-READ** — annotation notes | Generate notes from the template, with figures/tables/formulas explained inline (see `annotations/_template/reading-note.md`) |
+ReadR's `CLAUDE.md` already encodes the full project structure and rules, which AI tools will automatically follow. Pairing it with Claude Code or NotebookLM can speed up the following stages:
 
-The `CLAUDE.md` file contains the full project structure and rules — AI tools will follow them automatically.
+| Stage | What AI can help with |
+|------|---------------|
+| **BROWSE** — knowledge distillation | Extracting concepts, researchers, datasets, benchmarks; generating method-comparison tables; drafting synthesized overviews |
+| **CLOSE-READ** — close-reading notes | Generating a first draft from the template (figures/tables/formulas still require manual work) |
+| **REVIEW** — review writing | Generating a report draft via NotebookLM, downloaded as Markdown and polished by hand |
 
 ---
 
-## Obsidian Plugins
+## Usage Guide
 
-All five plugins are bundled in this repo under `.obsidian/plugins/`. After cloning, just open the vault in Obsidian and enable them in **Settings → Community Plugins**.
+### Obsidian Guide
 
-| Plugin | Type | Ready to use? |
-|--------|------|---------------|
-| 📊 **ReadR Dashboard** | Built-in (source) | Build required: `npm install && npm run build` |
-| 📋 **Dataview** | Community (compiled) | ✅ Yes — `main.js` included |
-| 🤖 **RealClaudian** | Community (compiled) | ✅ Yes — `main.js` included |
-| 💻 **OTerm** | Community (compiled) | ✅ Yes — `main.js` + native binaries included |
-| 📰 **RSS Dashboard** | Community (compiled) | ✅ Yes — `main.js` included |
+#### Recommended Panel Layout
 
-### ReadR Dashboard
-
-An interactive dashboard for real-time statistics, paper filtering, and activity tracking.
-
-| Feature | Description |
-|---------|-------------|
-| 📊 **Stats & Charts** | Summary cards, status distribution bar chart, direction progress bars, auto-detected knowledge gaps |
-| 🔍 **Paper Filtering** | Filter by status (To Read / Browsed / Close Read), direction, or fuzzy search by title/author |
-| ⚡ **Quick Actions** | Ribbon icon toggle, command palette (`Open ReadR Dashboard`, `New Paper Entry`), configurable auto-refresh |
-| 📝 **Activity** | Recent changes (last 7 days), todo reminders from knowledge gaps |
-
-```bash
-# Build and enable
-cd .obsidian/plugins/readr-dashboard/
-npm install && npm run build
-# Then enable in Settings → Community Plugins
+```
+┌──────────────────────────────────────────────┐
+│  Left sidebar      │  Editor     │ Right sidebar│
+│                    │             │              │
+│  ├ File list       │  Note being │  ├ Backlinks │
+│  ├ Favorites       │  edited     │  ├ Outline   │
+│  └ (collapsible)   │             │  └ Graph     │
+│                    │             │              │
+└──────────────────────────────────────────────┘
 ```
 
-### Dataview
+- **Left sidebar**: file list (browse by the four-layer directory structure), favorites (frequently used folders)
+- **Right sidebar**: Backlinks panel to view backward links, Outline panel to view heading structure
+- **Tabs**: multiple notes can be open at once; drag to split the window
 
-Query and display vault metadata — used by the dashboard for data aggregation. ([GitHub](https://github.com/blacksmithgu/obsidian-dataview))
+#### Creating Links in Obsidian
 
-### RealClaudian
+Obsidian uses `[[wiki-link]]` syntax to create bidirectional links between notes. Combined with the **Backlinks** panel in the sidebar, you can see in real time which notes reference the current page.
 
-Claude AI integration inside Obsidian — useful for AI-assisted note-taking and browsing. ([GitHub](https://github.com/oterm/realclaudian))
+**Common operations:**
 
-### OTerm
+| Scenario                               | Action                                                                                  | Effect                                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Entry references a concept             | Write `[[Self-Attention]]` in the entry's YAML `concepts:` field                        | The entry is tagged as referencing that concept; the concept page's Backlinks show this paper |
+| Entry references an author             | Write `[[Vaswani, Ashish]]` in the YAML `authors_related:` field                        | Click to jump directly to the author profile                                                  |
+| Entry references a dataset             | Write `[[WMT 2014]]` in the YAML `datasets:` field                                      | The dataset page automatically lists papers that use it                                       |
+| Concept note links an author           | Write `[[Vaswani, Ashish]]` in the concept's body text                                  | Establishes a bidirectional "who proposed this concept" link                                  |
+| Review references a synthesis          | Write `[[Transformer Synthesis]]` in the review's body text                             | One click jumps to the corresponding synthesis note                                           |
+| Close-reading note links a paper entry | Write `← See [[Attention Is All You Need (NeurIPS 2017)]]` above the close-reading note | Links the close reading and the entry together                                                |
 
-In-editor terminal for running scripts, git commands, and builds without leaving Obsidian. ([GitHub](https://github.com/oterm/oterm))
-
-### RSS Dashboard
-
-In-editor RSS reader for tracking academic papers and staying up-to-date with research. ([GitHub](https://github.com/amatya-aditya/obsidian-rss-dashboard))
+**Handy tips:**
+- Typing `[[` pops up a file search box that autocompletes by filename
+- The Backlinks panel in the right sidebar (enable it under Settings → Core plugins) shows all backward links; click to jump ![Backlinks panel](docs/demo/backlinks.png)
+- The Graph view (enable it under Settings → Core plugins) gives a visual map of all note links
+![Graph view](docs/demo/graph-view.png)
 
 ---
 
-## Recommended RSS Feeds
+#### Tips for Working with ReadR
 
-ReadR comes with the **RSS Dashboard** plugin. Here are recommended feeds for your research directions:
+1. **Create a new paper entry**: press `Ctrl+N` under the appropriate sub-direction in `library/entries/`, then fill in using a template
+2. **Quick navigation**: reference concepts/authors/datasets with `[[` in a paper entry for one-click jumps
+3. **Trace via backlinks**: on a concept page, check the right sidebar to see which papers cite that concept
+4. **Graph view**: press `Ctrl+G` to see the paper-concept-author network for an entire direction
+5. **Insert templates**: use the command palette or the Templater plugin to quickly insert template content
 
-### IEEE Transactions (Top Journals)
+#### Built-in Plugins ⭐
 
-IEEE RSS URLs follow the pattern `https://ieeexplore.ieee.org/rss/TOC{punumber}.XML`. These work in RSS readers (Feedly, RSS Dashboard, etc.) but may not load in browsers due to IEEE's bot protection.
+ReadR bundles 5 Obsidian plugins located in `.obsidian/plugins/`. Open Obsidian → **Settings → Community plugins** to enable them.
+
+| Plugin | Purpose | Works out of the box? |
+|------|------|-----------|
+| 📊 **ReadR Dashboard** | Statistics dashboard: paper distribution, reading progress, knowledge-gap detection, activity tracking | Requires build |
+| 📋 **Dataview** | Metadata query engine; the dashboard relies on it for data aggregation | ✅ Yes |
+| 🤖 **RealClaudian** | Claude AI integrated inside Obsidian to assist with notes and knowledge distillation | ✅ Yes |
+| 💻 **OTerm** | Embedded terminal for running scripts and git commands inside the editor | ✅ Yes |
+| 📰 **RSS Dashboard** | Embedded RSS reader to track academic paper updates | ✅ Yes |
+
+```bash
+# ReadR Dashboard requires an extra build step
+cd .obsidian/plugins/readr-dashboard/
+npm install && npm run build
+```
+
+**Plugin usage tips:**
+- **ReadR Dashboard**: for daily checks on reading progress and an overview of statistics; open via the sidebar icon or the command palette
+![ReadR Vault Demo](docs/demo/dashboard.png)
+- **Dataview**: runs automatically, no manual action needed; the dashboard and other queries depend on it
+- **RealClaudian**: ask Claude questions directly while browsing to assist with knowledge extraction
+![RealClaudian plugin](docs/demo/realclaudian.png)
+- **OTerm**: an embedded command-line tool inside Obsidian, no need to switch windows (you can run `pwsh scripts/ReadR.ps1 -Validate` directly inside Obsidian)
+- **RSS Dashboard**: subscribe to arXiv and IEEE RSS feeds; new papers are pushed into the vault automatically
+![RSS Dashboard plugin](docs/demo/rss-dashboard.png)
+
+---
+
+### Claude Code Guide (also works for other agent application)
+
+#### Prerequisites
+
+```bash
+# 1. Install Claude Code (install and configure it yourself)
+
+# 2. Launch it inside the project directory
+cd ReadR
+claude
+
+# 3. CLAUDE.md loads automatically
+# ReadR's CLAUDE.md already contains the full rule set, which Claude follows automatically
+```
+
+#### Typical Usage Inside ReadR
+
+**INGEST stage — assist with creating paper entries**
+
+```
+"Create an entry from this paper's PDF, using the library/_template/library-entry.md template"
+→ Claude reads the PDF and generates the YAML frontmatter and summary
+```
+
+**BROWSE stage — knowledge distillation**
+
+```
+"Extract the core concepts from this paper and write them into library/concepts/"
+"Extract author information and write it into library/authors/"
+"Generate a method-comparison table and write it into library/comparisons/"
+→ Claude fills in the corresponding templates automatically
+```
+
+**CLOSE-READ stage — draft close-reading notes**
+
+```
+"Generate a draft close-reading note for this paper following the annotations/_template/reading-note.md template"
+→ Claude generates a structured note, leaving figure/table/formula placements empty for manual completion
+```
+
+**REVIEW stage — assist with reviews**
+
+```
+"Summarize all the papers in this sub-direction and write a synthesized overview"
+→ Claude reviews the relevant entries and generates a draft synthesis
+```
+
+#### Notes
+
+- **sources/ cannot be modified** — Claude will never modify any file in sources/
+- **All edits require user confirmation** — Claude will not write to files without confirmation
+- **AI output is a draft** — concept definitions, method comparisons, close-reading notes, etc. all require human review
+- **Figures/tables/formulas** — figures, tables, and formulas in close-reading notes need to be embedded manually; AI cannot handle this automatically
+
+### NotebookLM Integration (optional)
+
+ReadR integrates deeply with [Google NotebookLM](https://notebooklm.google.com/) via the [notebooklm-py](https://github.com/teng-lin/notebooklm-py) CLI — providing programmatic access to the full range of NotebookLM's capabilities, including some not exposed in the web UI.
+
+#### Quick Start (making a slide deck for a group meeting)
+
+```bash
+# 1. Install notebooklm-py
+pip install "notebooklm-py[browser]"
+playwright install chromium
+notebooklm login
+
+# 2. Create a notebook and add papers
+notebooklm create "My Research Direction"
+notebooklm use <notebook-id>
+notebooklm source add path/to/paper.pdf
+
+# 3. Generate slides
+notebooklm generate slide-deck "Overview of this paper's core method" --wait
+notebooklm download slide-deck <artifact-id>     # → PDF or PPTX
+```
+
+#### Claude Code Integration
+
+The NotebookLM skill can be pre-installed into Claude Code:
+
+```bash
+notebooklm skill install --scope user --target claude
+```
+
+Once installed, you can invoke NotebookLM commands directly inside Claude Code via `/notebooklm` or natural language (e.g. "turn this paper into a podcast").
+
+#### Feature List
+
+| Category | Command | Function |
+|------|------|------|
+| **Source management** | `source add` | Add a source (URL / text / file / YouTube) |
+| | `source add-drive` | Add a document from Google Drive |
+| | `source add-research` | Search the web and auto-import related sources |
+| | `source list` | List all sources in the notebook |
+| | `source get` | View source details |
+| | `source fulltext` | Get the full-text index of a source |
+| | `source guide` | AI-generated source summary, keywords, and topic tags |
+| | `source refresh` | Refresh content for URL/Drive sources |
+| | `source stale` | Check whether a source needs refreshing |
+| | `source wait` | Wait for source processing to complete |
+| | `source clean` | Automatically remove duplicate/erroneous/unauthorized sources |
+| | `source rename` / `source delete` / `source delete-by-title` | Rename/delete sources |
+| **Content generation** | `generate audio` | Generate a podcast (deep-dive / brief / critique / debate) |
+| | `generate video` | Generate a video overview |
+| | `generate cinematic-video` | Generate a cinematic-style video overview |
+| | `generate slide-deck` | Generate slides (downloadable as PDF or PPTX) |
+| | `generate report` | Generate a report (briefing-doc / study-guide / blog-post / custom) |
+| | `generate data-table` | Generate a data table (downloadable as CSV) |
+| | `generate mind-map` | Generate a mind map (downloadable as JSON) |
+| | `generate infographic` | Generate an infographic (multiple styles/orientations) |
+| | `generate quiz` | Generate quiz questions (easy / medium / hard) |
+| | `generate flashcards` | Generate flashcards |
+| | `generate revise-slide` | Revise a specific slide |
+| **Content management** | `artifact list` | List all generated content |
+| | `artifact get` | View content details |
+| | `artifact suggestions` | AI-suggested topics to generate |
+| | `artifact rename` / `artifact delete` | Rename/delete generated content |
+| | `artifact retry` | Retry failed generations |
+| | `artifact export` | Export to Google Docs/Sheets |
+| | `artifact poll` / `artifact wait` | Poll/wait for generation to finish |
+| **Downloads** | `download audio` | Download the audio file |
+| | `download video` / `download cinematic-video` | Download video |
+| | `download slide-deck` | Download slides (PDF or PPTX) |
+| | `download report` | Download report (Markdown) |
+| | `download data-table` | Download data table (CSV) |
+| | `download mind-map` | Download mind map (JSON) |
+| | `download infographic` | Download infographic (image) |
+| | `download quiz` / `download flashcards` | Download quiz/flashcards |
+| **Conversation** | `ask` | Ask the notebook a question, answered based on all sources |
+| | `configure` | Configure chat persona and response style |
+| | `history` | View conversation history, save as notes |
+| **Note management** | `note create` / `note list` / `note get` | Create/view notes |
+| | `note save` / `note rename` / `note delete` | Save/rename/delete notes |
+| **Notebook management** | `create` / `list` / `delete` / `rename` | Create/list/delete/rename notebooks |
+| | `summary` | Get an AI summary of the notebook |
+| | `metadata` | Export notebook metadata and source list |
+| **Collaboration** | `share add` / `share remove` | Add/remove collaborators |
+| | `share public` | Enable or disable public link sharing |
+| | `share status` | View sharing status and user list |
+| | `share update` / `share view-level` | Change permissions / set visibility level |
+| **Language settings** | `language get` / `language list` / `language set` | View/set the language of generated content (Chinese supported) |
+
+#### Known Limitations
+
+- NotebookLM sources are **read-only** — inline annotation on source files is not possible
+- A NotebookLM notebook can hold at most 50 sources, with size limits
+- Requires an internet connection; all processing happens on Google's servers
+- Output quality depends on PDF quality — OCR'd scans perform worse
+- Generated reports are **drafts** — always review and polish before publishing
+
+---
+
+## More
+
+### Column Series ⭐
+
+The `docs/column/` directory contains a full Chinese-language column series that goes in depth on the four-layer architecture methodology:
+
+| # | Title | Topic |
+|------|------|------|
+| 00 | [Why Your Literature Library Becomes a Graveyard Once You've Read It](docs/column/00-开篇词-为什么你的文献库读完就是坟场.md) | Pain points in literature management |
+| 01 | [Four-Layer Architecture: Designing Read/Write Permissions for Paper Management](docs/column/01-四层架构-给论文管理设计一套读写权限.md) | Four-layer permission design |
+| 02 | [Metadata Design: YAML and Wiki-Link Topology](docs/column/02-元数据设计-YAML与wiki-link拓扑.md) | Metadata and link topology |
+| 03 | [Human-AI Division of Labor: What AI Can and Cannot Do](docs/column/03-人机分工-AI能做什么不能做什么.md) | Human-AI boundaries |
+| 04 | [The Minimal Action for Knowledge Distillation: From Browsing to Close Reading](docs/column/04-知识沉淀的最小动作-从浏览到精读.md) | Minimal knowledge-distillation actions |
+| 05 | [Tooling: Packaging into a Reusable Agent Skill](docs/column/05-工具化-封装成可复用的AgentSkill.md) | Tooling and Agent Skill packaging |
+
+---
+
+### RSS Feeds (for CS researchers) ⭐
+
+ReadR bundles the **RSS Dashboard** plugin. Below are recommended feeds for your research direction:
+
+#### IEEE Transactions (top journals)
+
+IEEE RSS URLs follow the format `https://ieeexplore.ieee.org/rss/TOC{punumber}.XML`. These work in RSS readers (Feedly, RSS Dashboard, etc.), but direct browser access may be blocked by IEEE's anti-scraping mechanism.
 
 | Direction | Journal | punumber | RSS |
 |---|---|---|---|
-| Vision + Pattern Recognition | **IEEE TPAMI** | 34 | `https://ieeexplore.ieee.org/rss/TOC34.XML` |
-| Computer Vision | **IEEE TIP** | 83 | `https://ieeexplore.ieee.org/rss/TOC83.XML` |
-| Recommender Systems + Data Mining | **IEEE TKDE** | 69 | `https://ieeexplore.ieee.org/rss/TOC69.XML` |
-| Neural Networks | **IEEE TNNLS** | 5962385 | `https://ieeexplore.ieee.org/rss/TOC5962385.XML` |
+| Vision + pattern recognition | **IEEE TPAMI** | 34 | `https://ieeexplore.ieee.org/rss/TOC34.XML` |
+| Computer vision | **IEEE TIP** | 83 | `https://ieeexplore.ieee.org/rss/TOC83.XML` |
+| Recommender systems + data mining | **IEEE TKDE** | 69 | `https://ieeexplore.ieee.org/rss/TOC69.XML` |
+| Neural networks | **IEEE TNNLS** | 5962385 | `https://ieeexplore.ieee.org/rss/TOC5962385.XML` |
 | Multimedia | **IEEE TMM** | 6046 | `https://ieeexplore.ieee.org/rss/TOC6046.XML` |
-| Video Processing | **IEEE TCSVT** | 76 | `https://ieeexplore.ieee.org/rss/TOC76.XML` |
+| Video processing | **IEEE TCSVT** | 76 | `https://ieeexplore.ieee.org/rss/TOC76.XML` |
 
-### ArXiv (Preprints)
+#### ArXiv (preprints)
 
 | Direction | Category | RSS |
 |---|---|---|
-| Computer Vision | cs.CV | `http://export.arxiv.org/rss/cs.CV` |
-| Recommender Systems | cs.IR | `http://export.arxiv.org/rss/cs.IR` |
-| Machine Learning | cs.LG | `http://export.arxiv.org/rss/cs.LG` |
-| Artificial Intelligence | cs.AI | `http://export.arxiv.org/rss/cs.AI` |
+| Computer vision | cs.CV | `http://export.arxiv.org/rss/cs.CV` |
+| Recommender systems | cs.IR | `http://export.arxiv.org/rss/cs.IR` |
+| Machine learning | cs.LG | `http://export.arxiv.org/rss/cs.LG` |
+| Artificial intelligence | cs.AI | `http://export.arxiv.org/rss/cs.AI` |
 | Multimedia | cs.MM | `http://export.arxiv.org/rss/cs.MM` |
 
-### Curated
+#### Curated Sources
 
-| Source | RSS | What it's good for |
+| Source | RSS | Highlights |
 |---|---|---|
 | **Papers With Code** | `https://paperswithcode.com/.rss` | Papers with code implementations and benchmark results |
-| **Google AI Blog** | `https://blog.google/technology/ai/rss/` | Google DeepMind research highlights |
+| **Google AI Blog** | `https://blog.google/technology/ai/rss/` | Google DeepMind research updates |
 
-### Recommended Setup
+#### Recommended Subscription Plans
 
-| Goal | Feeds to subscribe |
+| Goal | Subscribe to |
 |---|---|
-| **Daily scan (core directions)** | TPAMI + TIP + TKDE (IEEE) + cs.CV + cs.IR (ArXiv) |
-| **Code-focused filtering** | Papers With Code |
-| **Conference season** | Add cs.LG + cs.AI for broader coverage |
+| **Daily skim (core direction)** | TPAMI + TIP + TKDE (IEEE) + cs.CV + cs.IR (ArXiv) |
+| **Only code-backed papers** | Papers With Code |
+| **Extra coverage during conference season** | Add cs.LG + cs.AI for broader coverage |
 
-> 💡 **Tip:** With IEEE RSS you get top-tier journal papers by default. For code availability, cross-reference with Papers With Code.
-
----
-
-## Documentation
-
-The `docs/` directory contains a complete Chinese column series explaining the four-layer architecture methodology:
-
-| Article | Title | Topic |
-| ------- | ----- | ----- |
-| 00 | [为什么你的文献库读完就是坟场](docs/column/00-开篇词-为什么你的文献库读完就是坟场.md) | Why libraries become graveyards |
-| 01 | [四层架构：给论文管理设计一套读写权限](docs/column/01-四层架构-给论文管理设计一套读写权限.md) | Four-layer access control design |
-| 02 | [元数据设计：YAML与wiki-link拓扑](docs/column/02-元数据设计-YAML与wiki-link拓扑.md) | Metadata & wiki-link topology |
-| 03 | [人机分工：AI能做什么不能做什么](docs/column/03-人机分工-AI能做什么不能做什么.md) | Human-AI division of labor |
-| 04 | [知识沉淀的最小动作：从浏览到精读](docs/column/04-知识沉淀的最小动作-从浏览到精读.md) | Minimal knowledge deposition |
-| 05 | [工具化：封装成可复用的AgentSkill](docs/column/05-工具化-封装成可复用的AgentSkill.md) | Tooling — reusable Agent Skills |
+> 💡 **Tip:** IEEE RSS feeds are, by default, all top-journal papers. To check whether code is available, cross-reference with Papers With Code.
 
 ---
 
 ## Acknowledgments
 
-- [**Karpathy's LLM Wiki**](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — source of inspiration for layer separation and incremental compilation
-- [**llm-wiki**](https://github.com/nashsu/llm_wiki) — practical reference for AI-assisted knowledge base management
+### Design Inspiration
+
+- [**Karpathy's LLM Wiki**](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — inspiration for layer separation and incremental compilation
+- [**llm-wiki**](https://github.com/nashsu/llm_wiki.git) — practical reference for AI-assisted knowledge base management
+
+### Core Tools
+
+- [**Obsidian**](https://obsidian.md/) — knowledge base platform underpinning the vault's wiki-link topology and plugin ecosystem
+- [**Claude Code**](https://claude.ai/code) — AI-assisted coding and knowledge distillation
+- [**NotebookLM**](https://notebooklm.google.com/) / [**notebooklm-py**](https://github.com/teng-lin/notebooklm-py) — AI-driven paper analysis and report generation
+- [**Git**](https://git-scm.com/) / [**GitHub**](https://github.com/) — version control and project hosting
+
+### Obsidian Plugins
+
+- [**Dataview**](https://github.com/blacksmithgu/obsidian-dataview) — metadata query engine
+- [**RealClaudian**](https://github.com/oterm/realclaudian) — Claude AI integration inside Obsidian
+- [**OTerm**](https://github.com/oterm/oterm) — embedded terminal
+- [**RSS Dashboard**](https://github.com/amatya-aditya/obsidian-rss-dashboard) — embedded RSS reader
+
+### Other
+
+- [**PowerShell**](https://github.com/PowerShell/PowerShell) — scripting automation
+- All contributors and users — feedback and suggestions that keep driving the project forward
 
 ---
 
 ## License
 
-MIT © 2026 Elon Woo — see [LICENSE](LICENSE)
+MIT © 2026 Elon Woo — see [LICENSE](LICENSE) for details

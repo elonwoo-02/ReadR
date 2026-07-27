@@ -4,7 +4,7 @@
       "title": " IEEE Transactions on Knowledge and Data Engineering - new TOC ",
       "url": "https://ieeexplore.ieee.org/rss/TOC69.XML",
       "folder": "RSS",
-      "lastUpdated": 1785075289910,
+      "lastUpdated": 1785121224949,
       "autoDeleteDuration": 180,
       "maxItemsLimit": 50,
       "scanInterval": 0,
@@ -55,7 +55,7 @@
     }
   ],
   "refreshInterval": 60,
-  "lastRefreshTimestamp": 1785075289912,
+  "lastRefreshTimestamp": 1785121224951,
   "startupRefreshDelaySeconds": 5,
   "maxItems": 50,
   "defaultAutoDeleteDuration": 30,
@@ -267,6 +267,6 @@
   "metadataStorageMode": "plugin-default",
   "metadataStorageFolder": ".rss-dashboard-data",
   "metadataStorageSchemaVersion": 1,
-  "_syncNonce": "1785075289918-63",
-  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
+  "_syncNonce": "1785121225036-2",
+  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
 }
