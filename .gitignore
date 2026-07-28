@@ -1,3 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+AGENTS.md
+.idea
+.mcp.json
+.claudian
+.claude/
+.workbuddy/
+.rss-dashboard-data/
+
 # Obsidian local config and cache (do not share personal settings)
 .obsidian/*
 # Exception: our custom plugin source
@@ -5,59 +18,40 @@
 !.obsidian/plugins/dataview/
 !.obsidian/plugins/oterm/
 !.obsidian/plugins/realclaudian/
-# Note: rss-dashboard is force-added (line 2 prevents negation)
-# Exception: our custom plugin source
-.agent
-.agents
-AGENTS.md
-.idea
-.mcp.json
-.claudian
-.claude/
-
-# RSS Dashboard cache
-.rss-dashboard-data/
 
 # Generated / project-level docs (do not track generated files)
 docs/*
 !docs/column/
 !docs/demo.png
-docs/plan.md
-docs/specs.md
-docs/literature-review/
-!docs/demo.png
+!docs/readr-logo.svg
+
+
+# your research vault 
 
 # Source materials (files under subdirectories are ignored individually)
-sources/*/*
-
-# OS files
-.DS_Store
-Thumbs.db
-Desktop.ini
-
-# WorkBuddy
-.workbuddy/
-
 # PDFs are large; excluded from version control by default
 # To track: remove lines below or use `git add -f`
 
-# AI-Generated entries (not for version control)
+sources/*/*
+!sources/Vaswani et al. - 2023 - Attention Is All You Need.pdf
+!sources/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
+
+# library（do not push your works to open platform）
+library/*/*
+!library/_template
+!library/*/readme.md
+!library/entries/your_direction
+!library/entries/cv
+!library/entries/nlp
 library/entries/nlp/*
+!library/entries/nlp/Attention Is All You Need (NeurIPS 2017).md
 
-# AI-Generated browse phase assets (TCR-QF paper)
-library/concepts/Triple Context Restoration (TCR).md
-library/concepts/Query-Driven Feedback (QF).md
-library/concepts/GraphRAG.md
-library/concepts/Information Sparsity.md
-library/concepts/Context Loss.md
-library/authors/Huang, Manzong.md
-library/authors/Bu, Chenyang.md
-library/authors/He, Yi.md
-library/authors/Wu, Xindong.md
-library/datasets/2WikiMultiHopQA.md
-library/datasets/HotpotQA.md
-library/datasets/ConcurrentQA.md
-library/datasets/MuSiQue.md
+# annotations（do not push your works to open platform）
+annotations/*
+!annotations/_template
+!annotations/your_direction
+!annotations/cv
 
-# AI-Generated close-read phase (TCR-QF paper)
-annotations/entries/nlp/knowledge-graph/kg-augmented-llm/
+# literature review（do not push your works to open platform）
+reviews/*
+!reviews/templates

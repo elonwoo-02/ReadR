@@ -20,9 +20,9 @@
 
 ### nlp
 
-| Paper | Venue | Status |
-| --- | --- | --- |
-| [[library/entries/your_direction/sub_direction_1/Attention Is All You Need (NeurIPS 2017)|Attention Is All You Need]] | NeurIPS 2017 | browsed |
+| Paper                                                                                     | Venue                       | Status       |         |
+| ----------------------------------------------------------------------------------------- | --------------------------- | ------------ | ------- |
+| [[library/entries/your_direction/sub_direction_1/Attention Is All You Need (NeurIPS 2017) | Attention Is All You Need]] | NeurIPS 2017 | browsed |
 
 ## Research Asset Counts
 
