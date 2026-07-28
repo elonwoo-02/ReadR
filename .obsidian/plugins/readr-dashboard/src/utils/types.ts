@@ -13,28 +13,26 @@ export interface PaperEntry {
   authors: string[];
   /** Venue string */
   venue: string;
-  /** Tags array */
-  tags: string[];
-  /** PDF path relative to vault */
-  pdf?: string;
+  /** Method field */
+  method: string;
+  /** Task field */
+  task: string;
+  /** Reading status */
+  status: PaperStatus;
+  /** Research direction */
+  direction: string;
+  /** Source path relative to vault */
+  source?: string;
   /** DOI string */
   doi?: string;
-  /** Rating stars */
-  rating?: string;
   /** Annotation path */
-  annotation?: string;
+  annotation_path?: string;
   /** Linked concept wiki-links */
   concepts?: string[];
-  /** Linked author wiki-links */
-  authors_related?: string[];
   /** Linked dataset wiki-links */
   datasets?: string[];
   /** Linked benchmark wiki-links */
   benchmarks?: string[];
-  /** Extracted reading status */
-  status: PaperStatus;
-  /** Extracted direction tags */
-  directions: string[];
   /** File modification time */
   mtime: number;
   /** File creation time */
@@ -66,7 +64,7 @@ export interface DashboardStats {
 
 /** Knowledge gap item */
 export interface KnowledgeGap {
-  type: "missing-pdf" | "no-concepts" | "no-annotation" | "needs-synthesis";
+  type: "missing-source" | "no-concepts" | "no-annotation" | "needs-synthesis";
   label: string;
   papers: { path: string; name: string; title: string }[];
   count: number;
@@ -77,7 +75,6 @@ export interface FilterOptions {
   status: PaperStatus | "all";
   direction: string | "all";
   search: string;
-  minRating: number;
 }
 
 /** Recent activity item */

@@ -10,23 +10,17 @@ authors:
   - Kaiser, Łukasz
   - Polosukhin, Illia
 venue: "NeurIPS 2017"
-tags:
-  - direction/nlp
-  - method/transformer
-  - task/translation
-  - status/browsed
-  - venue/NeurIPS
-pdf: ../../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
+method: "Transformer"
+task: "Machine Translation"
+status: browsed
+direction: nlp
+source: ../../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
 doi: ""
-rating: ⭐⭐⭐⭐⭐
-annotation:
+annotation_path: ""
 concepts:
   - Self-Attention
   - Multi-Head Attention
   - Transformer
-authors_related:
-  - Vaswani, Ashish
-  - Shazeer, Noam
 datasets:
   - WMT 2014
 benchmarks:

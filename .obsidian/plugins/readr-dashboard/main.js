@@ -34,20 +34,13 @@ var import_obsidian = require("obsidian");
 
 // src/utils/constants.ts
 var VIEW_TYPE_DASHBOARD = "readr-dashboard";
-var DIRECTION_PREFIX = "direction/";
 var STATUS_MAP = {
-  "to-read": { tag: "status/to-read", label: "To Read", color: "var(--color-blue)", order: 0 },
-  browsed: { tag: "status/browsed", label: "Browsed", color: "var(--color-green)", order: 1 },
-  "close-read": { tag: "status/close-read", label: "Close Read", color: "var(--color-purple)", order: 2 },
-  reviewed: { tag: "status/reviewed", label: "Reviewed", color: "var(--color-orange)", order: 3 }
+  "to-read": { tag: "to-read", label: "To Read", color: "var(--color-blue)", order: 0 },
+  browsed: { tag: "browsed", label: "Browsed", color: "var(--color-green)", order: 1 },
+  "close-read": { tag: "close-read", label: "Close Read", color: "var(--color-purple)", order: 2 },
+  reviewed: { tag: "reviewed", label: "Reviewed", color: "var(--color-orange)", order: 3 }
 };
 var ALL_STATUSES = ["to-read", "browsed", "close-read", "reviewed"];
-var TAG_TO_STATUS = {
-  "status/to-read": "to-read",
-  "status/browsed": "browsed",
-  "status/close-read": "close-read",
-  "status/reviewed": "reviewed"
-};
 var DEFAULT_REFRESH_INTERVAL = 3e5;
 var MAX_ACTIVITY_ITEMS = 10;
 var RECENT_ACTIVITY_DAYS = 7;
@@ -59,12 +52,6 @@ var ASSET_PATHS = {
   datasets: '"library/datasets"',
   benchmarks: '"library/benchmarks"'
 };
-function parseRating(rating) {
-  if (!rating)
-    return 0;
-  const stars = rating.match(/★/g);
-  return stars ? stars.length : 0;
-}
 
 // src/data/DataService.ts
 var DataService = class {
@@ -95,16 +82,16 @@ var DataService = class {
   getPapersByStatus(status) {
     return this.getAllPapers().filter((p) => p.status === status);
   }
-  /** Get papers filtered by direction tag */
+  /** Get papers filtered by direction */
   getPapersByDirection(direction) {
-    return this.getAllPapers().filter((p) => p.directions.includes(direction));
+    return this.getAllPapers().filter((p) => p.direction === direction);
   }
   /** Get papers matching filter options */
   getFilteredPapers(filters) {
     return this.getAllPapers().filter((p) => {
       if (filters.status !== "all" && p.status !== filters.status)
         return false;
-      if (filters.direction !== "all" && !p.directions.includes(filters.direction))
+      if (filters.direction !== "all" && p.direction !== filters.direction)
         return false;
       if (filters.search) {
         const q = filters.search.toLowerCase();
@@ -113,8 +100,6 @@ var DataService = class {
         if (!matchTitle && !matchAuthor)
           return false;
       }
-      if (filters.minRating > 0 && parseRating(p.rating) < filters.minRating)
-        return false;
       return true;
     });
   }
@@ -131,8 +116,8 @@ var DataService = class {
     const byDirection = {};
     for (const p of papers) {
       byStatus[p.status] = ((_a = byStatus[p.status]) != null ? _a : 0) + 1;
-      for (const d of p.directions) {
-        byDirection[d] = ((_b = byDirection[d]) != null ? _b : 0) + 1;
+      if (p.direction) {
+        byDirection[p.direction] = ((_b = byDirection[p.direction]) != null ? _b : 0) + 1;
       }
     }
     return {
@@ -146,15 +131,15 @@ var DataService = class {
   getKnowledgeGaps() {
     const papers = this.getAllPapers();
     const gaps = [];
-    const missingPdf = papers.filter((p) => !p.pdf).map((p) => ({ path: p.path, name: p.name, title: p.title }));
-    if (missingPdf.length > 0) {
-      gaps.push({ type: "missing-pdf", label: "Missing PDF Field", papers: missingPdf, count: missingPdf.length });
+    const missingSource = papers.filter((p) => !p.source).map((p) => ({ path: p.path, name: p.name, title: p.title }));
+    if (missingSource.length > 0) {
+      gaps.push({ type: "missing-source", label: "Missing Source Field", papers: missingSource, count: missingSource.length });
     }
     const noConcepts = papers.filter((p) => p.status === "browsed" && (!p.concepts || p.concepts.length === 0)).map((p) => ({ path: p.path, name: p.name, title: p.title }));
     if (noConcepts.length > 0) {
       gaps.push({ type: "no-concepts", label: "Browsed Without Concepts", papers: noConcepts, count: noConcepts.length });
     }
-    const noAnnotation = papers.filter((p) => p.status === "close-read" && !p.annotation).map((p) => ({ path: p.path, name: p.name, title: p.title }));
+    const noAnnotation = papers.filter((p) => p.status === "close-read" && !p.annotation_path).map((p) => ({ path: p.path, name: p.name, title: p.title }));
     if (noAnnotation.length > 0) {
       gaps.push({ type: "no-annotation", label: "Close-Read Without Annotation", papers: noAnnotation, count: noAnnotation.length });
     }
@@ -192,12 +177,12 @@ var DataService = class {
     }).sort((a, b) => b.timestamp - a.timestamp).slice(0, MAX_ACTIVITY_ITEMS);
     return activities;
   }
-  /** Get all unique direction tags */
+  /** Get all unique directions */
   getAllDirections() {
     const dirs = /* @__PURE__ */ new Set();
     for (const p of this.getAllPapers()) {
-      for (const d of p.directions) {
-        dirs.add(d);
+      if (p.direction) {
+        dirs.add(p.direction);
       }
     }
     return [...dirs].sort();
@@ -223,30 +208,27 @@ var DataService = class {
   }
   /** Convert a Dataview page object to PaperEntry */
   toPaperEntry(page) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w;
     try {
-      const tags = (_a = page.tags) != null ? _a : [];
-      const status = this.extractStatus(tags) || "to-read";
-      const directions = this.extractDirections(tags);
+      const status = (_a = this.parseStatus(page.status)) != null ? _a : "to-read";
       return {
         path: (_c = (_b = page.file) == null ? void 0 : _b.path) != null ? _c : "",
         name: (_e = (_d = page.file) == null ? void 0 : _d.name) != null ? _e : "",
         title: (_h = (_g = page.title) != null ? _g : (_f = page.file) == null ? void 0 : _f.name) != null ? _h : "",
         authors: (_i = page.authors) != null ? _i : [],
         venue: (_j = page.venue) != null ? _j : "",
-        tags,
-        pdf: (_k = page.pdf) != null ? _k : void 0,
-        doi: (_l = page.doi) != null ? _l : void 0,
-        rating: (_m = page.rating) != null ? _m : void 0,
-        annotation: (_n = page.annotation) != null ? _n : void 0,
-        concepts: (_o = page.concepts) != null ? _o : [],
-        authors_related: (_p = page.authors_related) != null ? _p : [],
-        datasets: (_q = page.datasets) != null ? _q : [],
-        benchmarks: (_r = page.benchmarks) != null ? _r : [],
+        method: (_k = page.method) != null ? _k : "",
+        task: (_l = page.task) != null ? _l : "",
         status,
-        directions,
-        mtime: (_t = (_s = page.file) == null ? void 0 : _s.mtime) != null ? _t : 0,
-        ctime: (_v = (_u = page.file) == null ? void 0 : _u.ctime) != null ? _v : 0
+        direction: (_m = page.direction) != null ? _m : "",
+        source: (_n = page.source) != null ? _n : void 0,
+        doi: (_o = page.doi) != null ? _o : void 0,
+        annotation_path: (_p = page.annotation_path) != null ? _p : void 0,
+        concepts: (_q = page.concepts) != null ? _q : [],
+        datasets: (_r = page.datasets) != null ? _r : [],
+        benchmarks: (_s = page.benchmarks) != null ? _s : [],
+        mtime: (_u = (_t = page.file) == null ? void 0 : _t.mtime) != null ? _u : 0,
+        ctime: (_w = (_v = page.file) == null ? void 0 : _v.ctime) != null ? _w : 0
       };
     } catch (e) {
       return null;
@@ -254,32 +236,29 @@ var DataService = class {
   }
   /** Parse a file's frontmatter directly (fallback) */
   parseFileFrontmatter(file) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
     try {
       const cache = this.app.metadataCache.getFileCache(file);
       const fm = cache == null ? void 0 : cache.frontmatter;
       if (!fm)
         return null;
-      const tags = (_a = fm.tags) != null ? _a : [];
-      const status = this.extractStatus(tags) || "to-read";
-      const directions = this.extractDirections(tags);
+      const status = (_a = this.parseStatus(fm.status)) != null ? _a : "to-read";
       return {
         path: file.path,
         name: file.basename,
         title: (_b = fm.title) != null ? _b : file.basename,
         authors: (_c = fm.authors) != null ? _c : [],
         venue: (_d = fm.venue) != null ? _d : "",
-        tags,
-        pdf: (_e = fm.pdf) != null ? _e : void 0,
-        doi: (_f = fm.doi) != null ? _f : void 0,
-        rating: (_g = fm.rating) != null ? _g : void 0,
-        annotation: (_h = fm.annotation) != null ? _h : void 0,
-        concepts: (_i = fm.concepts) != null ? _i : [],
-        authors_related: (_j = fm.authors_related) != null ? _j : [],
-        datasets: (_k = fm.datasets) != null ? _k : [],
-        benchmarks: (_l = fm.benchmarks) != null ? _l : [],
+        method: (_e = fm.method) != null ? _e : "",
+        task: (_f = fm.task) != null ? _f : "",
         status,
-        directions,
+        direction: (_g = fm.direction) != null ? _g : "",
+        source: (_h = fm.source) != null ? _h : void 0,
+        doi: (_i = fm.doi) != null ? _i : void 0,
+        annotation_path: (_j = fm.annotation_path) != null ? _j : void 0,
+        concepts: (_k = fm.concepts) != null ? _k : [],
+        datasets: (_l = fm.datasets) != null ? _l : [],
+        benchmarks: (_m = fm.benchmarks) != null ? _m : [],
         mtime: file.stat.mtime,
         ctime: file.stat.ctime
       };
@@ -287,26 +266,22 @@ var DataService = class {
       return null;
     }
   }
-  /** Extract reading status from tags */
-  extractStatus(tags) {
-    for (const tag of tags) {
-      const status = TAG_TO_STATUS[tag];
-      if (status)
-        return status;
-    }
+  /** Parse status from a string field value */
+  parseStatus(value) {
+    if (!value || typeof value !== "string")
+      return null;
+    const s = value.trim().toLowerCase();
+    if (ALL_STATUSES.includes(s))
+      return s;
     return null;
-  }
-  /** Extract direction tags */
-  extractDirections(tags) {
-    return tags.filter((t) => t.startsWith(DIRECTION_PREFIX)).map((t) => t.replace(DIRECTION_PREFIX, ""));
   }
   /** Get paper counts per direction */
   getDirectionPaperCounts() {
     var _a;
     const counts = {};
     for (const p of this.getAllPapers()) {
-      for (const d of p.directions) {
-        counts[d] = ((_a = counts[d]) != null ? _a : 0) + 1;
+      if (p.direction) {
+        counts[p.direction] = ((_a = counts[p.direction]) != null ? _a : 0) + 1;
       }
     }
     return counts;
@@ -361,7 +336,7 @@ var DashboardView = class extends import_obsidian.ItemView {
     this.stats = null;
     this.papers = [];
     this.filteredPapers = [];
-    this.filters = { status: "all", direction: "all", search: "", minRating: 0 };
+    this.filters = { status: "all", direction: "all", search: "" };
     this.gaps = [];
     this.activities = [];
     this.directions = [];
@@ -662,9 +637,6 @@ var DashboardView = class extends import_obsidian.ItemView {
     }
     if (paper.venue) {
       textContainer.createDiv({ cls: "readr-dashboard-paper-venue", text: paper.venue });
-    }
-    if (paper.rating) {
-      item.createSpan({ cls: "readr-dashboard-paper-rating", text: paper.rating });
     }
   }
   openPaper(paper) {

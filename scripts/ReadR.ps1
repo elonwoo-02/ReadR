@@ -55,10 +55,18 @@ function Test-ValuePresent {
     -not [string]::IsNullOrWhiteSpace([string]$value)
 }
 
-function Get-StatusTags {
+function Get-StatusValue {
     param([hashtable]$Frontmatter)
-    if (-not $Frontmatter.ContainsKey('tags')) { return @() }
-    @($Frontmatter['tags'] | Where-Object { $_ -is [string] -and $_ -match '^status/(to-read|browsed|close-read)$' })
+    if (-not $Frontmatter.ContainsKey('status')) { return $null }
+    $value = [string]$Frontmatter['status']
+    if ($value -match '^(to-read|browsed|close-read)$') { return $value }
+    $null
+}
+
+function Get-DirectionValue {
+    param([hashtable]$Frontmatter)
+    if (-not $Frontmatter.ContainsKey('direction') -or [string]::IsNullOrWhiteSpace([string]$Frontmatter['direction'])) { return 'uncategorized' }
+    [string]$Frontmatter['direction']
 }
 
 function Get-ResearchNotes {
@@ -112,42 +120,41 @@ function Invoke-Validation {
             $issues.Add((New-Issue Error $relative 'Missing YAML frontmatter.'))
             continue
         }
-        foreach ($key in @('title', 'authors', 'venue', 'tags', 'pdf', 'rating')) {
+        foreach ($key in @('title', 'authors', 'venue', 'source', 'method', 'task', 'status', 'direction')) {
             if (-not (Test-ValuePresent $frontmatter $key)) { $issues.Add((New-Issue Error $relative "Missing required field: $key.")) }
         }
-        foreach ($key in @('annotation', 'concepts', 'authors_related', 'datasets', 'benchmarks')) {
+        foreach ($key in @('annotation_path', 'concepts', 'datasets', 'benchmarks')) {
             if (-not $frontmatter.ContainsKey($key)) { $issues.Add((New-Issue Warning $relative "Recommended relationship field is absent: $key.")) }
         }
 
-        $statusTags = @(Get-StatusTags $frontmatter)
-        $allStatusTags = @(if ($frontmatter.ContainsKey('tags')) { @($frontmatter['tags'] | Where-Object { $_ -is [string] -and $_ -match '^status/' }) } else { @() })
-        if ($statusTags.Count -ne 1 -or $allStatusTags.Count -ne 1) {
-            $issues.Add((New-Issue Error $relative 'Exactly one valid status tag is required: status/to-read, status/browsed, or status/close-read.'))
+        $statusValue = Get-StatusValue $frontmatter
+        if (-not $statusValue) {
+            $issues.Add((New-Issue Error $relative 'Valid status field is required: to-read, browsed, or close-read.'))
         }
 
-        if (Test-ValuePresent $frontmatter 'pdf') {
-            $pdfPath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['pdf'])))
-            if (-not $pdfPath.StartsWith($sourcePrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-                $issues.Add((New-Issue Error $relative 'PDF path must resolve inside sources/.'))
-            } elseif (-not (Test-Path -LiteralPath $pdfPath -PathType Leaf)) {
-                $issues.Add((New-Issue Error $relative "PDF file does not exist: $($frontmatter['pdf'])."))
+        if (Test-ValuePresent $frontmatter 'source') {
+            $sourcePath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['source'])))
+            if (-not $sourcePath.StartsWith($sourcePrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                $issues.Add((New-Issue Error $relative 'Source path must resolve inside sources/.'))
+            } elseif (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+                $issues.Add((New-Issue Error $relative "Source file does not exist: $($frontmatter['source'])."))
             }
         }
 
-        $hasAnnotation = Test-ValuePresent $frontmatter 'annotation'
+        $hasAnnotation = Test-ValuePresent $frontmatter 'annotation_path'
         if ($hasAnnotation) {
-            $annotationPath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['annotation'])))
+            $annotationPath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['annotation_path'])))
             if (-not (Test-Path -LiteralPath $annotationPath -PathType Leaf)) {
-                $issues.Add((New-Issue Error $relative "Annotation does not exist: $($frontmatter['annotation'])."))
+                $issues.Add((New-Issue Error $relative "Annotation does not exist: $($frontmatter['annotation_path'])."))
             }
         }
-        if ($statusTags -contains 'status/close-read' -and -not $hasAnnotation) {
-            $issues.Add((New-Issue Error $relative 'A close-read entry requires an annotation path.'))
+        if ($statusValue -eq 'close-read' -and -not $hasAnnotation) {
+            $issues.Add((New-Issue Error $relative 'A close-read entry requires an annotation_path.'))
         }
         $records.Add([pscustomobject]@{
             File = $relative; Title = [string]$frontmatter['title']; Venue = [string]$frontmatter['venue']
-            Rating = [string]$frontmatter['rating']; Status = if ($statusTags.Count -eq 1) { $statusTags[0] } else { '' }
-            Tags = @($frontmatter['tags'])
+            Status = if ($statusValue) { $statusValue } else { '' }
+            Direction = Get-DirectionValue $frontmatter
         })
     }
 
@@ -160,13 +167,6 @@ function Invoke-Validation {
         }
     }
     [pscustomobject]@{ Issues = @($issues); Records = @($records) }
-}
-
-function Get-Direction {
-    param([object[]]$Tags)
-    $tag = @($Tags | Where-Object { $_ -is [string] -and $_ -match '^direction/' } | Select-Object -First 1)
-    if ($tag.Count -eq 0) { return 'uncategorized' }
-    $tag[0].Substring('direction/'.Length)
 }
 
 function Convert-MarkdownCell {
@@ -185,20 +185,20 @@ function Write-GeneratedIndex {
     $lines.Add('')
     $lines.Add('| Status | Papers |')
     $lines.Add('| --- | ---: |')
-    foreach ($status in @('status/to-read', 'status/browsed', 'status/close-read')) {
+    foreach ($status in @('to-read', 'browsed', 'close-read')) {
         $lines.Add("| $status | $(@($Records | Where-Object Status -eq $status).Count) |")
     }
     $lines.Add('')
     $lines.Add('## Papers by Direction')
     $lines.Add('')
-    foreach ($group in @($Records | Group-Object { Get-Direction $_.Tags } | Sort-Object Name)) {
+    foreach ($group in @($Records | Group-Object { $_.Direction } | Sort-Object Name)) {
         $lines.Add("### $($group.Name)")
         $lines.Add('')
-        $lines.Add('| Paper | Venue | Status | Rating |')
-        $lines.Add('| --- | --- | --- | --- |')
+        $lines.Add('| Paper | Venue | Status |')
+        $lines.Add('| --- | --- | --- |')
         foreach ($record in @($group.Group | Sort-Object Title, File)) {
             $link = '[[' + ($record.File -replace '\\', '/' -replace '\.md$', '') + '|' + (Convert-MarkdownCell $record.Title) + ']]'
-            $lines.Add("| $link | $(Convert-MarkdownCell $record.Venue) | $($record.Status) | $(Convert-MarkdownCell $record.Rating) |")
+            $lines.Add("| $link | $(Convert-MarkdownCell $record.Venue) | $($record.Status) |")
         }
         $lines.Add('')
     }
@@ -237,4 +237,3 @@ if ($UpdateIndex) {
     }
 }
 if ($errorCount -gt 0) { exit 1 }
-

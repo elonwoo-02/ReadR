@@ -1,7 +1,5 @@
 ---
 title: "Comparison Topic"
-tags:
-  - type/comparison
 related_entries: []
 scope: ""
 methods: []

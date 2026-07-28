@@ -1,7 +1,5 @@
 ---
 title: "Family Name, Given Name"
-tags:
-  - type/author
 related_entries: []
 affiliation: ""
 research_interests: []

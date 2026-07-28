@@ -2,16 +2,15 @@
 title: "Paper Title"
 authors:
   - Last, First
-venue: "Conference/Journal (Year)"
-tags:
-  - direction/uncategorized
-  - status/to-read
-pdf: ../../sources/papers/paper-name.pdf   # relative path, adjust for depth
+venue: "Conference/Journal Year"
+method: ""
+task: ""
+status: to-read
+direction: ""
+source: ../../sources/papers/paper-name.pdf   # relative path, adjust for depth
 doi: ""
-rating: ⭐⭐⭐
-annotation:
+annotation_path: ""
 concepts: []
-authors_related: []
 datasets: []
 benchmarks: []
 created: YYYY-MM-DD

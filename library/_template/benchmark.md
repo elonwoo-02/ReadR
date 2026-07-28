@@ -1,7 +1,5 @@
 ---
 title: "Benchmark Name"
-tags:
-  - type/benchmark
 related_entries: []
 task: []
 metrics: []

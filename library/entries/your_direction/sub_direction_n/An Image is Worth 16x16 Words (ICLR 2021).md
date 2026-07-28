@@ -14,22 +14,16 @@ authors:
   - Uszkoreit, Jakob
   - Houlsby, Neil
 venue: "ICLR 2021"
-tags:
-  - direction/cv
-  - method/transformer
-  - task/image-classification
-  - status/to-read
-  - venue/ICLR
-pdf: ../../../../sources/papers/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
+method: "Vision Transformer"
+task: "Image Classification"
+status: to-read
+direction: cv
+source: ../../../../sources/papers/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
 doi: ""
-rating: ⭐⭐⭐⭐⭐
-annotation:
+annotation_path: ""
 concepts:
   - Vision Transformer
   - Patch Embedding
-authors_related:
-  - Dosovitskiy, Alexey
-  - Houlsby, Neil
 datasets:
   - ImageNet
   - ImageNet-21k

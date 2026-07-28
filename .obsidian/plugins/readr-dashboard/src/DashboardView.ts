@@ -10,7 +10,7 @@ export class DashboardView extends ItemView {
   private stats: DashboardStats | null = null;
   private papers: PaperEntry[] = [];
   private filteredPapers: PaperEntry[] = [];
-  private filters: FilterOptions = { status: "all", direction: "all", search: "", minRating: 0 };
+  private filters: FilterOptions = { status: "all", direction: "all", search: "" };
   private gaps: KnowledgeGap[] = [];
   private activities: ActivityItem[] = [];
   private directions: string[] = [];
@@ -389,10 +389,6 @@ export class DashboardView extends ItemView {
       textContainer.createDiv({ cls: "readr-dashboard-paper-venue", text: paper.venue });
     }
 
-    // Rating
-    if (paper.rating) {
-      item.createSpan({ cls: "readr-dashboard-paper-rating", text: paper.rating });
-    }
   }
 
   private openPaper(paper: PaperEntry): void {

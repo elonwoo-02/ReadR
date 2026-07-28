@@ -9,15 +9,12 @@ import type {
   FilterOptions,
 } from "../utils/types";
 import {
-  STATUS_PREFIX,
-  DIRECTION_PREFIX,
-  TAG_TO_STATUS,
+  ALL_STATUSES,
   ENTRIES_PATH,
   ASSET_PATHS,
   SYNTHESIS_THRESHOLD,
   MAX_ACTIVITY_ITEMS,
   RECENT_ACTIVITY_DAYS,
-  parseRating,
 } from "../utils/constants";
 
 /**
@@ -56,23 +53,22 @@ export class DataService {
     return this.getAllPapers().filter((p) => p.status === status);
   }
 
-  /** Get papers filtered by direction tag */
+  /** Get papers filtered by direction */
   getPapersByDirection(direction: string): PaperEntry[] {
-    return this.getAllPapers().filter((p) => p.directions.includes(direction));
+    return this.getAllPapers().filter((p) => p.direction === direction);
   }
 
   /** Get papers matching filter options */
   getFilteredPapers(filters: FilterOptions): PaperEntry[] {
     return this.getAllPapers().filter((p) => {
       if (filters.status !== "all" && p.status !== filters.status) return false;
-      if (filters.direction !== "all" && !p.directions.includes(filters.direction)) return false;
+      if (filters.direction !== "all" && p.direction !== filters.direction) return false;
       if (filters.search) {
         const q = filters.search.toLowerCase();
         const matchTitle = p.title.toLowerCase().includes(q);
         const matchAuthor = p.authors.some((a) => a.toLowerCase().includes(q));
         if (!matchTitle && !matchAuthor) return false;
       }
-      if (filters.minRating > 0 && parseRating(p.rating) < filters.minRating) return false;
       return true;
     });
   }
@@ -91,8 +87,8 @@ export class DataService {
 
     for (const p of papers) {
       byStatus[p.status] = (byStatus[p.status] ?? 0) + 1;
-      for (const d of p.directions) {
-        byDirection[d] = (byDirection[d] ?? 0) + 1;
+      if (p.direction) {
+        byDirection[p.direction] = (byDirection[p.direction] ?? 0) + 1;
       }
     }
 
@@ -109,12 +105,12 @@ export class DataService {
     const papers = this.getAllPapers();
     const gaps: KnowledgeGap[] = [];
 
-    // Missing PDF field
-    const missingPdf = papers
-      .filter((p) => !p.pdf)
+    // Missing source field
+    const missingSource = papers
+      .filter((p) => !p.source)
       .map((p) => ({ path: p.path, name: p.name, title: p.title }));
-    if (missingPdf.length > 0) {
-      gaps.push({ type: "missing-pdf", label: "Missing PDF Field", papers: missingPdf, count: missingPdf.length });
+    if (missingSource.length > 0) {
+      gaps.push({ type: "missing-source", label: "Missing Source Field", papers: missingSource, count: missingSource.length });
     }
 
     // Browsed without concept links
@@ -127,7 +123,7 @@ export class DataService {
 
     // Close-read without annotation
     const noAnnotation = papers
-      .filter((p) => p.status === "close-read" && !p.annotation)
+      .filter((p) => p.status === "close-read" && !p.annotation_path)
       .map((p) => ({ path: p.path, name: p.name, title: p.title }));
     if (noAnnotation.length > 0) {
       gaps.push({ type: "no-annotation", label: "Close-Read Without Annotation", papers: noAnnotation, count: noAnnotation.length });
@@ -177,12 +173,12 @@ export class DataService {
     return activities;
   }
 
-  /** Get all unique direction tags */
+  /** Get all unique directions */
   getAllDirections(): string[] {
     const dirs = new Set<string>();
     for (const p of this.getAllPapers()) {
-      for (const d of p.directions) {
-        dirs.add(d);
+      if (p.direction) {
+        dirs.add(p.direction);
       }
     }
     return [...dirs].sort();
@@ -211,9 +207,7 @@ export class DataService {
   /** Convert a Dataview page object to PaperEntry */
   private toPaperEntry(page: any): PaperEntry | null {
     try {
-      const tags: string[] = page.tags ?? [];
-      const status = this.extractStatus(tags) || "to-read";
-      const directions = this.extractDirections(tags);
+      const status: PaperStatus = this.parseStatus(page.status) ?? "to-read";
 
       return {
         path: page.file?.path ?? "",
@@ -221,17 +215,16 @@ export class DataService {
         title: page.title ?? page.file?.name ?? "",
         authors: page.authors ?? [],
         venue: page.venue ?? "",
-        tags,
-        pdf: page.pdf ?? undefined,
+        method: page.method ?? "",
+        task: page.task ?? "",
+        status,
+        direction: page.direction ?? "",
+        source: page.source ?? undefined,
         doi: page.doi ?? undefined,
-        rating: page.rating ?? undefined,
-        annotation: page.annotation ?? undefined,
+        annotation_path: page.annotation_path ?? undefined,
         concepts: page.concepts ?? [],
-        authors_related: page.authors_related ?? [],
         datasets: page.datasets ?? [],
         benchmarks: page.benchmarks ?? [],
-        status,
-        directions,
         mtime: page.file?.mtime ?? 0,
         ctime: page.file?.ctime ?? 0,
       };
@@ -247,9 +240,7 @@ export class DataService {
       const fm = cache?.frontmatter;
       if (!fm) return null;
 
-      const tags: string[] = fm.tags ?? [];
-      const status = this.extractStatus(tags) || "to-read";
-      const directions = this.extractDirections(tags);
+      const status: PaperStatus = this.parseStatus(fm.status) ?? "to-read";
 
       return {
         path: file.path,
@@ -257,17 +248,16 @@ export class DataService {
         title: fm.title ?? file.basename,
         authors: fm.authors ?? [],
         venue: fm.venue ?? "",
-        tags,
-        pdf: fm.pdf ?? undefined,
+        method: fm.method ?? "",
+        task: fm.task ?? "",
+        status,
+        direction: fm.direction ?? "",
+        source: fm.source ?? undefined,
         doi: fm.doi ?? undefined,
-        rating: fm.rating ?? undefined,
-        annotation: fm.annotation ?? undefined,
+        annotation_path: fm.annotation_path ?? undefined,
         concepts: fm.concepts ?? [],
-        authors_related: fm.authors_related ?? [],
         datasets: fm.datasets ?? [],
         benchmarks: fm.benchmarks ?? [],
-        status,
-        directions,
         mtime: file.stat.mtime,
         ctime: file.stat.ctime,
       };
@@ -276,26 +266,20 @@ export class DataService {
     }
   }
 
-  /** Extract reading status from tags */
-  private extractStatus(tags: string[]): PaperStatus | null {
-    for (const tag of tags) {
-      const status = TAG_TO_STATUS[tag];
-      if (status) return status;
-    }
+  /** Parse status from a string field value */
+  private parseStatus(value: any): PaperStatus | null {
+    if (!value || typeof value !== "string") return null;
+    const s = value.trim().toLowerCase() as PaperStatus;
+    if (ALL_STATUSES.includes(s)) return s;
     return null;
-  }
-
-  /** Extract direction tags */
-  private extractDirections(tags: string[]): string[] {
-    return tags.filter((t) => t.startsWith(DIRECTION_PREFIX)).map((t) => t.replace(DIRECTION_PREFIX, ""));
   }
 
   /** Get paper counts per direction */
   private getDirectionPaperCounts(): Record<string, number> {
     const counts: Record<string, number> = {};
     for (const p of this.getAllPapers()) {
-      for (const d of p.directions) {
-        counts[d] = (counts[d] ?? 0) + 1;
+      if (p.direction) {
+        counts[p.direction] = (counts[p.direction] ?? 0) + 1;
       }
     }
     return counts;

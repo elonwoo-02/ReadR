@@ -1,7 +1,5 @@
 ---
 title: "Research Direction Synthesis"
-tags:
-  - type/synthesis
 related_entries: []
 direction: ""
 covered_entries: []

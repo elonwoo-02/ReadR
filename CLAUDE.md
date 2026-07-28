@@ -39,9 +39,9 @@ An Obsidian vault template for academic research, covering the full pipeline: **
 - `sources/` is read-only — never modified
 - All files/directories use English names
 - Paper entries follow `Short Title (Venue Year).md`
-- YAML frontmatter includes: title, authors, venue, tags, pdf, doi, rating
+- YAML frontmatter includes: title, authors, venue, source, method, task, status, direction, doi
 - Tags use category/key style (direction/ method/ task/ status/ venue/)
-- Entries link to other notes via: annotation, concepts, authors_related, datasets, benchmarks fields
+- Entries link to other notes via: annotation_path, concepts, datasets, benchmarks fields
 
 ## AI Assistance Guidelines
 

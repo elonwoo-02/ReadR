@@ -40,3 +40,24 @@ Desktop.ini
 
 # PDFs are large; excluded from version control by default
 # To track: remove lines below or use `git add -f`
+
+# AI-Generated entries (not for version control)
+library/entries/nlp/*
+
+# AI-Generated browse phase assets (TCR-QF paper)
+library/concepts/Triple Context Restoration (TCR).md
+library/concepts/Query-Driven Feedback (QF).md
+library/concepts/GraphRAG.md
+library/concepts/Information Sparsity.md
+library/concepts/Context Loss.md
+library/authors/Huang, Manzong.md
+library/authors/Bu, Chenyang.md
+library/authors/He, Yi.md
+library/authors/Wu, Xindong.md
+library/datasets/2WikiMultiHopQA.md
+library/datasets/HotpotQA.md
+library/datasets/ConcurrentQA.md
+library/datasets/MuSiQue.md
+
+# AI-Generated close-read phase (TCR-QF paper)
+annotations/entries/nlp/knowledge-graph/kg-augmented-llm/

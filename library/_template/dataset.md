@@ -1,7 +1,5 @@
 ---
 title: "Dataset Name"
-tags:
-  - type/dataset
 related_entries: []
 task: []
 modality: []

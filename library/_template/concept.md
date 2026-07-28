@@ -1,8 +1,6 @@
 ---
 title: "Concept Name"
 aliases: []
-tags:
-  - type/concept
 related_entries: []
 related_concepts: []
 key_papers: []

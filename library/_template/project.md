@@ -1,7 +1,5 @@
 ---
 title: "Project Name"
-tags:
-  - type/project
 related_entries: []
 research_question: ""
 status: active
