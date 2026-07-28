@@ -71,9 +71,9 @@
 ├── library/                        Paper catalog + distilled knowledge
 │   ├── _template/                  Entry templates
 │   ├── entries/                    Paper entries (organized by research direction)
+│   │   ├── nlp/                    e.g., Natural Language Processing
+│   │   ├── cv/                     e.g., Computer Vision
 │   │   └── your_direction/         Replace with your own direction
-│   │       ├── sub_direction_1/
-│   │       └── sub_direction_n/
 │   ├── concepts/                   Core concepts
 │   ├── authors/                    Researchers
 │   ├── datasets/                   Datasets
@@ -84,10 +84,9 @@
 │
 ├── annotations/                    Close-reading notes
 │   ├── _template/                  Close-reading note template
-│   └── entries/                    Same structure as library/entries/
-│       └── your_direction/         Replace with your own direction
-│           ├── sub_direction_1/
-│           └── sub_direction_n/
+│   ├── cv/                         CV paper notes
+│   ├── nlp/                        NLP paper notes
+│   └── your_direction/             Replace with your own direction
 │
 ├── reviews/                        Literature reviews
 │   └── templates/                  Review templates
@@ -135,9 +134,10 @@ library/
 │   ├── comparison.md                 Method comparison
 │   ├── synthesis.md                  Synthesized overview
 │   └── project.md                    Project progress
-├── entries/your_direction/            ← Paper entries (organized by research direction)
-│   ├── sub_direction_1/
-│   └── sub_direction_n/
+├── entries/                             ← Paper entries (organized by research direction)
+│   ├── nlp/                             e.g., Natural Language Processing
+│   ├── cv/                              e.g., Computer Vision
+│   └── your_direction/                  Replace with your own direction
 ├── concepts/                           ← Core concepts
 ├── authors/                            ← Researcher profiles
 ├── datasets/                           ← Dataset descriptions
@@ -157,9 +157,9 @@ This is the paper's "reading notes" — after a line-by-line close read, the pap
 annotations/
 ├── _template/                          ← Close-reading note template
 │   └── reading-note.md                ← Figure/table/formula embedding conventions
-└── entries/your_direction/            ← Same sub-direction structure as library
-    ├── sub_direction_1/
-    └── sub_direction_n/
+├── cv/                                 ← CV paper notes (same directions as library)
+├── nlp/                                ← NLP paper notes
+└── your_direction/                     ← Replace with your own direction
 ```
 
 #### reviews/ — Review Layer
@@ -269,7 +269,7 @@ While browsing a paper, distill the knowledge you gain into the relevant library
 **Input:** A paper that has been browsed (`status: browsed`) and is worth a close read
 
 **Actions:**
-1. Create a close-reading folder for the paper under the appropriate sub-direction in `annotations/entries/`
+1. Create a close-reading folder for the paper under the appropriate sub-direction in `annotations/`
 2. Write the close-reading note following the `annotations/_template/reading-note.md` template, covering:
    - Research motivation and problem definition
    - Method details (including formula derivations)
@@ -281,7 +281,7 @@ While browsing a paper, distill the knowledge you gain into the relevant library
 
 > **AI can help with:** generating a first draft of the close-reading note from the template, though embedding and explaining figures/tables/formulas still requires manual work.
 
-**Output:** A close-reading note under `annotations/entries/`; paper entry status set to `close-read`
+**Output:** A close-reading note under `annotations/`; paper entry status set to `close-read`
 
 ---
 
@@ -301,7 +301,7 @@ While browsing a paper, distill the knowledge you gain into the relevant library
 ---
 
 ```
-library/entries/paper.md ──→ annotations/entries/paper/index.md
+library/entries/paper.md ──→ annotations/paper/index.md
          │                          │
          ├──→ library/concepts/     │
          ├──→ library/authors/      │
@@ -389,7 +389,7 @@ cp library/_template/library-entry.md library/entries/your-direction/my-paper.md
 # Set status: browsed
 
 # 3. CLOSE-READ — close reading (optional)
-# Create a close-reading note folder under annotations/entries/your-direction/
+# Create a close-reading note folder under annotations/your-direction/
 # Set status: close-read
 
 # 4. REVIEW — write a review (after 3+ papers accumulate)

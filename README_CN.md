@@ -72,9 +72,9 @@
 ├── library/                        论文目录 + 知识提炼
 │   ├── _template/                  条目模板
 │   ├── entries/                    论文条目（按研究方向）
+│   │   ├── nlp/                    示例：自然语言处理
+│   │   ├── cv/                     示例：计算机视觉
 │   │   └── your_direction/         替换为你的方向
-│   │       ├── sub_direction_1/
-│   │       └── sub_direction_n/
 │   ├── concepts/                   核心概念
 │   ├── authors/                    研究者
 │   ├── datasets/                   数据集
@@ -85,10 +85,9 @@
 │
 ├── annotations/                    精读笔记
 │   ├── _template/                  精读笔记模板
-│   └── entries/                    同 library/entries/ 结构
-│       └── your_direction/         替换为你的方向
-│           ├── sub_direction_1/
-│           └── sub_direction_n/
+│   ├── cv/                          CV 论文笔记
+│   ├── nlp/                         NLP 论文笔记
+│   └── your_direction/             替换为你的方向
 │
 ├── reviews/                        综述论文
 │   └── templates/                  文献综述模板
@@ -136,9 +135,10 @@ library/
 │   ├── comparison.md                 方法对比
 │   ├── synthesis.md                  综合概述
 │   └── project.md                    项目进度
-├── entries/your_direction/            ← 论文条目（按研究方向分目录）
-│   ├── sub_direction_1/
-│   └── sub_direction_n/
+├── entries/                             ← 论文条目（按研究方向分目录）
+│   ├── nlp/                             示例：自然语言处理
+│   ├── cv/                              示例：计算机视觉
+│   └── your_direction/                  替换为你的方向
 ├── concepts/                          ← 核心概念
 ├── authors/                           ← 研究者档案
 ├── datasets/                          ← 数据集描述
@@ -158,9 +158,9 @@ library/
 annotations/
 ├── _template/                         ← 精读笔记模板
 │   └── reading-note.md                ← 图/表/公式嵌入规范
-└── entries/your_direction/            ← 同 library 子方向结构
-    ├── sub_direction_1/
-    └── sub_direction_n/
+├── cv/                                 ← CV 论文笔记（同 library 子方向）
+├── nlp/                                ← NLP 论文笔记
+└── your_direction/                     ← 替换为你的方向
 ```
 
 #### reviews/ — 综述层
@@ -271,7 +271,7 @@ sources/     library/      annotations/    reviews/
 **输入：** 一篇已浏览（`status: browsed`）且值得精读的论文
 
 **动作：**
-1. 在 `annotations/entries/` 对应子方向下创建论文精读文件夹
+1. 在 `annotations/` 对应子方向下创建论文精读文件夹
 2. 参照 `annotations/_template/reading-note.md` 模板撰写精读笔记，包含：
    - 研究动机与问题定义
    - 方法细节（含公式推导）
@@ -283,7 +283,7 @@ sources/     library/      annotations/    reviews/
 
 > **AI 可辅助：** 按模板生成精读笔记初稿，但图/表/公式的嵌入解释需要人工处理。
 
-**产出：** `annotations/entries/` 下有精读笔记，论文条目状态为 `close-read`
+**产出：** `annotations/` 下有精读笔记，论文条目状态为 `close-read`
 
 ---
 
@@ -302,7 +302,7 @@ sources/     library/      annotations/    reviews/
 
 ---
 ```
-library/entries/paper.md ──→ annotations/entries/paper/index.md
+library/entries/paper.md ──→ annotations/paper/index.md
          │                          │
          ├──→ library/concepts/     │
          ├──→ library/authors/      │
@@ -389,7 +389,7 @@ cp library/_template/library-entry.md library/entries/your-direction/我的论�
 # 设置 status: browsed
 
 # 3. CLOSE-READ — 精读（可选）
-# 在 annotations/entries/your-direction/ 下创建精读笔记文件夹
+# 在 annotations/your-direction/ 下创建精读笔记文件夹
 # 设置 status: close-read
 
 # 4. REVIEW — 撰写综述（积累 3+ 篇后）
