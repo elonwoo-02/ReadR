@@ -1,30 +1,33 @@
 ---
-title: "Family Name, Given Name"
+type: "Person"
+title: "姓氏, 名字"
 related_entries: []
 affiliation: ""
 research_interests: []
 homepage: ""
 orcid: ""
 key_papers: []
+generated: human
+verified: unverified
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Family Name, Given Name
+# 姓氏, 名字
 
-## Definition / Summary
+## 定义 / 概要
 
-Brief profile and primary research areas.
+简要简介和主要研究领域。
 
-## Related Research
+## 相关研究
 
-- Affiliation:
-- Key papers:
+- 所属机构：
+- 关键论文：
 
-## Evidence & Citations
+## 证据与引用
 
-- [ ] Record authoritative profile, paper, or institutional source.
+- [ ] 记录权威的个人主页、论文或机构来源。
 
-## Personal Notes
+## 个人笔记
 
-Why this researcher matters to your current research direction.
+这位研究者对你的当前研究方向有何重要意义。

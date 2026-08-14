@@ -1,30 +1,33 @@
 ---
-title: "Comparison Topic"
+type: "Comparison"
+title: "对比主题"
 related_entries: []
 scope: ""
 methods: []
 decision_criteria: []
 related_concepts: []
+generated: human
+verified: unverified
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Comparison Topic
+# 对比主题
 
-## Definition / Summary
+## 定义 / 概要
 
-State the decision or technical question this comparison answers.
+说明本对比回答的决策或技术问题。
 
-## Related Research
+## 相关研究
 
-| Method | Strengths | Limitations | Evidence |
+| 方法 | 优势 | 局限性 | 证据 |
 | --- | --- | --- | --- |
 |  |  |  |  |
 
-## Evidence & Citations
+## 证据与引用
 
-- [ ] Link each conclusion to a paper, experiment, or primary source.
+- [ ] 将每条结论链接到一篇论文、一个实验或一个一手来源。
 
-## Personal Notes
+## 个人笔记
 
-Decision for your own work and conditions that could change it.
+对你自身工作的决策，以及可能改变该决策的条件。

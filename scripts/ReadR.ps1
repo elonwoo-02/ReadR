@@ -123,8 +123,36 @@ function Invoke-Validation {
         foreach ($key in @('title', 'authors', 'venue', 'source', 'method', 'task', 'status', 'direction')) {
             if (-not (Test-ValuePresent $frontmatter $key)) { $issues.Add((New-Issue Error $relative "Missing required field: $key.")) }
         }
-        foreach ($key in @('annotation_path', 'concepts', 'datasets', 'benchmarks')) {
-            if (-not $frontmatter.ContainsKey($key)) { $issues.Add((New-Issue Warning $relative "Recommended relationship field is absent: $key.")) }
+        foreach ($key in @('annotation_path', 'concepts', 'datasets', 'github', 'generated', 'verified')) {
+            if (-not $frontmatter.ContainsKey($key)) {
+                $msg = if ($key -eq 'datasets') { "Recommended relationship field is absent: $key (use type field to distinguish dataset/benchmark)." }
+                       else { "Recommended relationship field is absent: $key." }
+                $issues.Add((New-Issue Warning $relative $msg))
+            }
+        }
+
+        # Backward compatibility: if 'datasets' is absent but 'benchmarks' exists, merge into 'datasets'
+        if ((-not $frontmatter.ContainsKey('datasets') -or
+             ($frontmatter['datasets'] -is [array] -and $frontmatter['datasets'].Count -eq 0)) -and
+            $frontmatter.ContainsKey('benchmarks')) {
+            $frontmatter['datasets'] = $frontmatter['benchmarks']
+            $issues.Add((New-Issue Warning $relative "Deprecated field 'benchmarks' used; merged into 'datasets'. Please migrate."))
+        }
+
+        # Validate generated field
+        if ($frontmatter.ContainsKey('generated')) {
+            $genValue = [string]$frontmatter['generated']
+            if (-not ($genValue -match '^(human|ai|agent)$')) {
+                $issues.Add((New-Issue Error $relative "Invalid generated value: '$genValue'. Must be human, ai, or agent."))
+            }
+        }
+
+        # Validate verified field
+        if ($frontmatter.ContainsKey('verified')) {
+            $verValue = [string]$frontmatter['verified']
+            if (-not ($verValue -match '^(unverified|machine-confirmed|human-reviewed)$')) {
+                $issues.Add((New-Issue Error $relative "Invalid verified value: '$verValue'. Must be unverified, machine-confirmed, or human-reviewed."))
+            }
         }
 
         $statusValue = Get-StatusValue $frontmatter
@@ -166,12 +194,104 @@ function Invoke-Validation {
             }
         }
     }
+
+    # De-duplicate detection across knowledge directories
+    foreach ($dedupDir in @('authors', 'concepts', 'datasets')) {
+        $dirPath = Join-Path $VaultRoot (Join-Path 'library' $dedupDir)
+        $dupIssues = Invoke-DuplicateDetection $dirPath $VaultRoot
+        foreach ($di in $dupIssues) { $issues.Add($di) }
+    }
+
     [pscustomobject]@{ Issues = @($issues); Records = @($records) }
 }
 
 function Convert-MarkdownCell {
     param([string]$Value)
     ($Value -replace '\|', '\\|' -replace '[\r\n]+', ' ')
+}
+
+<#
+.SYNOPSIS
+    Detect potential duplicate knowledge notes across a library subdirectory.
+.DESCRIPTION
+    Checks for same-title entries, author name format variations
+    ("Last, First" vs "First Last"), and aliases that reference another note's title.
+.PARAMETER DirectoryPath
+    The directory to scan (e.g. library/authors/).
+.PARAMETER VaultRoot
+    The vault root for relative path computation.
+#>
+function Invoke-DuplicateDetection {
+    param([string]$DirectoryPath, [string]$VaultRoot)
+
+    $issues = [System.Collections.Generic.List[object]]::new()
+    if (-not (Test-Path -LiteralPath $DirectoryPath)) { return $issues }
+
+    $files = Get-ChildItem -LiteralPath $DirectoryPath -File -Filter '*.md' | Where-Object { $_.Name -ne 'README.md' }
+    $noteData = [System.Collections.Generic.List[object]]::new()
+
+    foreach ($file in $files) {
+        $fm = Get-Frontmatter $file.FullName
+        if (-not $fm -or -not $fm.ContainsKey('title')) { continue }
+        $rel = $file.FullName.Substring($VaultRoot.Length).TrimStart('\', '/')
+        $title = [string]$fm['title'].Trim('"').Trim("'")
+        $aliases = @()
+        if ($fm.ContainsKey('aliases') -and $fm['aliases'] -is [array]) { $aliases = @($fm['aliases']) }
+        $noteData.Add([pscustomobject]@{ File = $rel; Title = $title; Aliases = $aliases })
+    }
+
+    # Build normalized title set for alias cross-checking
+    $titleIndex = @{}
+    foreach ($n in $noteData) {
+        $norm = $n.Title.ToLowerInvariant().Trim()
+        if ($titleIndex.ContainsKey($norm)) {
+            $issues.Add((New-Issue Warning $n.File "Potential duplicate: same title '$($n.Title)' also at $($titleIndex[$norm])."))
+        } else {
+            $titleIndex[$norm] = $n.File
+        }
+    }
+
+    # Detect author name format collisions: "Last, First" vs "First Last"
+    foreach ($n in $noteData) {
+        $t = $n.Title
+        # If title contains a comma, extract Last+First
+        if ($t -match '^([^,]+),\s*(.+)$') {
+            $last = $Matches[1].Trim()
+            $first = $Matches[2].Trim()
+            $altForm = "$first $last"
+            $altNorm = $altForm.ToLowerInvariant().Trim()
+            if ($altNorm -ne $t.ToLowerInvariant().Trim() -and $titleIndex.ContainsKey($altNorm)) {
+                $issues.Add((New-Issue Warning $n.File "Potential author duplicate: '$($n.Title)' may match '$($titleIndex[$altNorm])' (different name format)."))
+            }
+        } else {
+            # Title is "First Last" — check for "Last, First" variant
+            $parts = $t.Trim().Split(' ')
+            if ($parts.Count -ge 2) {
+                $last = $parts[-1]
+                $first = ($parts[0..($parts.Count - 2)]) -join ' '
+                $altForm = "$last, $first"
+                $altNorm = $altForm.ToLowerInvariant().Trim()
+                if ($altNorm -ne $t.ToLowerInvariant().Trim() -and $titleIndex.ContainsKey($altNorm)) {
+                    $issues.Add((New-Issue Warning $n.File "Potential author duplicate: '$($n.Title)' may match '$($titleIndex[$altNorm])' (different name format)."))
+                }
+            }
+        }
+    }
+
+    # Detect aliases referencing another note's title
+    foreach ($n in $noteData) {
+        foreach ($alias in $n.Aliases) {
+            $aliasNorm = $alias.ToLowerInvariant().Trim()
+            foreach ($other in $noteData) {
+                if ($other.File -eq $n.File) { continue }
+                if ($other.Title.ToLowerInvariant().Trim() -eq $aliasNorm) {
+                    $issues.Add((New-Issue Warning $n.File "Alias '$alias' matches title of another note at $($other.File). Consider merging or updating the alias."))
+                }
+            }
+        }
+    }
+
+    $issues
 }
 
 function Write-GeneratedIndex {
@@ -206,10 +326,34 @@ function Write-GeneratedIndex {
     $lines.Add('')
     $lines.Add('| Asset type | Notes |')
     $lines.Add('| --- | ---: |')
-    foreach ($folder in @('concepts', 'authors', 'datasets', 'benchmarks', 'comparisons', 'syntheses', 'projects')) {
+    foreach ($folder in @('concepts', 'authors', 'datasets', 'comparisons', 'syntheses', 'projects')) {
         $path = Join-Path $VaultRoot (Join-Path 'library' $folder)
         $count = if (Test-Path -LiteralPath $path) { @(Get-ChildItem -LiteralPath $path -File -Filter '*.md' | Where-Object Name -ne 'README.md').Count } else { 0 }
         $lines.Add("| $folder | $count |")
+    }
+    # Count benchmarks within datasets/ (merged directory)
+    $datasetsPath = Join-Path $VaultRoot 'library/datasets'
+    $benchCount = 0
+    if (Test-Path -LiteralPath $datasetsPath) {
+        foreach ($df in (Get-ChildItem -LiteralPath $datasetsPath -File -Filter '*.md')) {
+            $dm = Get-Frontmatter $df.FullName
+            if ($dm -and $dm.ContainsKey('type') -and [string]$dm['type'] -eq 'benchmark') { $benchCount++ }
+        }
+    }
+    if ($benchCount -gt 0) { $lines.Add("| benchmarks (in datasets/) | $benchCount |") }
+    $lines.Add('')
+    # Potential duplicates section
+    $dupWarnings = @($Issues | Where-Object { $_.Level -eq 'Warning' -and $_.Message -match 'duplicate' })
+    $lines.Add('## Potential Duplicates')
+    $lines.Add('')
+    if ($dupWarnings.Count -gt 0) {
+        $lines.Add('| File | Issue |')
+        $lines.Add('| --- | --- |')
+        foreach ($dw in $dupWarnings) {
+            $lines.Add("| $($dw.File) | $($dw.Message) |")
+        }
+    } else {
+        $lines.Add('_No potential duplicates detected._')
     }
     $lines.Add('')
     $lines.Add('## Validation Summary')

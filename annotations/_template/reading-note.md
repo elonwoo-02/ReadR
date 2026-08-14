@@ -1,19 +1,20 @@
 ---
+type: "Reading Note"
 title: "Paper Title"
 authors:
   - Author 1
   - Author 2
 venue: "Conference/Journal (Year)"
 date: YYYY-MM-DD
-# 替换为实际论文条目的相对路径，例如：
-# ../../library/entries/nlp/attention/Attention Is All You Need (NeurIPS 2017).md
 paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
 ---
 
-> **AI 生成说明：** 正文中需在对应小节穿插论文中的图、表、公式并解释，而非仅在文末汇总。
-> - 图 → `![图 X：标题](attachments/fig-XX.png)` + 解读该图展示的内容与关键发现
-> - 表 → 转述为 Markdown 表格或引用原文表号 + 分析数据趋势与对比结论
-> - 公式 → 说明符号含义、推导逻辑及其在方法中的作用
+> **AI 生成说明：**
+> - **AI 骨架范围：** 第 1–4 节由 AI 生成骨架（论文元数据、研究背景、核心方法、实验结果、讨论分析），图/表/公式仅放置占位符。
+> - **人类必填范围：** 第 5 节「个人评价与思考」由人类填写；图/表/公式的实际内容须由人类嵌入。
+> - 图 → `![图 X：标题](attachments/fig-XX.png)` + 解读
+> - 表 → 转述为 Markdown 表格或引用原文表号 + 分析
+> - 公式 → 说明符号含义、推导逻辑及作用
 
 ---
 
@@ -38,6 +39,7 @@ paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
 *   **架构图**：插入论文中的模型/框架图，逐模块解释功能与数据流向。
 > ![模型架构图](attachments/fig-01.png)
 > *该图展示了…，模块 A 负责…，数据从…流向…*
+
 ### **方法细节**：
 *   **关键组成部分**：详细描述方法中的各个模块或步骤。
 *   **技术细节**：解释每个组成部分所使用的具体技术、模型、算法等。
@@ -49,6 +51,7 @@ paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
 > *其中 \(y_i\) 为…，\(x_i\) 为…。该公式表示…*
 
 ## 实验与结果
+
 1.  **实验设置**：
     *   **数据集**：使用了哪些数据集？其特点是什么？
     *   **基线方法**：与哪些现有方法进行了比较？
@@ -57,24 +60,36 @@ paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
     *   作者通过实验得到了哪些关键发现？
     *   这些结果是如何支持作者的论点的？
     *   **关键图表解读**：插入并解释核心结果图表（必须）。
-        > **表：** 
-        > **图：** 
+        > **表：**
+        > **图：**
 3.  **消融研究/参数分析**：
     *   作者是否对方法的不同组件或参数进行了分析？
     *   这些分析揭示了什么？
     *   **消融实验图表**：插入消融实验的图表并解读。
 
 ## 讨论与分析
+
 1.  **主要贡献**：总结这项研究对领域的主要贡献是什么？
 2.  **创新点总结**：再次强调方法上的创新之处。
-3.  **优势**：该方法有哪些显著的优点？（例如：性能高、效率高、泛化能力强、解决了特定难题）
+3.  **优势**：该方法有哪些显著的优点？
 4.  **局限性**：
     *   作者自己指出了哪些局限性？
-    *   你认为该方法可能还存在哪些潜在的局限性或未解决的问题？（例如：计算成本、数据依赖、特定场景的适用性、理论解释不足）
+    *   你认为该方法可能还存在哪些潜在的局限性或未解决的问题？
 5.  **未来工作**：作者提出了哪些未来研究方向？
 
-## 个人评价与思考
+## 个人评价与思考 (Human Required)
+
+> **AI 注意：本节内容必须由人类填写。AI 仅提供以下引导问题作为骨架，不得自行撰写具体内容。**
+
+<!-- AI 骨架开始：以下引导问题供人类填写参考 -->
+
 1.  **个人理解**：你对这篇文献最深刻的理解是什么？
+    _<!-- What is the single most important thing you learned from this paper? -->_
 2.  **启发**：这篇文献给你带来了哪些启发？对你自己的研究有什么潜在影响？
+    _<!-- How does this paper affect your current work? -->_
 3.  **疑问**：阅读过程中，你有哪些尚未解决的疑问或觉得可以进一步探讨的地方？
+    _<!-- What questions remain unanswered? -->_
 4.  **可改进之处**：如果你是作者，你会在哪些方面进行改进或扩展？
+    _<!-- If you were the author, what would you do differently? -->_
+
+<!-- AI 骨架结束 -->

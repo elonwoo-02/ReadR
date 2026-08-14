@@ -1,29 +1,32 @@
 ---
-title: "Concept Name"
+type: "Concept"
+title: "概念名称"
 aliases: []
 related_entries: []
 related_concepts: []
 key_papers: []
 definition: ""
+generated: human
+verified: unverified
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Concept Name
+# 概念名称
 
-## Definition / Summary
+## 定义 / 概要
 
-Define the concept in your own words and state the research problem it addresses.
+用自己的话定义该概念，并说明它解决的研究问题。
 
-## Related Research
+## 相关研究
 
-- Related entries:
-- Related concepts:
+- 相关论文条目：
+- 相关概念：
 
-## Evidence & Citations
+## 证据与引用
 
-- [ ] Add a claim, source, and page/section reference.
+- [ ] 添加一个论断、来源和页码/章节引用。
 
-## Personal Notes
+## 个人笔记
 
-Your interpretation, open questions, and possible applications.
+你的理解、开放问题和可能的应用方向。

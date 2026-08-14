@@ -1,29 +1,32 @@
 ---
-title: "Research Direction Synthesis"
+type: "Synthesis"
+title: "研究方向综合"
 related_entries: []
 direction: ""
 covered_entries: []
 coverage_status: draft
 open_questions: []
+generated: human
+verified: unverified
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Research Direction Synthesis
+# 研究方向综合
 
-## Definition / Summary
+## 定义 / 概要
 
-Summarize the direction, its central problem, and the current technical picture.
+总结该方向、其核心问题和当前的技术全貌。
 
-## Related Research
+## 相关研究
 
-- Coverage status:
-- Papers and method clusters:
+- 覆盖状态：
+- 论文和方法聚类：
 
-## Evidence & Citations
+## 证据与引用
 
-- [ ] Tie each synthesis claim to one or more paper entries.
+- [ ] 将每条综合论断链接到一篇或多篇论文条目。
 
-## Personal Notes
+## 个人笔记
 
-Your thesis, gaps in the literature, and review-writing opportunities.
+你的论点、文献中的空白和撰写综述的机会。
