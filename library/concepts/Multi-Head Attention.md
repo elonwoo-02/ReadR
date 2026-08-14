@@ -12,6 +12,8 @@ related_concepts:
 key_papers:
   - Attention Is All You Need (NeurIPS 2017)
 definition: "An extension of self-attention that runs multiple attention operations in parallel (heads), each operating on linearly projected queries, keys, and values. The outputs are concatenated and projected again, allowing the model to jointly attend to information from different representation subspaces."
+generated: ai
+verified: unverified
 created: 2026-07-26
 updated: 2026-07-26
 ---

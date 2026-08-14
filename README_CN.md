@@ -77,8 +77,7 @@
 │   │   └── your_direction/         替换为你的方向
 │   ├── concepts/                   核心概念
 │   ├── authors/                    研究者
-│   ├── datasets/                   数据集
-│   ├── benchmarks/                 评测基准
+│   ├── datasets/                   数据集与评测基准（用 `type` 字段区分）
 │   ├── comparisons/                方法对比
 │   ├── syntheses/                  综合概述
 │   └── projects/                   在研项目
@@ -141,8 +140,7 @@ library/
 │   └── your_direction/                  替换为你的方向
 ├── concepts/                          ← 核心概念
 ├── authors/                           ← 研究者档案
-├── datasets/                          ← 数据集描述
-├── benchmarks/                        ← 评测基准
+├── datasets/                          ← 数据集与评测基准描述（用 `type` 字段）
 ├── comparisons/                       ← 方法对比
 ├── syntheses/                         ← 综合概述（3+ 篇后撰写）
 └── projects/                          ← 在研项目
@@ -216,8 +214,7 @@ sources/     library/      annotations/    reviews/
                  ▼
              concepts/         ← 浏览时同步沉淀
              authors/
-             datasets/
-             benchmarks/
+             datasets/     (数据集 + 评测基准，用 `type` 区分)
              comparisons/
              syntheses/        ← 子方向积累 3+ 篇后写
              projects/
@@ -254,15 +251,33 @@ sources/     library/      annotations/    reviews/
    |---------|---------|------|
    | 核心概念 | `library/concepts/` | 定义、解释、与已有概念的关系 |
    | 研究者 | `library/authors/` | 姓名、机构、研究方向、代表作 |
-   | 数据集 | `library/datasets/` | 名称、规模、来源、用途 |
-   | 评测基准 | `library/benchmarks/` | 指标、对比方法、结果 |
+   | 数据集 | `library/datasets/` | 名称、规模、来源、用途，`type: dataset` |
+   | 评测基准 | `library/datasets/` | 指标、对比方法、结果，`type: benchmark` |
    | 同类方法 | `library/comparisons/` | 对比表格，多篇论文积累后补充 |
    | 综合概述 | `library/syntheses/` | 同一子方向 3+ 篇论文后撰写 |
    | 项目关联 | `library/projects/` | 标记对当前在研项目的参考价值 |
 
 > **AI 可辅助：** 提取概念、研究者、数据集、基准；生成方法对比表格；撰写综合概述初稿。
 
-**产出：** 论文条目状态为 `browsed`，相关知识点已写入 `concepts/`、`authors/`、`datasets/`、`benchmarks/` 等
+**产出：** 论文条目状态为 `browsed`，相关知识点已写入 `concepts/`、`authors/`、`datasets/`（用 `type` 字段区分）等；条目 YAML 更新 `concepts`、`datasets`、`github`、`generated: ai`、`verified: unverified`
+
+#### 信任信号（OKF-inspired）
+
+所有知识提炼笔记的 YAML frontmatter 都包含两个信任信号字段：
+
+| 字段 | 取值 | 含义 |
+|------|------|------|
+| `generated` | `human` / `ai` / `agent` | 谁产生了这条内容 |
+| `verified` | `unverified` / `machine-confirmed` / `human-reviewed` | 是否经过复核 |
+
+**门禁 vs 标签：** vault 不同层级用不同的方式来防御 AI 错误：
+
+- **事前门禁（硬约束）：** 精读笔记（个人评价与思考）和综述（论点、结论）—— AI 绝不单独产出这些内容，只写骨架；内容由人填写。这是*预防性*控制：未经复核的 AI 草稿根本不存在。
+- **事后标签（软信号）：** BROWSE 阶段知识提炼笔记（concepts/authors/datasets/comparisons/syntheses/projects）—— AI 撰写并标记 `generated: ai` / `verified: unverified`。你复核后将 `verified` 升级为 `human-reviewed`。这是*事后*控制：内容先生成，再打上一层信任标签，下游消费者可按信任等级筛选。
+
+**为什么重要：** 没有信任信号，所有笔记看起来同样可信——包括 BROWSE 阶段 AI 起草的那些。有了信任信号，你在撰写综述前可以按可信度过滤知识库。选择门禁还是标签的标准是：能否**预先**枚举"必须人写"的内容类型？能枚举（"个人评价"、"综述论点"——只有少数），用门禁；不能枚举（上千个来自多样来源的概念条目），用标签。
+
+**升级路径：** 复核某条笔记后，手动将 `verified: unverified` 改为 `verified: human-reviewed`。
 
 ---
 
@@ -272,7 +287,7 @@ sources/     library/      annotations/    reviews/
 
 **动作：**
 1. 在 `annotations/` 对应子方向下创建论文精读文件夹
-2. 参照 `annotations/_template/reading-note.md` 模板撰写精读笔记，包含：
+2. 参照 `annotations/_template/reading-note.md` 模板撰写精读笔记。**AI 搭建骨架**（1–4 节 + 占位符），**人类填写内容**（第 5 节 + 图/表/公式）：
    - 研究动机与问题定义
    - 方法细节（含公式推导）
    - 实验设置与结果分析（含图表解读）
@@ -306,8 +321,7 @@ library/entries/paper.md ──→ annotations/paper/index.md
          │                          │
          ├──→ library/concepts/     │
          ├──→ library/authors/      │
-         ├──→ library/datasets/     │
-         ├──→ library/benchmarks/   │
+         ├──→ library/datasets/     │  (数据集 + 评测基准，用 `type`)
          └──→ library/comparisons/  │
                                     │
                 ┌───────────────────┘
@@ -346,7 +360,7 @@ ReadR 把**人**放在中心。AI 是助手，不是主人。差异体现在：
 
 1. **精读层** — llm-wiki 没有对应物。机器可以总结，但论文的公式推导、实验分析、消融研究需要人逐行读、逐行写
 2. **综述层** — llm-wiki 的 wiki 本身就是终点。科研的终点是可发表的 survey，需要人整合几十篇论文形成观点
-3. **实体拆分** — llm-wiki 用 entities/ 统一装人物/组织/产品。科研场景下 researchers / datasets / benchmarks 是三类独立实体，各自有不同的查询维度
+3. **实体拆分** — llm-wiki 用 entities/ 统一装人物/组织/产品。科研场景下 researchers 与 datasets/benchmarks 是独立实体类型，各自有不同的查询维度
 
 ### 借鉴的设计
 
@@ -385,7 +399,7 @@ cp library/_template/library-entry.md library/entries/your-direction/我的论�
 # 编辑 YAML 中的 title/authors/venue/tags，设置 status: to-read
 
 # 2. BROWSE — 阅读摘要，沉淀知识
-# 在条目中写 summary，打开 concepts/authors/datasets/ 目录创建对应笔记
+# 在条目中写 summary，打开 concepts/authors/datasets/ 目录创建对应笔记（用 `type` 区分数据集/评测基准）
 # 设置 status: browsed
 
 # 3. CLOSE-READ — 精读（可选）

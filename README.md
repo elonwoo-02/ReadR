@@ -32,10 +32,10 @@
 
 ## Architecture
 
-```
+```markdown
 ┌──────────────────────────────────────────────────────────┐
 │                     SCHEMA LAYER                         │
-│          CLAUDE.md — operating rules, naming, workflow      │
+│          CLAUDE.md — operating rules, naming, workflow   │
 ├─────────────┬─────────────┬───────────────┬──────────────┤
 │             │             │               │              │
 │  sources/   │  library/   │ annotations/  │   reviews/   │
@@ -55,7 +55,7 @@
 - **sources/ is immutable** — once a PDF or clipping is placed here, it is never modified
 - **One source, one entry** — each paper has exactly one entry in library/entries/
 - **Annotations only after close reading** — annotations/ is the output of close reading, not casual browsing notes
-- **Knowledge distillation happens alongside browsing** — concepts/, authors/, datasets/, etc. are distilled while you browse
+- **Knowledge distillation happens alongside browsing** — concepts/, authors/, datasets/ (incl. benchmarks via `type`), etc. are distilled while you browse
 - **Synthesis bridges to review** — syntheses/ is the intermediate state between "reading papers" and "writing a review"
 
 ### Directory Structure
@@ -76,8 +76,7 @@
 │   │   └── your_direction/         Replace with your own direction
 │   ├── concepts/                   Core concepts
 │   ├── authors/                    Researchers
-│   ├── datasets/                   Datasets
-│   ├── benchmarks/                 Evaluation benchmarks
+│   ├── datasets/                   Datasets and benchmarks (use `type` field to distinguish)
 │   ├── comparisons/                Method comparisons
 │   ├── syntheses/                  Synthesized overviews
 │   └── projects/                   Ongoing projects
@@ -140,8 +139,7 @@ library/
 │   └── your_direction/                  Replace with your own direction
 ├── concepts/                           ← Core concepts
 ├── authors/                            ← Researcher profiles
-├── datasets/                           ← Dataset descriptions
-├── benchmarks/                         ← Evaluation benchmarks
+├── datasets/                           ← Dataset and benchmark descriptions (use `type` field)
 ├── comparisons/                        ← Method comparisons
 ├── syntheses/                          ← Synthesized overviews (written after 3+ papers)
 └── projects/                           ← Ongoing projects
@@ -203,7 +201,7 @@ scripts/
 
 ## Workflow
 
-```
+```markdown
 sources/     library/      annotations/    reviews/
   │             │              │              │
   ▼             ▼              ▼              ▼
@@ -214,8 +212,7 @@ sources/     library/      annotations/    reviews/
                  ▼
              concepts/         ← distilled alongside browsing
              authors/
-             datasets/
-             benchmarks/
+             datasets/     (datasets + benchmarks, use `type` to distinguish)
              comparisons/
              syntheses/        ← written after 3+ papers accumulate in a sub-direction
              projects/
@@ -252,15 +249,33 @@ While browsing a paper, distill the knowledge you gain into the relevant library
    |---------|---------|------|
    | Core concepts | `library/concepts/` | Definitions, explanations, relations to existing concepts |
    | Researchers | `library/authors/` | Name, affiliation, research direction, representative works |
-   | Datasets | `library/datasets/` | Name, scale, source, use case |
-   | Benchmarks | `library/benchmarks/` | Metrics, comparison methods, results |
+   | Datasets | `library/datasets/` | Name, scale, source, use case, `type: dataset` |
+   | Benchmarks | `library/datasets/` | Metrics, comparison methods, results, `type: benchmark` |
    | Comparable methods | `library/comparisons/` | Comparison tables, filled in as more papers accumulate |
    | Synthesized overview | `library/syntheses/` | Written after 3+ papers accumulate in the same sub-direction |
    | Project relevance | `library/projects/` | Note the paper's relevance to your current research project |
 
-> **AI can help with:** extracting concepts, researchers, datasets, and benchmarks; generating method-comparison tables; drafting synthesized overviews.
+> **AI can help with:** extracting concepts, researchers, datasets and benchmarks (via `type` field); generating method-comparison tables; drafting synthesized overviews; setting trust signals (`generated: ai`, `verified: unverified`).
 
-**Output:** Paper entry status set to `browsed`; related knowledge written into `concepts/`, `authors/`, `datasets/`, `benchmarks/`, etc.
+**Output:** Paper entry status set to `browsed`; related knowledge written into `concepts/`, `authors/`, `datasets/` (with `type` field), etc. Entry YAML updated with `concepts`, `datasets`, `github`, `generated: ai`, `verified: unverified`.
+
+#### Trust Signals (OKF-inspired)
+
+All knowledge distillation notes carry two trust signal fields in their YAML frontmatter:
+
+| Field | Values | Meaning |
+|-------|--------|---------|
+| `generated` | `human` / `ai` / `agent` | Who produced the content |
+| `verified` | `unverified` / `machine-confirmed` / `human-reviewed` | Whether it has been reviewed |
+
+**Gate vs Label:** Different layers of the vault use different defenses against AI errors:
+
+- **Pre-gate (hard block):** Annotations (personal evaluation) and reviews (arguments, conclusions) — AI never writes these alone; only a skeleton is generated. This is a *pre-emptive* control: the content never exists as an unreviewed AI draft.
+- **Label (soft signal):** BROWSE-stage knowledge notes (concepts, authors, datasets, comparisons, syntheses, projects) — AI writes them, labels them `generated: ai` / `verified: unverified`. After you review a note, upgrade `verified` to `human-reviewed`. This is a *post-hoc* control: content exists first, then gets a trust label that downstream consumers can query.
+
+**Why this matters:** Without trust signals, every note looks equally trustworthy — including the ones AI drafted during BROWSE. With them, you can filter your knowledge base by confidence level before writing a review. The criterion for choosing gate vs label is whether you can enumerate *in advance* the types that must be human-authored: if you can ("personal evaluation", "review conclusions" — only a few), use a gate; if you can't (thousands of concept notes from diverse sources), use labels.
+
+**Upgrade path:** After reviewing a note, manually change `verified: unverified` → `verified: human-reviewed` in that note's YAML frontmatter.
 
 ---
 
@@ -270,7 +285,7 @@ While browsing a paper, distill the knowledge you gain into the relevant library
 
 **Actions:**
 1. Create a close-reading folder for the paper under the appropriate sub-direction in `annotations/`
-2. Write the close-reading note following the `annotations/_template/reading-note.md` template, covering:
+2. Write the close-reading note following the `annotations/_template/reading-note.md` template. **AI builds the skeleton** (sections 1–4, placeholders); **humans fill content** (section 5, figures/tables/formulas):
    - Research motivation and problem definition
    - Method details (including formula derivations)
    - Experimental setup and results analysis (including figure/table interpretation)
@@ -305,8 +320,7 @@ library/entries/paper.md ──→ annotations/paper/index.md
          │                          │
          ├──→ library/concepts/     │
          ├──→ library/authors/      │
-         ├──→ library/datasets/     │
-         ├──→ library/benchmarks/   │
+         ├──→ library/datasets/     │  (datasets + benchmarks, use `type`)
          └──→ library/comparisons/  │
                                     │
                 ┌───────────────────┘
@@ -314,7 +328,7 @@ library/entries/paper.md ──→ annotations/paper/index.md
          reviews/review.md ──→ library/syntheses/
 ```
 
-- **Paper entry → concepts/authors/datasets/benchmarks/comparisons**: one paper links to multiple knowledge nodes
+- **Paper entry → concepts/authors/datasets/comparisons**: one paper links to multiple knowledge nodes; datasets/ contains both datasets and benchmarks (distinguished by `type`)
 - **Concepts ↔ Authors**: who proposed this concept? bidirectional link
 - **Close-reading note → Paper entry**: close reading deepens the entry, linked via the `annotation:` field
 - **Review → Synthesis**: reviews cite syntheses/, and syntheses/ cite entries/
@@ -346,7 +360,7 @@ ReadR puts the **human** at the center. AI is an assistant, not the owner. The d
 
 1. **The close-reading layer** — llm-wiki has no equivalent. Machines can summarize, but a paper's formula derivations, experimental analysis, and ablation studies require a human to read and write line by line
 2. **The review layer** — llm-wiki's wiki is itself the endpoint. In research, the endpoint is a publishable survey, which requires a human to synthesize dozens of papers into a point of view
-3. **Entity separation** — llm-wiki uses a unified entities/ folder for people/organizations/products. In a research context, researchers / datasets / benchmarks are three distinct entity types, each with different query dimensions
+3. **Entity separation** — llm-wiki uses a unified entities/ folder for people/organizations/products. In a research context, researchers and datasets/benchmarks are distinct entity types, each with different query dimensions
 
 ### Borrowed Ideas
 
@@ -385,7 +399,7 @@ cp library/_template/library-entry.md library/entries/your-direction/my-paper.md
 # Edit title/authors/venue/tags in the YAML, set status: to-read
 
 # 2. BROWSE — read the abstract, distill knowledge
-# Write a summary in the entry, create notes in concepts/authors/datasets/
+# Write a summary in the entry, create notes in concepts/authors/datasets/ (use `type` for datasets/benchmarks)
 # Set status: browsed
 
 # 3. CLOSE-READ — close reading (optional)
@@ -422,7 +436,7 @@ ReadR's `CLAUDE.md` already encodes the full project structure and rules, which 
 
 | Stage | What AI can help with |
 |------|---------------|
-| **BROWSE** — knowledge distillation | Extracting concepts, researchers, datasets, benchmarks; generating method-comparison tables; drafting synthesized overviews |
+| **BROWSE** — knowledge distillation | Extracting concepts, researchers, datasets and benchmarks (via `type`); generating method-comparison tables; drafting synthesized overviews; setting trust signals (`generated: ai`, `verified: unverified`) |
 | **CLOSE-READ** — close-reading notes | Generating a first draft from the template (figures/tables/formulas still require manual work) |
 | **REVIEW** — review writing | Generating a report draft via NotebookLM, downloaded as Markdown and polished by hand |
 
@@ -435,14 +449,14 @@ ReadR's `CLAUDE.md` already encodes the full project structure and rules, which 
 #### Recommended Panel Layout
 
 ```
-┌──────────────────────────────────────────────┐
+┌─────────────────────────────────────────────────┐
 │  Left sidebar      │  Editor     │ Right sidebar│
 │                    │             │              │
 │  ├ File list       │  Note being │  ├ Backlinks │
 │  ├ Favorites       │  edited     │  ├ Outline   │
 │  └ (collapsible)   │             │  └ Graph     │
 │                    │             │              │
-└──────────────────────────────────────────────┘
+└─────────────────────────────────────────────────┘
 ```
 
 - **Left sidebar**: file list (browse by the four-layer directory structure), favorites (frequently used folders)
@@ -459,7 +473,7 @@ Obsidian uses `[[wiki-link]]` syntax to create bidirectional links between notes
 | -------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | Entry references a concept             | Write `[[Self-Attention]]` in the entry's YAML `concepts:` field                        | The entry is tagged as referencing that concept; the concept page's Backlinks show this paper |
 | Entry references an author             | Write `[[Vaswani, Ashish]]` in the YAML `authors_related:` field                        | Click to jump directly to the author profile                                                  |
-| Entry references a dataset             | Write `[[WMT 2014]]` in the YAML `datasets:` field                                      | The dataset page automatically lists papers that use it                                       |
+| Entry references a dataset/benchmark   | Write `[[WMT 2014]]` in the YAML `datasets:` field; use `type` in the asset note to distinguish dataset vs benchmark               | The asset page automatically lists papers that use it                                         |
 | Concept note links an author           | Write `[[Vaswani, Ashish]]` in the concept's body text                                  | Establishes a bidirectional "who proposed this concept" link                                  |
 | Review references a synthesis          | Write `[[Transformer Synthesis]]` in the review's body text                             | One click jumps to the corresponding synthesis note                                           |
 | Close-reading note links a paper entry | Write `← See [[Attention Is All You Need (NeurIPS 2017)]]` above the close-reading note | Links the close reading and the entry together                                                |
@@ -475,7 +489,7 @@ Obsidian uses `[[wiki-link]]` syntax to create bidirectional links between notes
 #### Tips for Working with ReadR
 
 1. **Create a new paper entry**: press `Ctrl+N` under the appropriate sub-direction in `library/entries/`, then fill in using a template
-2. **Quick navigation**: reference concepts/authors/datasets with `[[` in a paper entry for one-click jumps
+2. **Quick navigation**: reference concepts/authors/datasets (incl. benchmarks) with `[[` in a paper entry for one-click jumps
 3. **Trace via backlinks**: on a concept page, check the right sidebar to see which papers cite that concept
 4. **Graph view**: press `Ctrl+G` to see the paper-concept-author network for an entire direction
 5. **Insert templates**: use the command palette or the Templater plugin to quickly insert template content

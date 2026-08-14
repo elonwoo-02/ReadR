@@ -13,6 +13,8 @@ related_concepts:
 key_papers:
   - Attention Is All You Need (NeurIPS 2017)
 definition: "An attention mechanism that relates different positions of a single sequence to compute a representation of that sequence. The Transformer uses scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/√d_k)V."
+generated: ai
+verified: unverified
 created: 2026-07-26
 updated: 2026-07-26
 ---

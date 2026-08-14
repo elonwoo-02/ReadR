@@ -15,6 +15,8 @@ orcid: ""
 key_papers:
   - Attention Is All You Need (NeurIPS 2017)
   - An Image is Worth 16x16 Words (ICLR 2021)
+generated: ai
+verified: unverified
 created: 2026-07-26
 updated: 2026-07-26
 ---

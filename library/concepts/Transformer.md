@@ -13,6 +13,8 @@ related_concepts:
 key_papers:
   - Attention Is All You Need (NeurIPS 2017)
 definition: "A neural network architecture based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. The Transformer processes sequences in parallel using a stacked encoder-decoder structure built on multi-head self-attention and position-wise feed-forward networks."
+generated: ai
+verified: unverified
 created: 2026-07-26
 updated: 2026-07-26
 ---

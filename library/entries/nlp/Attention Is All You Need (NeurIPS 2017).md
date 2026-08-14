@@ -14,7 +14,7 @@ method: "Transformer"
 task: "Machine Translation"
 status: browsed
 direction: nlp
-source: ../../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
+source: ../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
 doi: ""
 annotation_path: ""
 concepts:
@@ -23,10 +23,11 @@ concepts:
   - Transformer
 datasets:
   - WMT 2014
-benchmarks:
-  - BLEU
 created: 2026-07-26
 updated: 2026-07-27
+github: ""
+generated: human
+verified: unverified
 ---
 # Attention Is All You Need — Transformer architecture
 
@@ -55,3 +56,8 @@ The Transformer uses an encoder-decoder architecture with **multi-head self-atte
 
 ### Significance
 The Transformer became the foundation for virtually all subsequent NLP breakthroughs (BERT, GPT, T5) and later extended to vision (ViT), audio, and multimodal models.
+
+
+
+
+
