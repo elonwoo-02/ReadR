@@ -16,7 +16,7 @@ status: browsed
 direction: nlp
 source: "[[Vaswani et al. - 2023 - Attention Is All You Need.pdf]]"
 doi: ""
-annotation_path: ""
+annotation: ""
 concepts:
   - Self-Attention
   - Multi-Head Attention

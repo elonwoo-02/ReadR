@@ -20,7 +20,7 @@ status: to-read
 direction: cv
 source: "[[Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf]]"
 doi: ""
-annotation_path: ""
+annotation: ""
 concepts:
   - Vision Transformer
   - Patch Embedding

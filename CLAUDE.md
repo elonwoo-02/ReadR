@@ -54,7 +54,7 @@ An Obsidian vault template for academic research, covering the full pipeline: **
 
 | Template | Purpose | Key YAML Fields |
 |---|---|---|
-| `library-entry.md` | Paper entry | title, authors, venue, method, task, status, direction, source, doi, annotation_path, concepts, datasets, github, generated, verified |
+| `library-entry.md` | Paper entry | title, authors, venue, method, task, status, direction, source, doi, annotation, concepts, datasets, github, generated, verified |
 | `concept.md` | Core concept | title, aliases, related_entries, related_concepts, key_papers, definition, generated, verified |
 | `author.md` | Researcher profile | title, related_entries, affiliation, research_interests, homepage, orcid, key_papers, generated, verified |
 | `dataset.md` | Dataset **or** benchmark (merged) | title, type, related_entries, task, modality, size, license, homepage, paper, leaderboard, protocol, github, generated, verified |
@@ -78,11 +78,11 @@ An Obsidian vault template for academic research, covering the full pipeline: **
 ### YAML Frontmatter
 
 - **Required fields** (enforced by validator): `title`, `authors`, `venue`, `method`, `task`, `status`, `direction`, `source`
-- **Relationship fields** (recommended, warned if absent): `annotation_path`, `concepts`, `datasets`, `github`, `generated`, `verified`
+- **Relationship fields** (recommended, warned if absent): `annotation`, `concepts`, `datasets`, `github`, `generated`, `verified`
 - **Status values** (enforced): `to-read`, `browsed`, `close-read`
 - **Direction format:** hierarchical path — e.g., `nlp/knowledge-graph/kg-augmented-llm`
 - **Source constraint:** the `source` field must be a wiki-link `[[file]]` resolving to a file inside `sources/` (enforced by validator)
-- **Wiki-link fields:** `source` and `annotation_path` use Obsidian `[[...]]` wiki-links (not relative paths) — `source` keeps the file extension (e.g. `[[paper.pdf]]`), `annotation_path` omits it (e.g. `[[Reading Note]]`)
+- **Wiki-link fields:** `source` and `annotation` use Obsidian `[[...]]` wiki-links (not relative paths) — `source` keeps the file extension (e.g. `[[paper.pdf]]`), `annotation` omits it (e.g. `[[Reading Note]]`)
 - **Trust signal fields** (OKF-inspired): `generated: human|ai|agent` (who created the content) and `verified: unverified|machine-confirmed|human-reviewed` (review status)
 
 ### Trust Signals (OKF-inspired)
@@ -110,13 +110,13 @@ Every knowledge distillation note (concepts, authors, datasets, comparisons, syn
 - Entries link to concepts via YAML `concepts: []` field
 - Entries link to datasets **and** benchmarks via the unified `datasets:` field (use `type` field in the asset note to distinguish dataset vs benchmark)
 - Entries record code repositories via `github:` field
-- Close-reading note linked via `annotation_path` (a wiki-link `[[note]]` to the reading note under `annotations/`)
+- Close-reading note linked via `annotation` (a wiki-link `[[note]]` to the reading note under `annotations/`)
 - Wiki-links `[[...]]` used for cross-referencing in body text (validator checks for broken links)
 - Tags use `category/key` style (e.g., `direction/nlp`, `method/gfm-rag`, `task/qa`, `status/to-read`, `venue/neurips`)
 
 ### Close-Read Annotation Requirement
 
-A paper entry with `status: close-read` **must** have a non-empty `annotation_path` wiki-link `[[note]]` pointing to an existing annotation note (enforced by validator).
+A paper entry with `status: close-read` **must** have a non-empty `annotation` wiki-link `[[note]]` pointing to an existing annotation note (enforced by validator).
 
 ## Scripts & Automation
 
@@ -126,7 +126,7 @@ A paper entry with `status: close-read` **must** have a non-empty `annotation_pa
 pwsh scripts/ReadR.ps1 -Validate
 ```
 
-Checks: YAML frontmatter presence, required fields, valid status values, source wiki-link resolution to `sources/`, annotation_path wiki-link resolution to `annotations/`, broken wiki-links across `library/`, `annotations/`, and `reviews/`. Run after any batch of changes. Exits with code 1 if errors are found.
+Checks: YAML frontmatter presence, required fields, valid status values, source wiki-link resolution to `sources/`, annotation wiki-link resolution to `annotations/`, broken wiki-links across `library/`, `annotations/`, and `reviews/`. Run after any batch of changes. Exits with code 1 if errors are found.
 
 ### Index Generation
 
@@ -152,7 +152,7 @@ Required after cloning or pulling changes to the ReadR Dashboard plugin.
 
 **BROWSE**: Read summary & introduction, write the redesigned Browse Summary (Problem & Motivation / Method Overview / Key Results / Significance & Impact). Concurrently distill: extract concepts → `concepts/`, record researchers → `authors/`, datasets+benchmarks → `datasets/`, compare methods → `comparisons/`. Write synthesis → `syntheses/` after 3+ papers in a sub-direction. Set trust signals (`generated: ai`, `verified: unverified`). Set `status: browsed`.
 
-**CLOSE-READ**: Create a folder under `annotations/<direction>/<sub-direction>/<paper-name>/` (mirrors the entry's path). Write `reading-note.md` using the annotation template — **AI builds the skeleton** (sections 1–4, placeholders), **humans fill content** (section 5, figures/tables/formulas). Update the entry's `annotation_path` and set `status: close-read`.
+**CLOSE-READ**: Create a folder under `annotations/<direction>/<sub-direction>/<paper-name>/` (mirrors the entry's path). Write `reading-note.md` using the annotation template — **AI builds the skeleton** (sections 1–4, placeholders), **humans fill content** (section 5, figures/tables/formulas). Update the entry's `annotation` and set `status: close-read`.
 
 **REVIEW**: Write formal survey in `reviews/`. Use `reviews/templates/writing_constraints_template.md` for structured writing constraints (Chinese-language template with `{{...}}` placeholders covering topic, citation format, word count, chapter structure, etc.).
 

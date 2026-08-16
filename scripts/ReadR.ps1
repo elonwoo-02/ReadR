@@ -164,7 +164,7 @@ function Invoke-Validation {
     }
 
     # Basename indices for resolving wiki-link fields (source -> sources/,
-    # annotation_path -> annotations/). Dual-keyed (with/without extension).
+    # annotation -> annotations/). Dual-keyed (with/without extension).
     $sourcesByName = Build-BasenameIndex (Join-Path $VaultRoot 'sources')
     $annotationsByName = Build-BasenameIndex (Join-Path $VaultRoot 'annotations')
 
@@ -179,7 +179,7 @@ function Invoke-Validation {
         foreach ($key in @('title', 'authors', 'venue', 'source', 'method', 'task', 'status', 'direction')) {
             if (-not (Test-ValuePresent $frontmatter $key)) { $issues.Add((New-Issue Error $relative "Missing required field: $key.")) }
         }
-        foreach ($key in @('annotation_path', 'concepts', 'datasets', 'github', 'generated', 'verified')) {
+        foreach ($key in @('annotation', 'concepts', 'datasets', 'github', 'generated', 'verified')) {
             if (-not $frontmatter.ContainsKey($key)) {
                 $msg = if ($key -eq 'datasets') { "Recommended relationship field is absent: $key (use type field to distinguish dataset/benchmark)." }
                        else { "Recommended relationship field is absent: $key." }
@@ -228,20 +228,20 @@ function Invoke-Validation {
             }
         }
 
-        $hasAnnotation = Test-ValuePresent $frontmatter 'annotation_path'
+        $hasAnnotation = Test-ValuePresent $frontmatter 'annotation'
         if ($hasAnnotation) {
-            $annotationTarget = Get-WikiLinkTarget ([string]$frontmatter['annotation_path'])
+            $annotationTarget = Get-WikiLinkTarget ([string]$frontmatter['annotation'])
             if ($null -eq $annotationTarget) {
-                $issues.Add((New-Issue Error $relative 'annotation_path must be a wiki-link [[...]] resolving to a file under annotations/.'))
+                $issues.Add((New-Issue Error $relative 'annotation must be a wiki-link [[...]] resolving to a file under annotations/.'))
             } else {
                 $resolved = Resolve-VaultLink $annotationTarget $VaultRoot 'annotations' $annotationsByName
                 if (-not $resolved) {
-                    $issues.Add((New-Issue Error $relative "annotation_path wiki-link does not resolve to a file under annotations/: [[$annotationTarget]]."))
+                    $issues.Add((New-Issue Error $relative "annotation wiki-link does not resolve to a file under annotations/: [[$annotationTarget]]."))
                 }
             }
         }
         if ($statusValue -eq 'close-read' -and -not $hasAnnotation) {
-            $issues.Add((New-Issue Error $relative 'A close-read entry requires an annotation_path.'))
+            $issues.Add((New-Issue Error $relative 'A close-read entry requires an annotation.'))
         }
         $records.Add([pscustomobject]@{
             File = $relative; Title = [string]$frontmatter['title']; Venue = [string]$frontmatter['venue']
@@ -254,7 +254,7 @@ function Invoke-Validation {
         $relative = $note.FullName.Substring($VaultRoot.Length).TrimStart('\', '/')
         $raw = Get-Content -LiteralPath $note.FullName -Raw
         # Scan only the note body, not the YAML frontmatter — field-value wiki-links
-        # (source, annotation_path) are validated by their own field logic.
+        # (source, annotation) are validated by their own field logic.
         $fmMatch = [regex]::Match($raw, '(?s)\A---\r?\n.*?\r?\n---')
         $body = if ($fmMatch.Success) { $raw.Substring($fmMatch.Length) } else { $raw }
         foreach ($match in [regex]::Matches($body, '(?<!\!)\[\[([^\]]+)\]\]')) {
