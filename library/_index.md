@@ -7,8 +7,8 @@
 | Status | Papers |
 | --- | ---: |
 | to-read | 1 |
-| browsed | 1 |
-| close-read | 0 |
+| browsed | 4 |
+| close-read | 3 |
 
 ## Papers by Direction
 
@@ -16,25 +16,40 @@
 
 | Paper | Venue | Status |
 | --- | --- | --- |
-| [[library/entries/your_direction/sub_direction_n/An Image is Worth 16x16 Words (ICLR 2021)|An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale]] | ICLR 2021 | to-read |
+| [[library/entries/cv/An Image is Worth 16x16 Words (ICLR 2021)|An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale]] | ICLR 2021 | to-read |
 
 ### nlp
 
-| Paper                                                                                     | Venue                       | Status       |         |
-| ----------------------------------------------------------------------------------------- | --------------------------- | ------------ | ------- |
-| [[library/entries/your_direction/sub_direction_1/Attention Is All You Need (NeurIPS 2017) | Attention Is All You Need]] | NeurIPS 2017 | browsed |
+| Paper | Venue | Status |
+| --- | --- | --- |
+| [[library/entries/nlp/Attention Is All You Need (NeurIPS 2017)|Attention Is All You Need]] | NeurIPS 2017 | browsed |
+
+### nlp/knowledge-graph/kg-augmented-llm
+
+| Paper | Venue | Status |
+| --- | --- | --- |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/G-reasoner (ICLR 2026)|G-reasoner: Foundation Models for Unified Reasoning over Graph-structured Knowledge]] | ICLR 2026 | browsed |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/GFM-RAG (NeurIPS 2025)|GFM-RAG: Graph Foundation Model for Retrieval Augmented Generation]] | NeurIPS 2025 | close-read |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/Graph-constrained Reasoning|Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models]] | ICML 2025 | close-read |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/How to Mitigate Information Loss in Knowledge Graphs for GraphRAG (IJCAI 2025)|How to Mitigate Information Loss in Knowledge Graphs for GraphRAG: Leveraging Triple Context Restoration and Query-Driven Feedback]] | IJCAI 2025 | close-read |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/MegaRAG（ACL 2026）|MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation]] | ACL 2026 | browsed |
+| [[library/entries/nlp/knowledge-graph/kg-augmented-llm/Stepwise Contrastive Reasoning for RAG over KGs (AAAI 2026)|Stepwise Contrastive Reasoning for Retrieval-Augmented Generation over Knowledge Graphs]] | AAAI 2026 | browsed |
 
 ## Research Asset Counts
 
 | Asset type | Notes |
 | --- | ---: |
-| concepts | 3 |
-| authors | 3 |
-| datasets | 1 |
-| benchmarks | 1 |
-| comparisons | 0 |
-| syntheses | 0 |
+| concepts | 21 |
+| authors | 24 |
+| datasets | 23 |
+| comparisons | 2 |
+| syntheses | 1 |
 | projects | 0 |
+| benchmarks (in datasets/) | 3 |
+
+## Potential Duplicates
+
+_No potential duplicates detected._
 
 ## Validation Summary
 

@@ -81,7 +81,8 @@ An Obsidian vault template for academic research, covering the full pipeline: **
 - **Relationship fields** (recommended, warned if absent): `annotation_path`, `concepts`, `datasets`, `github`, `generated`, `verified`
 - **Status values** (enforced): `to-read`, `browsed`, `close-read`
 - **Direction format:** hierarchical path — e.g., `nlp/knowledge-graph/kg-augmented-llm`
-- **Source constraint:** the `source` field must resolve to a path inside `sources/` (enforced by validator)
+- **Source constraint:** the `source` field must be a wiki-link `[[file]]` resolving to a file inside `sources/` (enforced by validator)
+- **Wiki-link fields:** `source` and `annotation_path` use Obsidian `[[...]]` wiki-links (not relative paths) — `source` keeps the file extension (e.g. `[[paper.pdf]]`), `annotation_path` omits it (e.g. `[[Reading Note]]`)
 - **Trust signal fields** (OKF-inspired): `generated: human|ai|agent` (who created the content) and `verified: unverified|machine-confirmed|human-reviewed` (review status)
 
 ### Trust Signals (OKF-inspired)
@@ -109,13 +110,13 @@ Every knowledge distillation note (concepts, authors, datasets, comparisons, syn
 - Entries link to concepts via YAML `concepts: []` field
 - Entries link to datasets **and** benchmarks via the unified `datasets:` field (use `type` field in the asset note to distinguish dataset vs benchmark)
 - Entries record code repositories via `github:` field
-- Close-reading note linked via `annotation_path` (relative path to the annotation folder/file)
+- Close-reading note linked via `annotation_path` (a wiki-link `[[note]]` to the reading note under `annotations/`)
 - Wiki-links `[[...]]` used for cross-referencing in body text (validator checks for broken links)
 - Tags use `category/key` style (e.g., `direction/nlp`, `method/gfm-rag`, `task/qa`, `status/to-read`, `venue/neurips`)
 
 ### Close-Read Annotation Requirement
 
-A paper entry with `status: close-read` **must** have a non-empty `annotation_path` pointing to an existing file (enforced by validator).
+A paper entry with `status: close-read` **must** have a non-empty `annotation_path` wiki-link `[[note]]` pointing to an existing annotation note (enforced by validator).
 
 ## Scripts & Automation
 
@@ -125,7 +126,7 @@ A paper entry with `status: close-read` **must** have a non-empty `annotation_pa
 pwsh scripts/ReadR.ps1 -Validate
 ```
 
-Checks: YAML frontmatter presence, required fields, valid status values, source path resolution inside `sources/`, annotation path existence, broken wiki-links across `library/`, `annotations/`, and `reviews/`. Run after any batch of changes. Exits with code 1 if errors are found.
+Checks: YAML frontmatter presence, required fields, valid status values, source wiki-link resolution to `sources/`, annotation_path wiki-link resolution to `annotations/`, broken wiki-links across `library/`, `annotations/`, and `reviews/`. Run after any batch of changes. Exits with code 1 if errors are found.
 
 ### Index Generation
 

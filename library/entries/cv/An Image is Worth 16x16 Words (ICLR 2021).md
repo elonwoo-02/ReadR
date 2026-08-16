@@ -18,7 +18,7 @@ method: "Vision Transformer"
 task: "Image Classification"
 status: to-read
 direction: cv
-source: ../../../sources/papers/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
+source: "[[Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf]]"
 doi: ""
 annotation_path: ""
 concepts:

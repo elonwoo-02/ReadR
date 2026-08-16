@@ -14,7 +14,7 @@ method: "Transformer"
 task: "Machine Translation"
 status: browsed
 direction: nlp
-source: ../../../sources/papers/Vaswani et al. - 2023 - Attention Is All You Need.pdf
+source: "[[Vaswani et al. - 2023 - Attention Is All You Need.pdf]]"
 doi: ""
 annotation_path: ""
 concepts:

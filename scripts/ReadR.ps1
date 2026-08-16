@@ -97,6 +97,59 @@ function Test-WikiTarget {
     $ByName.ContainsKey($clean.ToLowerInvariant())
 }
 
+function Get-WikiLinkTarget {
+    param([string]$Value)
+    # Returns the cleaned target inside [[ ... ]] if $Value is a wiki-link, else $null.
+    # Accepts [[Target]], [[Target|Alias]], [[Target#Heading]], [[Target^block]].
+    if ([string]::IsNullOrWhiteSpace($Value)) { return $null }
+    if ($Value -notmatch '^\[\[(.+)\]\]$') { return $null }
+    $target = (($Matches[1] -split '[#|]', 2)[0]).Trim()
+    if ([string]::IsNullOrWhiteSpace($target)) { return $null }
+    $target
+}
+
+function Build-BasenameIndex {
+    param([string]$DirectoryPath)
+    # Returns a hashtable keyed by lowercased basename — both WITH extension and
+    # WITHOUT extension — mapping to a list of full paths. Dual keys let both
+    # [[file.pdf]] (with ext) and [[Note Name]] (without ext) resolve.
+    $index = @{}
+    if (-not (Test-Path -LiteralPath $DirectoryPath)) { return $index }
+    foreach ($file in (Get-ChildItem -LiteralPath $DirectoryPath -Recurse -File)) {
+        $withExt = $file.Name.ToLowerInvariant()
+        $withoutExt = [System.IO.Path]::GetFileNameWithoutExtension($file.Name).ToLowerInvariant()
+        foreach ($key in @($withExt, $withoutExt)) {
+            if ([string]::IsNullOrWhiteSpace($key)) { continue }
+            if (-not $index.ContainsKey($key)) { $index[$key] = [System.Collections.Generic.List[string]]::new() }
+            $index[$key].Add($file.FullName)
+        }
+    }
+    $index
+}
+
+function Resolve-VaultLink {
+    param([string]$Target, [string]$VaultRoot, [string]$RestrictDir, [hashtable]$ByBasename)
+    # Resolves a wiki-link target to an absolute path under $RestrictDir, or $null.
+    # Name-style links resolve via $ByBasename; path-style links resolve relative
+    # to the vault root. URL targets are not vault files.
+    if ([string]::IsNullOrWhiteSpace($Target)) { return $null }
+    if ($Target -match '^[a-z]+://') { return $null }
+    if ($Target -match '[\\/]') {
+        $restrictFull = [System.IO.Path]::GetFullPath((Join-Path $VaultRoot $RestrictDir))
+        $restrictPrefix = $restrictFull.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+        $candidate = Join-Path $VaultRoot $Target
+        if (-not [System.IO.Path]::GetExtension($candidate)) { $candidate = "$candidate.md" }
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            $resolved = [System.IO.Path]::GetFullPath($candidate)
+            if ($resolved.StartsWith($restrictPrefix, [System.StringComparison]::OrdinalIgnoreCase)) { return $resolved }
+        }
+        return $null
+    }
+    $key = $Target.ToLowerInvariant()
+    if ($ByBasename.ContainsKey($key) -and $ByBasename[$key].Count -gt 0) { return @($ByBasename[$key])[0] }
+    $null
+}
+
 function Invoke-Validation {
     param([string]$VaultRoot)
     $issues = [System.Collections.Generic.List[object]]::new()
@@ -110,9 +163,12 @@ function Invoke-Validation {
         $byName[$key] += $note
     }
 
+    # Basename indices for resolving wiki-link fields (source -> sources/,
+    # annotation_path -> annotations/). Dual-keyed (with/without extension).
+    $sourcesByName = Build-BasenameIndex (Join-Path $VaultRoot 'sources')
+    $annotationsByName = Build-BasenameIndex (Join-Path $VaultRoot 'annotations')
+
     $records = [System.Collections.Generic.List[object]]::new()
-    $sourceRoot = [System.IO.Path]::GetFullPath((Join-Path $VaultRoot 'sources'))
-    $sourcePrefix = $sourceRoot.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
     foreach ($entry in $entries) {
         $relative = $entry.FullName.Substring($VaultRoot.Length).TrimStart('\', '/')
         $frontmatter = Get-Frontmatter $entry.FullName
@@ -161,19 +217,27 @@ function Invoke-Validation {
         }
 
         if (Test-ValuePresent $frontmatter 'source') {
-            $sourcePath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['source'])))
-            if (-not $sourcePath.StartsWith($sourcePrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-                $issues.Add((New-Issue Error $relative 'Source path must resolve inside sources/.'))
-            } elseif (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
-                $issues.Add((New-Issue Error $relative "Source file does not exist: $($frontmatter['source'])."))
+            $sourceTarget = Get-WikiLinkTarget ([string]$frontmatter['source'])
+            if ($null -eq $sourceTarget) {
+                $issues.Add((New-Issue Error $relative 'Source must be a wiki-link [[...]] resolving to a file under sources/.'))
+            } else {
+                $resolved = Resolve-VaultLink $sourceTarget $VaultRoot 'sources' $sourcesByName
+                if (-not $resolved) {
+                    $issues.Add((New-Issue Error $relative "Source wiki-link does not resolve to a file under sources/: [[$sourceTarget]]."))
+                }
             }
         }
 
         $hasAnnotation = Test-ValuePresent $frontmatter 'annotation_path'
         if ($hasAnnotation) {
-            $annotationPath = [System.IO.Path]::GetFullPath((Join-Path $entry.DirectoryName ([string]$frontmatter['annotation_path'])))
-            if (-not (Test-Path -LiteralPath $annotationPath -PathType Leaf)) {
-                $issues.Add((New-Issue Error $relative "Annotation does not exist: $($frontmatter['annotation_path'])."))
+            $annotationTarget = Get-WikiLinkTarget ([string]$frontmatter['annotation_path'])
+            if ($null -eq $annotationTarget) {
+                $issues.Add((New-Issue Error $relative 'annotation_path must be a wiki-link [[...]] resolving to a file under annotations/.'))
+            } else {
+                $resolved = Resolve-VaultLink $annotationTarget $VaultRoot 'annotations' $annotationsByName
+                if (-not $resolved) {
+                    $issues.Add((New-Issue Error $relative "annotation_path wiki-link does not resolve to a file under annotations/: [[$annotationTarget]]."))
+                }
             }
         }
         if ($statusValue -eq 'close-read' -and -not $hasAnnotation) {
@@ -188,7 +252,12 @@ function Invoke-Validation {
 
     foreach ($note in $notes) {
         $relative = $note.FullName.Substring($VaultRoot.Length).TrimStart('\', '/')
-        foreach ($match in [regex]::Matches((Get-Content -LiteralPath $note.FullName -Raw), '(?<!\!)\[\[([^\]]+)\]\]')) {
+        $raw = Get-Content -LiteralPath $note.FullName -Raw
+        # Scan only the note body, not the YAML frontmatter — field-value wiki-links
+        # (source, annotation_path) are validated by their own field logic.
+        $fmMatch = [regex]::Match($raw, '(?s)\A---\r?\n.*?\r?\n---')
+        $body = if ($fmMatch.Success) { $raw.Substring($fmMatch.Length) } else { $raw }
+        foreach ($match in [regex]::Matches($body, '(?<!\!)\[\[([^\]]+)\]\]')) {
             if (-not (Test-WikiTarget $match.Groups[1].Value $note $VaultRoot $byName)) {
                 $issues.Add((New-Issue Error $relative "Broken wiki link: [[$($match.Groups[1].Value)]]."))
             }
