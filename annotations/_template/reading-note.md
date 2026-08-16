@@ -1,15 +1,14 @@
 ---
-type: "Reading Note"
-title: "Paper Title"
-authors:
-  - Author 1
-  - Author 2
-venue: "Conference/Journal (Year)"
+type: Reading Note
 date: YYYY-MM-DD
-paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
+paper-entry: "[[]]"
+title:
+venue: Conference/Journal (Year)
+link:
 ---
 
 > **AI 生成说明：**
+> - 文件名：中文论文名 （期刊 年）
 > - **AI 骨架范围：** 第 1–4 节由 AI 生成骨架（论文元数据、研究背景、核心方法、实验结果、讨论分析）、公式，图/表仅放置占位符。
 > - **人类必填范围：** 第 5 节「个人评价与思考」由人类填写；图/表/公式的实际内容须由人类嵌入。
 > - 图 → `![图 X：标题](attachments/fig-XX.png)` + 解读
@@ -17,14 +16,6 @@ paper-entry: "../../library/entries/DIRECTION/SUB_DIRECTION/Paper Title.md"
 > - 公式 → 说明符号含义、推导逻辑及作用
 
 ---
-
-文献精读总结通用大纲
-
-文件名：中文论文名 期刊 年
-
-> Title: 
-> Conference/...:
-> Link:
 
 用自己的话简要概括文献的核心内容、主要方法和关键发现（1段）。
 
