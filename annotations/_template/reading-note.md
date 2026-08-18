@@ -7,74 +7,74 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Reading Note: Paper Title
+# Paper Title（Venue Year）
 
 > **Title:** Paper Title
 > **Venue:** Conference / Journal (Year)
 > **Link:** URL
 
-> **AI / Human division of labor**
-> - **AI (skeleton):** Sections 1–4 — metadata, research background, core method, experimental results, discussion & analysis. Formulas included; figures and tables are placeholders only.
-> - **Human (content):** All actual figures, tables, and formulas, plus Section 5 "Personal Evaluation & Reflection".
-> - Figure → `![Figure X: caption](attachments/fig-XX.png)` + interpretation
-> - Table → rewrite as a Markdown table or cite the original table number + analysis
-> - Formula → explain symbols, derivation logic, and purpose
+> **AI / Human 分工**
+> - **AI（骨架）：** 第 1–4 节（研究背景、核心方法、实验结果、讨论分析）。公式仅写占位；图、表、例子的实际内容须由人工嵌入并逐一解释。
+> - **人工（内容）：** 所有实际的公式、图、表、例子——每一个都必须解释；以及第 5 节"个人评价与思考"。
 
 ## Summary
 
-Summarize the paper's core content, main method, and key findings in your own words (1 paragraph).
+用一段话概述论文的核心内容、主要方法和关键发现。
 
 ## Research Background & Motivation
 
-- Why did the authors do this research? (existing problems, challenges, research gaps)
-- What core problem is this research trying to solve?
+- 为什么做这项研究？（现有问题、挑战、研究空白）
+- 试图解决什么核心问题？
 
 ## Core Method
 
+完整解释方法——每一个组件、公式、图片和例子都要解释。
+
 ### Method Overview
 
-Briefly introduce the overall method or framework proposed.
+整体思路与模块如何组合。
 
-- **Architecture Diagram:** Insert the paper's model/framework figure and explain each module's function and data flow.
-  > ![Model Architecture](attachments/fig-01.png)
+- **架构图：** 插入模型/框架图，解释完整数据流与每个模块的作用。
+  > ![模型架构图](attachments/fig-01.png)
 
 ### Method Details
 
-- **Key Components:** Describe each module or step in the method in detail.
-- **Technical Details:** Explain the specific techniques, models, and algorithms used.
-- **Innovations:** How does this method differ from or improve on existing approaches?
-- **Formula Explanation:** List important formulas, explain each symbol, the derivation logic, and the purpose.
+- **关键组件：** 详细描述方法的各个模块或步骤。
+- **创新点：** 有何独特之处，以及为何有效。
+- **公式详解：** 说明符号含义、推导逻辑及作用。
   > \[
   > \mathcal{L} = -\sum_{i} \log P(y_i \mid x_i)
   > \]
+- **例子：** 用一个具体例子把方法讲清楚。
 
 ## Experiments & Results
 
-1. **Experimental Setup**
-   - **Datasets:** Which datasets were used? What are their characteristics?
-   - **Baselines:** Which existing methods were compared against?
-   - **Metrics:** Which metrics were used to measure performance?
-2. **Main Results**
-   - What key findings did the authors obtain experimentally?
-   - How do these results support the authors' claims?
-   - **Key Figure/Table Interpretation:** Insert and explain core result figures.
-3. **Ablation / Parameter Analysis**
-   - Did the authors analyze different components or parameters?
-   - What do these analyses reveal?
+### Experimental Setup
+
+数据集、基线方法和评估指标。
+
+### Results Interpretation
+
+逐一解释每张图片和每个表格——它展示什么、意味着什么。
+
+- **图 1：** ![标题](attachments/fig-01.png) — 解读。
+- **表 1：** — 解读。
+
+### Ablation / Parameter Analysis
+
+每个消融实验揭示了什么。
 
 ## Discussion & Analysis
 
-- **Main Contributions:** Summarize the key contributions to the field.
-- **Innovation Summary:** Reiterate the methodological innovations.
-- **Strengths:** What are the notable advantages?
-- **Limitations:** What limitations did the authors acknowledge, and any you perceive?
-- **Future Work:** What future directions did the authors propose?
+- **主要贡献** — 论文声称的贡献。
+- **优势与局限**
+- **未来工作**
 
 ## Personal Evaluation & Reflection (Human Required)
 
-> **AI note:** This section must be filled by humans. AI provides only guiding questions below.
+> **AI 注意：** 本节内容必须由人工填写。AI 仅提供以下引导问题。
 
-1. **Personal Understanding:** What is your deepest takeaway from this paper?
-2. **Inspiration:** What impact on your own research?
-3. **Questions:** What remains unanswered?
-4. **Improvements:** If you were the author, what would you do differently?
+1. **个人理解：** 这篇论文最深刻的理解是什么？
+2. **启发：** 对你自己的研究有何影响？
+3. **疑问：** 还有什么未解之处？
+4. **改进：** 如果你是作者，会做哪些改变？
