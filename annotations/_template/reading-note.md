@@ -1,7 +1,6 @@
 ---
 type: Reading Note
 paper-entry: "[[Entry Title]]"     # wiki-link to the paper entry
-date: YYYY-MM-DD                  # date of close reading
 generated: human                  # human | ai | agent
 verified: unverified              # unverified | machine-confirmed | human-reviewed
 created: YYYY-MM-DD
