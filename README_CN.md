@@ -471,9 +471,9 @@ Obsidian 使用 `[[wiki-link]]` 语法建立笔记间的双向链接，配合侧
 | 场景 | 操作 | 效果 |
 |------|------|------|
 | 论文条目引用概念 | 在条目的 YAML `concepts:` 字段中写入 `[[Self-Attention]]` | 条目标注引用了该概念，概念页的 Backlinks 会显示这篇论文 |
-| 论文条目引用作者 | 在 YAML `authors_related:` 中写入 `[[Vaswani, Ashish]]` | 点击自动跳转到作者档案 |
+| 论文条目引用作者 | 在 YAML `authors_related:` 中写入 `[[Ashish Vaswani]]` | 点击自动跳转到作者档案 |
 | 论文条目引用数据集 | 在 YAML `datasets:` 中写入 `[[WMT 2014]]` | 数据集页自动列出使用它的论文 |
-| 概念笔记链接作者 | 在概念正文中写入 `[[Vaswani, Ashish]]` | 建立"谁提出了这个概念"的双向关联 |
+| 概念笔记链接作者 | 在概念正文中写入 `[[Ashish Vaswani]]` | 建立"谁提出了这个概念"的双向关联 |
 | 综述引用综合概述 | 在综述正文中写入 `[[Transformer 综合概述]]` | 一键跳转到对应的 synthesis 笔记 |
 | 精读笔记链接论文条目 | 在精读笔记上方写入 `← 详见 [[Attention Is All You Need (NeurIPS 2017)]]` | 精读与条目互相关联 |
 
