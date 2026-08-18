@@ -1,86 +1,81 @@
 ---
 type: Reading Note
-date: YYYY-MM-DD
-paper-entry: "[[]]"
-title:
-venue: Conference/Journal (Year)
-link:
+paper-entry: "[[Entry Title]]"     # wiki-link to the paper entry
+date: YYYY-MM-DD                  # date of close reading
+generated: human                  # human | ai | agent
+verified: unverified              # unverified | machine-confirmed | human-reviewed
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
 ---
 
-> **AI 生成说明：**
-> - 文件名：中文论文名 （期刊 年）
-> - **AI 骨架范围：** 第 1–4 节由 AI 生成骨架（论文元数据、研究背景、核心方法、实验结果、讨论分析）、公式，图/表仅放置占位符。
-> - **人类必填范围：** 第 5 节「个人评价与思考」由人类填写；图/表/公式的实际内容须由人类嵌入。
-> - 图 → `![图 X：标题](attachments/fig-XX.png)` + 解读
-> - 表 → 转述为 Markdown 表格或引用原文表号 + 分析
-> - 公式 → 说明符号含义、推导逻辑及作用
+# Reading Note: Paper Title
 
----
+> **Title:** Paper Title
+> **Venue:** Conference / Journal (Year)
+> **Link:** URL
 
-用自己的话简要概括文献的核心内容、主要方法和关键发现（1段）。
+> **AI / Human division of labor**
+> - **AI (skeleton):** Sections 1–4 — metadata, research background, core method, experimental results, discussion & analysis. Formulas included; figures and tables are placeholders only.
+> - **Human (content):** All actual figures, tables, and formulas, plus Section 5 "Personal Evaluation & Reflection".
+> - Figure → `![Figure X: caption](attachments/fig-XX.png)` + interpretation
+> - Table → rewrite as a Markdown table or cite the original table number + analysis
+> - Formula → explain symbols, derivation logic, and purpose
 
-## 研究背景与动机
+## Summary
 
-*   作者为什么要做这项研究？（现有问题、挑战、研究空白）
-*   这项研究试图解决什么核心问题？
+Summarize the paper's core content, main method, and key findings in your own words (1 paragraph).
 
-## 核心方法
+## Research Background & Motivation
 
-**方法总览**：简要介绍作者提出的整体方法或框架。
-*   **架构图**：插入论文中的模型/框架图，逐模块解释功能与数据流向。
-> ![模型架构图](attachments/fig-01.png)
-> *该图展示了…，模块 A 负责…，数据从…流向…*
+- Why did the authors do this research? (existing problems, challenges, research gaps)
+- What core problem is this research trying to solve?
 
-### **方法细节**：
-*   **关键组成部分**：详细描述方法中的各个模块或步骤。
-*   **技术细节**：解释每个组成部分所使用的具体技术、模型、算法等。
-*   **创新点**：与现有方法相比，该方法有哪些独特之处或改进？
-*   **公式详解**：列出论文中的重要公式，说明每个符号的含义、推导逻辑及作用。
-> \[
-> \mathcal{L} = -\sum_{i} \log P(y_i \mid x_i)
-> \]
-> *其中 \(y_i\) 为…，\(x_i\) 为…。该公式表示…*
+## Core Method
 
-## 实验与结果
+### Method Overview
 
-1.  **实验设置**：
-    *   **数据集**：使用了哪些数据集？其特点是什么？
-    *   **基线方法**：与哪些现有方法进行了比较？
-    *   **评估指标**：使用了哪些指标来衡量性能？
-2.  **主要结果**：
-    *   作者通过实验得到了哪些关键发现？
-    *   这些结果是如何支持作者的论点的？
-    *   **关键图表解读**：插入并解释核心结果图表（必须）。
-        > **表：**
-        > **图：**
-3.  **消融研究/参数分析**：
-    *   作者是否对方法的不同组件或参数进行了分析？
-    *   这些分析揭示了什么？
-    *   **消融实验图表**：插入消融实验的图表并解读。
+Briefly introduce the overall method or framework proposed.
 
-## 讨论与分析
+- **Architecture Diagram:** Insert the paper's model/framework figure and explain each module's function and data flow.
+  > ![Model Architecture](attachments/fig-01.png)
 
-1.  **主要贡献**：总结这项研究对领域的主要贡献是什么？
-2.  **创新点总结**：再次强调方法上的创新之处。
-3.  **优势**：该方法有哪些显著的优点？
-4.  **局限性**：
-    *   作者自己指出了哪些局限性？
-    *   你认为该方法可能还存在哪些潜在的局限性或未解决的问题？
-5.  **未来工作**：作者提出了哪些未来研究方向？
+### Method Details
 
-## 个人评价与思考 (Human Required)
+- **Key Components:** Describe each module or step in the method in detail.
+- **Technical Details:** Explain the specific techniques, models, and algorithms used.
+- **Innovations:** How does this method differ from or improve on existing approaches?
+- **Formula Explanation:** List important formulas, explain each symbol, the derivation logic, and the purpose.
+  > \[
+  > \mathcal{L} = -\sum_{i} \log P(y_i \mid x_i)
+  > \]
 
-> **AI 注意：本节内容必须由人类填写。AI 仅提供以下引导问题作为骨架，不得自行撰写具体内容。**
+## Experiments & Results
 
-<!-- AI 骨架开始：以下引导问题供人类填写参考 -->
+1. **Experimental Setup**
+   - **Datasets:** Which datasets were used? What are their characteristics?
+   - **Baselines:** Which existing methods were compared against?
+   - **Metrics:** Which metrics were used to measure performance?
+2. **Main Results**
+   - What key findings did the authors obtain experimentally?
+   - How do these results support the authors' claims?
+   - **Key Figure/Table Interpretation:** Insert and explain core result figures.
+3. **Ablation / Parameter Analysis**
+   - Did the authors analyze different components or parameters?
+   - What do these analyses reveal?
 
-1.  **个人理解**：你对这篇文献最深刻的理解是什么？
-    _<!-- What is the single most important thing you learned from this paper? -->_
-2.  **启发**：这篇文献给你带来了哪些启发？对你自己的研究有什么潜在影响？
-    _<!-- How does this paper affect your current work? -->_
-3.  **疑问**：阅读过程中，你有哪些尚未解决的疑问或觉得可以进一步探讨的地方？
-    _<!-- What questions remain unanswered? -->_
-4.  **可改进之处**：如果你是作者，你会在哪些方面进行改进或扩展？
-    _<!-- If you were the author, what would you do differently? -->_
+## Discussion & Analysis
 
-<!-- AI 骨架结束 -->
+- **Main Contributions:** Summarize the key contributions to the field.
+- **Innovation Summary:** Reiterate the methodological innovations.
+- **Strengths:** What are the notable advantages?
+- **Limitations:** What limitations did the authors acknowledge, and any you perceive?
+- **Future Work:** What future directions did the authors propose?
+
+## Personal Evaluation & Reflection (Human Required)
+
+> **AI note:** This section must be filled by humans. AI provides only guiding questions below.
+
+1. **Personal Understanding:** What is your deepest takeaway from this paper?
+2. **Inspiration:** What impact on your own research?
+3. **Questions:** What remains unanswered?
+4. **Improvements:** If you were the author, what would you do differently?
