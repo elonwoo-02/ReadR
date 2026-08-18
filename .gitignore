@@ -37,6 +37,8 @@ sources/*/*
 !sources/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Image Recognition at Scale.pdf
 
 # library（do not push your works to open platform）
+# _index.md is auto-generated
+library/_index.md
 library/*/*
 !library/_template
 !library/*/readme.md
