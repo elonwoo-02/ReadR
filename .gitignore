@@ -49,6 +49,7 @@ library/entries/nlp/*
 # annotations（do not push your works to open platform）
 annotations/*
 !annotations/_template
+!annotations/README.md
 !annotations/your_direction
 !annotations/cv
 
