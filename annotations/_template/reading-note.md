@@ -7,55 +7,53 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# Paper Title（Venue Year）
+# Paper Title (Venue Year)
 
 > **Title:** Paper Title
 > **Venue:** Conference / Journal (Year)
 > **Link:** URL
 
-> **AI / Human 分工**
-> - **AI（骨架）：** 研究背景、核心方法、实验结果。公式仅写占位；图、表、例子的实际内容须由人工嵌入并逐一解释。
-> - **人工（内容）：** 所有实际的公式、图、表、例子——每一个都必须解释；以及第 5 节"个人评价与思考"。
+> **AI / Human Division of Labor**
+> - **AI (skeleton):** Fill the section skeleton, formulas, figures, and tables with placeholders following the paper's structure.
+> - **Human (content):** Fill all content — every formula, figure, table, and example must be explained; plus "Personal Evaluation & Reflection".
 
-
-用一段话概述论文的核心内容、主要方法和关键发现。
+Summarize the paper's core content, main method, and key findings in one paragraph.
 
 ## Research Background & Motivation
 
-- 为什么做这项研究？（现有问题、挑战、研究空白）
-- 试图解决什么核心问题？
+- Why did the authors do this research? (existing problems, challenges, research gaps)
+- What core problem are they trying to solve?
 
 ## Core Method
 
-完整解释方法——每一个组件、公式、图片和例子都要解释。
+Explain the method fully — every component, formula, figure, and example.
 
-- **架构图：** 插入模型/框架图，解释完整数据流与每个模块的作用。
-  > ![模型架构图](attachments/fig-01.png)
+- **Architecture Diagram:** Insert the model/framework figure and explain the full data flow and each module's role.
+  > ![Model Architecture](attachments/fig-01.png)
 
-- **关键组件：** 详细描述方法的各个模块或步骤。
-- **公式详解：** 说明符号含义、推导逻辑及作用。
+- **Key Components:** Describe each module or step in the method in detail.
+- **Formula Explanation:** Explain symbols, derivation logic, and purpose.
   > \[
   > \mathcal{L} = -\sum_{i} \log P(y_i \mid x_i)
   > \]
-- **例子：** 用一个具体例子把方法讲清楚。
+- **Example:** Walk through a concrete example to make it clear.
 
 ## Experiments & Results
 
 ### Results Interpretation
 
-逐一解释每张图片和每个表格——它展示什么、意味着什么。
+Explain each figure and table — what it shows and what it means.
 
-- **图 1：** ![标题](attachments/fig-01.png) — 解读。
-- **表 1：** — 解读。
+- **Figure 1:** ![caption](attachments/fig-01.png) — interpretation.
+- **Table 1:** — interpretation.
 
 ### Ablation / Parameter Analysis
 
-每个消融实验揭示了什么。
+What each ablation reveals.
 
 ## Personal Evaluation & Reflection
 
-
-1. **个人理解：** 这篇论文最深刻的理解是什么？
-2. **启发：** 对你自己的研究有何影响？
-3. **疑问：** 还有什么未解之处？
-4. **改进：** 如果你是作者，会做哪些改变？
+1. **Personal Understanding:** What is the single most important thing you learned?
+2. **Inspiration:** How does this paper affect your current work?
+3. **Questions:** What remains unanswered?
+4. **Improvements:** If you were the author, what would you change?
