@@ -1,41 +1,40 @@
 ---
-title: "数据集/评测基准名称"
-type: dataset          # dataset | benchmark
-related_entries: []
-task: []
-modality: []           # dataset 特有：text, image, multimodal 等
-size: ""               # dataset 特有：如 "4.5M sentence pairs"
-license: ""            # dataset 特有
-homepage: ""           # dataset 特有
-paper: ""              # dataset 特有：指向来源论文的 wiki 链接
-leaderboard: ""        # benchmark 特有：排行榜 URL
-protocol: ""           # benchmark 特有：评测协议描述
-github: ""
-generated: human       # human | ai | agent
-verified: unverified   # unverified | machine-confirmed | human-reviewed
+type: "Dataset"
+title: "dataset-or-benchmark-name"
+subtype: dataset              # dataset | benchmark | both
+year: YYYY                  # publication year
+task: []                      # e.g. ["Multi-Hop QA"]
+modality: []                  # text, image, audio, multimodal, etc.
+size: ""                      # e.g. "4.5M sentence pairs"
+license: ""                   # e.g. CC-BY-4.0
+homepage: ""                  # project / dataset website
+paper: ""                     # external link: arXiv / ACL Anthology / DOI
+github: ""                    # code or data repository
+leaderboard: ""               # benchmark-specific
+generated: human              # human | ai | agent
+verified: unverified          # unverified | machine-confirmed | human-reviewed
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# 数据集/评测基准名称
+# Dataset / Benchmark Name
 
-## 定义 / 概要
+## Definition / Summary
 
-描述该资源、其预期任务和为何有用。通过 `type` 字段区分 dataset（数据集）或 benchmark（评测基准）。
+Describe the resource, its intended task, and why it is useful. Use `subtype` to distinguish dataset (data collection) from benchmark (evaluation standard).
 
-## 相关研究
+## Related Research
 
-- 类型：dataset | benchmark
-- 任务和模态：
-- 相关论文：
+- Papers using this resource:
 
-## 证据与引用
+## Protocol
 
-- [ ] 记录来源论文、版本和访问日期。
+<!-- For benchmarks: evaluation protocol, split sizes, metric definitions. -->
 
-## 个人笔记
+## Evidence & Citations
 
-适用性、已知偏差、访问限制和复用想法。
+- [ ] Record source paper, version, and access date.
 
+## Personal Notes
 
-
+Applicability, known biases, access restrictions, and reuse ideas.

@@ -1,32 +1,41 @@
 ---
 type: "Project"
-title: "项目名称"
-related_entries: []
-research_question: ""
-status: active
+title: "project-name"
+status: active                  # active | paused | completed
+start_date: YYYY-MM-DD
 datasets: []
-next_actions: []
-generated: human
-verified: unverified
+generated: human                # human | ai | agent
+verified: unverified            # unverified | machine-confirmed | human-reviewed
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# 项目名称
+# Project Name
 
-## 定义 / 概要
+## Definition / Summary
 
-说明研究问题、假设和预期产出。
+State the research question, hypothesis, and expected outcomes.
 
-## 相关研究
+## Related Research
 
-- 相关文献、数据集/评测基准：
-- 当前状态：
+- Related literature:
+- Datasets / benchmarks:
+- Current status:
 
-## 证据与引用
+## Milestones
 
-- [ ] 记录实验证据、决策和来源材料。
+- [ ] Milestone 1 — target date
+- [ ] Milestone 2 — target date
 
-## 个人笔记
+## Next Actions
 
-风险、洞察和下一个具体行动。
+- Action 1
+- Action 2
+
+## Evidence & Citations
+
+- [ ] Record experimental evidence, decisions, and source materials.
+
+## Personal Notes
+
+Risks, insights, and the next concrete step.

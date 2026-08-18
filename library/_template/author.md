@@ -1,33 +1,43 @@
 ---
 type: "Person"
-title: "姓氏, 名字"
-related_entries: []
-affiliation: ""
-research_interests: []
-homepage: ""
-orcid: ""
-key_papers: []
-generated: human
-verified: unverified
+title: "Last, First"          # academic citation order, e.g. "Vaswani, Ashish"
+affiliation: ""               # e.g. "Google Brain"
+position: ""                  # e.g. "Professor", "PhD Student"
+lab: ""                       # e.g. "MultiModal Machine Learning Lab"
+research_interests: []        # e.g. ["Sequence Modeling", "Attention Mechanisms"]
+homepage: ""                  # personal / lab website
+orcid: ""                     # e.g. "0000-0001-2345-6789"
+generated: human              # human | ai | agent
+verified: unverified          # unverified | machine-confirmed | human-reviewed
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# 姓氏, 名字
+# Last, First
 
-## 定义 / 概要
+## Overview
 
-简要简介和主要研究领域。
+One-sentence profile: who they are, current position, and what they are known for.
 
-## 相关研究
+## Research Focus
 
-- 所属机构：
-- 关键论文：
+- Area 1 — brief description
+- Area 2 — brief description
 
-## 证据与引用
+## Selected Works
 
-- [ ] 记录权威的个人主页、论文或机构来源。
+- [[Paper Title (Venue Year)]] — key contribution
+- [[Paper Title (Venue Year)]] — key contribution
 
-## 个人笔记
+## Research Trajectory
 
-这位研究者对你的当前研究方向有何重要意义。
+How their research interests evolved; key turning points (optional).
+
+## Connections
+
+- Key collaborators: [[Last, First]] (shared research area)
+- Group / Lab:
+
+## Relevance
+
+Why this researcher matters for your current research direction.

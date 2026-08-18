@@ -1,33 +1,50 @@
 ---
 type: "Comparison"
-title: "对比主题"
-related_entries: []
-scope: ""
-methods: []
-decision_criteria: []
+title: "comparison-topic"      # e.g. "GCR vs SCR vs GFM-RAG vs G-reasoner"
+methods: []                   # methods being compared
+decision_criteria: []         # e.g. ["Performance", "Efficiency", "Hallucination"]
 related_concepts: []
-generated: human
-verified: unverified
+last_compared: YYYY-MM-DD     # date of last comparison update
+generated: human              # human | ai | agent
+verified: unverified          # unverified | machine-confirmed | human-reviewed
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
-# 对比主题
+# Comparison Topic
 
-## 定义 / 概要
+## Definition / Summary
 
-说明本对比回答的决策或技术问题。
+State the decision or technical question this comparison addresses, and which dimensions it covers.
 
-## 相关研究
+## Decision Criteria
 
-| 方法 | 优势 | 局限性 | 证据 |
-| --- | --- | --- | --- |
-|  |  |  |  |
+- Criterion 1 — why it matters
+- Criterion 2 — why it matters
+- Criterion 3 — why it matters
 
-## 证据与引用
+## Comparison by Criterion
 
-- [ ] 将每条结论链接到一篇论文、一个实验或一个一手来源。
+### Criterion 1 — [Metric / Aspect]
 
-## 个人笔记
+| Method | [Dimension column 1] | [Dimension column 2] | Evidence |
+|--------|---------------------|----------------------|----------|
+|        |                     |                      |          |
 
-对你自身工作的决策，以及可能改变该决策的条件。
+### Criterion 2 — [Metric / Aspect]
+
+| Method | [Dimension column 1] | [Dimension column 2] | Evidence |
+|--------|---------------------|----------------------|----------|
+|        |                     |                      |          |
+
+## Key Observations
+
+1. Cross-cutting finding that answers the decision question.
+
+## Evidence & Citations
+
+- [ ] [[Entry Title (Venue Year)]] — Luo et al. (2025). *Paper Title*. Venue.
+
+## Personal Notes
+
+How this comparison informs decisions for your own work; conditions that would change the verdict.
