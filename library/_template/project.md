@@ -31,11 +31,3 @@ State the research question, hypothesis, and expected outcomes.
 
 - Action 1
 - Action 2
-
-## Evidence & Citations
-
-- [ ] Record experimental evidence, decisions, and source materials.
-
-## Personal Notes
-
-Risks, insights, and the next concrete step.

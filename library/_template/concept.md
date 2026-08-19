@@ -27,11 +27,3 @@ Describe how the concept is used and its common variants or extensions.
 ## Related Concepts & Entries
 
 Place related concepts and entries here with contextual links.
-
-## Evidence & Citations
-
-- [ ] "Quoted claim" (Author et al., Venue Year, p.X)
-
-## Personal Notes
-
-Your understanding, open questions, and potential applications.

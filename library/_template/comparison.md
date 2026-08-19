@@ -41,10 +41,4 @@ State the decision or technical question this comparison addresses, and which di
 
 1. Cross-cutting finding that answers the decision question.
 
-## Evidence & Citations
-
-- [ ] [[Entry Title (Venue Year)]] — Luo et al. (2025). *Paper Title*. Venue.
-
-## Personal Notes
-
 How this comparison informs decisions for your own work; conditions that would change the verdict.

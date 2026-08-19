@@ -50,10 +50,4 @@ Open problems, missing comparisons, and opportunities for new work.
 1. Gap 1
 2. Gap 2
 
-## Evidence & Citations
-
-- [ ] [[Entry Title]] — reference to the source note.
-
-## Personal Notes
-
 Your arguments, gaps in the literature, and opportunities for writing a formal survey.

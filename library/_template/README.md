@@ -121,8 +121,6 @@ vault can define and cross-reference it. Lives in `library/concepts/`.
 - **`Usage & Variants`** — how the concept is used and its common variants.
 - **`Related Concepts & Entries`** — contextual wiki-links (the narrative
   counterpart to the aliases list).
-- **`Evidence & Citations`** — source quotes with page/section references.
-- **`Personal Notes`** — your understanding, open questions, applications.
 
 ---
 
@@ -134,22 +132,22 @@ them. Lives in `library/datasets/`.
 
 ### Frontmatter
 
-| Field | Meaning |
-|---|---|
-| `type` | Always `"Dataset"`. |
-| `title` | Resource name. |
-| `subtype` | `dataset` (data collection) \| `benchmark` (eval standard) \| `both`. |
-| `year` | Publication year. |
-| `task` | Intended task(s), e.g. `["Multi-Hop QA"]`. |
-| `modality` | `text`, `image`, `audio`, `multimodal`, etc. |
-| `size` | e.g. `"4.5M sentence pairs"`. |
-| `license` | e.g. `"CC-BY-4.0"`. |
-| `homepage` | Project / dataset website. |
-| `paper` | External link to the source paper (arXiv / ACL Anthology / DOI). |
-| `github` | Code or data repository. |
-| `leaderboard` | Benchmark leaderboard URL. |
-| `generated` / `verified` | Trust signals. |
-| `created` / `updated` | Lifecycle dates. |
+| Field                    | Meaning                                                               |
+| ------------------------ | --------------------------------------------------------------------- |
+| `type`                   | Always `"Dataset"`.                                                   |
+| `title`                  | Resource name.                                                        |
+| `subtype`                | `dataset` (data collection) \| `benchmark` (eval standard) \| `both`. |
+| `year`                   | Publication year.                                                     |
+| `task`                   | Intended task(s), e.g. `["Multi-Hop QA"]`.                            |
+| `modality`               | `text`, `image`, `audio`, `multimodal`, etc.                          |
+| `size`                   | e.g. `"4.5M sentence pairs"`.                                         |
+| `license`                | e.g. `"CC-BY-4.0"`.                                                   |
+| `homepage`               | Project / dataset website.                                            |
+| `paper`                  | External link to the source paper (arXiv / ACL Anthology / DOI).      |
+| `github`                 | Code or data repository.                                              |
+| `leaderboard`            | Benchmark leaderboard URL.                                            |
+| `generated` / `verified` | Trust signals.                                                        |
+| `created` / `updated`    | Lifecycle dates.                                                      |
 
 ### Body
 
@@ -157,8 +155,6 @@ them. Lives in `library/datasets/`.
 - **`Related Research`** — papers that use this resource.
 - **`Protocol`** — for benchmarks: evaluation protocol, split sizes, metric
   definitions.
-- **`Evidence & Citations`** — source paper, version, access date.
-- **`Personal Notes`** — applicability, known biases, access restrictions.
 
 > **Note:** `paper` is an *external* link, not a vault wiki-link — the source
 > paper is rarely an entry in this vault.
@@ -228,9 +224,6 @@ decision can be revisited and defended. Lives in `library/comparisons/`.
   table.
 - **`Key Observations`** — cross-cutting findings that answer the decision
   question.
-- **`Evidence & Citations`** — wiki-links to the source entry notes.
-- **`Personal Notes`** — how the comparison informs your decisions, and the
-  conditions that would change the verdict.
 
 ---
 
@@ -262,7 +255,6 @@ formal survey. Written after 3+ papers in a sub-direction. Lives in
   with each side backed by a source note.
 - **`Coverage Status`** — which papers are covered and at what depth.
 - **`Gaps and Future Directions`** — open problems and missing comparisons.
-- **`Evidence & Citations`** / **`Personal Notes`** — as usual.
 
 > The `Paradigms / Method Clusters` + `Field Narrative` + `Key Tensions`
 > structure is the seed for a formal survey: it supplies the mental model, the
@@ -296,8 +288,6 @@ inside `Next Actions`. Lives in `library/projects/`.
   that inform the project.
 - **`Milestones`** — dated milestones.
 - **`Next Actions`** — concrete next steps.
-- **`Evidence & Citations`** / **`Personal Notes`** — experimental evidence,
-  decisions, risks, and the next concrete step.
 
 ---
 

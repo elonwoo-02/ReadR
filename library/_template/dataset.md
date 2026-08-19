@@ -31,10 +31,4 @@ Describe the resource, its intended task, and why it is useful. Use `subtype` to
 
 <!-- For benchmarks: evaluation protocol, split sizes, metric definitions. -->
 
-## Evidence & Citations
-
-- [ ] Record source paper, version, and access date.
-
-## Personal Notes
-
 Applicability, known biases, access restrictions, and reuse ideas.

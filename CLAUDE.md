@@ -29,7 +29,7 @@ An Obsidian vault template for academic research, covering the full pipeline: **
   - `entries/` — Paper entries (organized by research direction, replace `your_direction/`)
   - `concepts/` — Core concepts
   - `authors/` — Researcher profiles
-  - `datasets/` — Datasets **and** benchmarks (use `type: dataset` / `benchmark` / `both` to distinguish)
+  - `datasets/` — Datasets **and** benchmarks (use `subtype: dataset` / `benchmark` / `both` to distinguish)
   - `comparisons/` — Method comparisons
   - `syntheses/` — Literature syntheses (write after 3+ papers in a sub-direction)
   - `projects/` — Active projects
@@ -54,17 +54,17 @@ An Obsidian vault template for academic research, covering the full pipeline: **
 
 | Template | Purpose | Key YAML Fields |
 |---|---|---|
-| `library-entry.md` | Paper entry | title, authors, venue, method, task, status, direction, source, doi, annotation, concepts, datasets, github, generated, verified |
-| `concept.md` | Core concept | title, aliases, related_entries, related_concepts, key_papers, definition, generated, verified |
-| `author.md` | Researcher profile | title, related_entries, affiliation, research_interests, homepage, orcid, key_papers, generated, verified |
-| `dataset.md` | Dataset **or** benchmark (merged) | title, type, related_entries, task, modality, size, license, homepage, paper, leaderboard, protocol, github, generated, verified |
-| `comparison.md` | Method comparison | title, related_entries, scope, methods, decision_criteria, related_concepts, generated, verified |
-| `synthesis.md` | Literature synthesis | title, related_entries, direction, covered_entries, coverage_status, open_questions, generated, verified |
-| `project.md` | Active project | title, related_entries, research_question, status, datasets, next_actions, generated, verified |
+| `library-entry.md` | Paper entry | type, title, authors, venue, method, task, keywords, status, direction, source, doi, url, annotation, concepts, datasets, metrics, github, generated, verified, created, updated |
+| `concept.md` | Core concept | type, title, aliases, generated, verified, created, updated |
+| `author.md` | Researcher profile | type, title, affiliation, position, lab, research_interests, homepage, orcid, generated, verified, created, updated |
+| `dataset.md` | Dataset **or** benchmark (merged) | type, title, subtype, year, task, modality, size, license, homepage, paper, github, leaderboard, generated, verified, created, updated |
+| `comparison.md` | Method comparison | type, title, methods, decision_criteria, related_concepts, last_compared, generated, verified, created, updated |
+| `synthesis.md` | Literature synthesis | type, title, direction, paradigms, coverage_status, generated, verified, created, updated |
+| `project.md` | Active project | type, title, status, start_date, datasets, generated, verified, created, updated |
 
 ### Annotation Template
 
-- `annotations/_template/reading-note.md` — Close-reading note. **AI builds the skeleton** (metadata, sections 1–4, figure/table/formula placeholders); **humans fill the content** (section 5 "Personal Evaluation & Reflection", all actual figures/tables/formulas). Uses `generated`/`verified` trust signals.
+- `annotations/_template/reading-note.md` — Close-reading note. **AI builds the skeleton** (identity block, sections 1–4 with guiding questions, figure/table/formula placeholders); **humans fill the content** (section 4 "Personal Evaluation & Reflection" answers, all actual figures/tables/formulas). Uses `generated`/`verified` trust signals.
 
 ## Naming & Conventions
 
@@ -93,7 +93,7 @@ Every knowledge distillation note (concepts, authors, datasets, comparisons, syn
 
 **Gate vs Label (the OKF principle):** Different layers use different defenses against AI errors:
 
-- **Pre-gate (hard block):** Annotations (Section 5 "Personal Evaluation & Reflection") and reviews (arguments, conclusions) — these are high-value judgments that must be human-authored. AI only writes a skeleton with guiding questions; the human fills the content. This is a *pre-emptive* control: the content never exists as an unreviewed AI draft.
+- **Pre-gate (hard block):** Annotations (Section 4 "Personal Evaluation & Reflection") and reviews (arguments, conclusions) — these are high-value judgments that must be human-authored. AI only writes a skeleton with guiding questions; the human fills the content. This is a *pre-emptive* control: the content never exists as an unreviewed AI draft.
 - **Label (soft signal):** BROWSE-stage knowledge notes (concepts, authors, datasets, comparisons, syntheses, projects) — quantity is high, single-note error cost is low, and errors surface naturally during close reading. These carry trust labels instead of pre-gates. AI writes them, labels them `generated: ai` / `verified: unverified`, and the human upgrades `verified` after review. This is a *post-hoc* control: the content exists first, then gets a trust label that downstream consumers can query.
 
 **When to use which:** The criterion is whether you can enumerate *in advance* the set of content types that must be human-authored. If you can ("personal evaluation", "review conclusions" — there are only a few), use a pre-gate. If you can't (thousands of concept notes from diverse sources), use labels and let downstream consumers filter by trust level.
@@ -108,11 +108,11 @@ Every knowledge distillation note (concepts, authors, datasets, comparisons, syn
 ### Relationship Linking
 
 - Entries link to concepts via YAML `concepts: []` field
-- Entries link to datasets **and** benchmarks via the unified `datasets:` field (use `type` field in the asset note to distinguish dataset vs benchmark)
+- Entries link to datasets **and** benchmarks via the unified `datasets:` field (use `subtype` field in the asset note to distinguish dataset vs benchmark)
 - Entries record code repositories via `github:` field
 - Close-reading note linked via `annotation` (a wiki-link `[[note]]` to the reading note under `annotations/`)
 - Wiki-links `[[...]]` used for cross-referencing in body text (validator checks for broken links)
-- Tags use `category/key` style (e.g., `direction/nlp`, `method/gfm-rag`, `task/qa`, `status/to-read`, `venue/neurips`)
+- Direction, status, and type are stored as YAML fields (`direction:`, `status:`, `type:`, `subtype:`) — not as tags. There is no `tags:` system.
 
 ### Close-Read Annotation Requirement
 
@@ -150,9 +150,9 @@ Required after cloning or pulling changes to the ReadR Dashboard plugin.
 
 **INGEST**: Place PDF in `sources/papers/`, create entry in `library/entries/<direction>/` using the `library-entry.md` template. Set `status: to-read`.
 
-**BROWSE**: Read summary & introduction, write the redesigned Browse Summary (Problem & Motivation / Method Overview / Key Results / Significance & Impact). Concurrently distill: extract concepts → `concepts/`, record researchers → `authors/`, datasets+benchmarks → `datasets/`, compare methods → `comparisons/`. Write synthesis → `syntheses/` after 3+ papers in a sub-direction. Set trust signals (`generated: ai`, `verified: unverified`). Set `status: browsed`.
+**BROWSE**: Read summary & introduction, refine the entry's one-sentence pitch (`> **In one sentence:** …`) based on the fuller read. Concurrently distill: extract concepts → `concepts/`, record researchers → `authors/`, datasets+benchmarks → `datasets/`, compare methods → `comparisons/`. Write synthesis → `syntheses/` after 3+ papers in a sub-direction. Set trust signals (`generated: ai`, `verified: unverified`). Set `status: browsed`.
 
-**CLOSE-READ**: Create a folder under `annotations/<direction>/<sub-direction>/<paper-name>/` (mirrors the entry's path). Write `reading-note.md` using the annotation template — **AI builds the skeleton** (sections 1–4, placeholders), **humans fill content** (section 5, figures/tables/formulas). Update the entry's `annotation` and set `status: close-read`.
+**CLOSE-READ**: Create a folder under `annotations/<direction>/<sub-direction>/<paper-name>/` (mirrors the entry's path). Write `reading-note.md` using the annotation template — **AI builds the skeleton** (sections 1–4 with guiding questions, placeholders), **humans fill content** (section 4 "Personal Evaluation & Reflection" answers, figures/tables/formulas). Update the entry's `annotation` wiki-link and set `status: close-read`.
 
 **REVIEW**: Write formal survey in `reviews/`. Use `reviews/templates/writing_constraints_template.md` for structured writing constraints (Chinese-language template with `{{...}}` placeholders covering topic, citation format, word count, chapter structure, etc.).
 
@@ -170,14 +170,10 @@ Required after cloning or pulling changes to the ReadR Dashboard plugin.
 After user confirmation, AI follows this structured 6-step process:
 
 1. **Read the paper**: Read the abstract, introduction, and conclusion. Identify the problem, method, key results, and significance.
-2. **Fill the entry's Browse Summary**: Complete the redesigned `## Browse Summary` with four subsections:
-   - `### Problem & Motivation` — what gap does the paper address? Use concrete data.
-   - `### Method Overview` — core components as bullet points.
-   - `### Key Results` — table format with dataset, metric, score, baseline, improvement.
-   - `### Significance & Impact` — one-paragraph synthesis.
+2. **Refine the entry's one-sentence pitch**: The entry body is `> **In one sentence:** …` — refine it based on what you now know from the fuller read. The template body is just this single line, not a multi-section summary.
 3. **Update entry YAML fields**:
    - `concepts` — list of core concepts (consider creating concept notes)
-   - `datasets` — list of datasets **and** benchmarks used (consider creating asset notes with `type` field)
+   - `datasets` — list of datasets **and** benchmarks used (consider creating asset notes with `subtype` field to distinguish dataset vs benchmark)
    - `github` — code repository URL (if available)
    - `generated` — set to `ai`
    - `verified` — set to `unverified`
@@ -187,7 +183,7 @@ After user confirmation, AI follows this structured 6-step process:
    |---|---|---|
    | Core concept | `library/_template/concept.md` | `concepts:` |
    | Researcher profile | `library/_template/author.md` | (body wiki-link) |
-   | Dataset/Benchmark | `library/_template/dataset.md` | `datasets:` |
+   | Dataset/Benchmark | `library/_template/dataset.md` (set `subtype`) | `datasets:` |
    | Method comparison | `library/_template/comparison.md` | (body wiki-link) |
    | Synthesis (≥3 papers) | `library/_template/synthesis.md` | (body wiki-link) |
 5. **Set trust signals** on all created notes: `generated: ai`, `verified: unverified`. Humans upgrade `verified` to `machine-confirmed` or `human-reviewed` after review.
@@ -198,27 +194,22 @@ After user confirmation, AI follows this structured 6-step process:
 AI generates close-reading notes following the `annotations/_template/reading-note.md` template with a strict division of labor:
 
 **AI fills (skeleton):**
-- Paper metadata (title, authors, venue, date, link back to entry)
+- Identity block (title, venue, link) + `paper-entry` wiki-link back to the entry
 - **Section 1** (Research Background & Motivation) — summarize the problem
-- **Section 2** (Core Method) — describe method architecture, components
-- **Section 3** (Experiments & Results) — list datasets, baselines, results tables
-- **Section 4** (Discussion & Analysis) — contributions, strengths, limitations from the paper
+- **Section 2** (Core Method) — describe method architecture, components; leave figure/formula/example placeholders
+- **Section 3** (Experiments & Results) — list datasets, baselines, results tables; leave figure/table placeholders
+- **Section 4** (Personal Evaluation & Reflection) — provide the four guiding questions as skeleton only (the template has them — do not write the answers)
 - **Figure/table/formula placeholders** — e.g., `<!-- 待人工嵌入：图 X -->`
 
 **AI does NOT:**
-- Write **Section 5 (Personal Evaluation & Reflection)** content — provide guiding questions as skeleton only
+- Write Section 4 (Personal Evaluation & Reflection) *answers* — only the guiding-question skeleton
 - Fabricate figure paths, table data, or formula derivations
 - Make claims about significance not explicitly stated in the paper
 
 **Human fills (content):**
-- Section 5 original content
-- All actual figures, tables, formulas
+- Section 4 (Personal Evaluation & Reflection) original answers
+- All actual figures, tables, formulas (replace placeholders)
 - Cite the original text with page numbers
-
-### REVIEW Phase
-
-- Use `reviews/templates/writing_constraints_template.md` as the starting point; fill in all `{{...}}` placeholders before generating the survey
-- The template covers: topic, discipline, language, citation format, target paper count, year range, figure/table count, key directions (4–6), length constraints, chapter structure, and journal/style notes
 
 ### REVIEW Phase
 
@@ -232,8 +223,8 @@ AI generates close-reading notes following the `annotations/_template/reading-no
 1. **AI 创建新笔记前**：先在对应目录中检索同义/变体名称：
    - 作者：检查 `Last, First` 和 `First Last` 两种格式
    - 概念：检查 `aliases:` 字段和 `title` 的标准化形式
-   - 数据集：检查 `aliases:` 字段
-2. **发现潜在重复时**：合并到已有笔记，不新建；更新 `aliases:` 字段记录别名；在条目 YAML 中引用合并后的笔记
+   - 数据集：按 `title` 检索（数据集笔记无 `aliases:` 字段，主键为 `title`）
+2. **发现潜在重复时**：合并到已有笔记，不新建；对有 `aliases:` 字段的笔记（概念）更新 `aliases:` 记录别名；在条目 YAML 中引用合并后的笔记
 3. **人工确认**：AI 输出合并建议，人类审核后执行合并
 4. **自动检测**：`scripts/ReadR.ps1 -Validate` 会在 authors/、concepts/、datasets/ 目录中扫描潜在重复（相同 title、作者名格式变体、aliases 引用冲突），在验证结果中以 `[Warning]` 报告，并在 `library/_index.md` 的 "Potential Duplicates" 章节汇总
 
